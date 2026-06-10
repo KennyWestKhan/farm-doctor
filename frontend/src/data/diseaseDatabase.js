@@ -101,6 +101,30 @@ export const SYMPTOM_QUESTIONS = {
     en: 'Is the whole plant stunted or growing poorly?',
     twi: 'Afifideɛ no nyinaa anyini yie anaa ɛrenyini?',
   },
+  vein_yellowing: {
+    en: 'Are the leaf veins turning yellow or clearing (going pale)?',
+    twi: 'Nhaban no ntini no rebebro yɛ akokɔsradeɛ anaa ɛrehyerɛn?',
+  },
+  angular_lesions: {
+    en: 'Are there angular, water-soaked patches that stop at the leaf veins?',
+    twi: 'Nsisii a nsuo wɔ mu a ɛyɛ ntɔkwa na ɛgyae wɔ nhaban ntini ho?',
+  },
+  shoot_dieback: {
+    en: 'Are the shoot tips or young branches dying back?',
+    twi: 'Mman foforɔ no anaa ne mmaa no rewuwu?',
+  },
+  gum_oozing: {
+    en: 'Is gum or sticky liquid oozing from the stem?',
+    twi: 'Ahyehyɛdeɛ anaa nsuo a ɛyɛ taa firi dua no mu reba?',
+  },
+  webbing_mites: {
+    en: 'Is there fine webbing or tiny moving dots under the leaves?',
+    twi: 'Ntoma fitaa anaa nkakra nketewa a ɛkeka wɔ nhaban no ase?',
+  },
+  leaves_bunched: {
+    en: 'Are leaves bunched, small and crowded at the shoot tips?',
+    twi: 'Nhaban no aboaboa ano, yɛ nketewa na ahyia wɔ mman no atifi?',
+  },
 };
 
 export const REGIONS = {
@@ -266,6 +290,48 @@ export const CROPS = [
           },
         ],
       },
+      {
+        id: 'chilli_leaf_spot',
+        name: { en: 'Cercospora Leaf Spot', twi: 'Nhaban Nsisii (Cercospora)' },
+        pathogen: 'Cercospora capsici',
+        description: {
+          en: 'Round spots with pale grey centres and dark edges ("frog-eye"); badly hit leaves drop.',
+          twi: 'Nsisii a ɛyɛ kurukuruwa a ne mfimfini yɛ nsonso na n\'ano yɛ tuntum; nhaban a ayare paa no tɔ.',
+        },
+        symptoms: [
+          { key: 'leaf_spots_brown', weight: 0.8 },
+          { key: 'leaf_spots_target', weight: 1.0 },
+          { key: 'yellow_leaves', weight: 0.4 },
+        ],
+        regional_prevalence: {
+          ashanti: 'medium', greater_accra: 'medium', western: 'high', volta: 'medium', northern: 'low',
+        },
+        seasonal_months: [5, 6, 7, 8, 9],
+        peak_month: 7,
+        treatments: [
+          {
+            id: 'chilli_leafspot_mancozeb',
+            name: 'Mancozeb 80% WP',
+            price_range: 'GHc 40–60',
+            technical_instruction: 'Protectant fungicide, spray every 7–10 days.',
+            farmer_instruction: {
+              en: {
+                mixing: 'Mix until the water looks like weak tea.',
+                amount: 'Two bottle caps of powder per bucket of water.',
+                application: 'Spray the whole plant, especially older leaves, until they drip.',
+                frequency: 'Every week while new spots keep appearing.',
+              },
+              twi: {
+                mixing: 'Fra no kosi sɛ nsuo no bɛyɛ sɛ tii a ɛnyɛ den.',
+                amount: 'Toa ano mfutuma mmienu wɔ bokiti nsuo baako mu.',
+                application: 'Pete gu afifideɛ no nyinaa so, titiriw nhaban dada no, kosi sɛ ɛbɛsɔ.',
+                frequency: 'Dapɛn biara mmerɛ a nsisii foforɔ da so pue.',
+              },
+            },
+            video_url: null,
+          },
+        ],
+      },
     ],
   },
   {
@@ -359,6 +425,92 @@ export const CROPS = [
           },
         ],
       },
+      {
+        id: 'cassava_bacterial_blight',
+        name: { en: 'Cassava Bacterial Blight', twi: 'Bankye Bacteria Yadeɛ' },
+        pathogen: 'Xanthomonas axonopodis pv. manihotis',
+        description: {
+          en: 'Bacteria causing angular water-soaked leaf spots, wilting, shoot dieback and gum on stems.',
+          twi: 'Bacteria a ɛma nhaban nsisii a nsuo wɔ mu, nwuwuo, mman wuo ne ahyehyɛdeɛ wɔ dua so.',
+        },
+        symptoms: [
+          { key: 'angular_lesions', weight: 1.0 },
+          { key: 'leaf_wilting', weight: 0.7 },
+          { key: 'shoot_dieback', weight: 0.6 },
+          { key: 'gum_oozing', weight: 0.5 },
+        ],
+        regional_prevalence: {
+          ashanti: 'medium', greater_accra: 'low', western: 'medium', volta: 'high', northern: 'medium',
+        },
+        seasonal_months: [4, 5, 6, 7, 8],
+        peak_month: 6,
+        treatments: [
+          {
+            id: 'cassava_cbb_clean',
+            name: 'Clean Cuttings + Field Hygiene (cultural control)',
+            price_range: 'Free',
+            technical_instruction: 'No chemical cure. Use disease-free cuttings, remove infected plants, rotate.',
+            farmer_instruction: {
+              en: {
+                mixing: 'There is no medicine to spray for this bacteria.',
+                amount: 'Cut out and burn affected plants so it does not spread in the rain.',
+                application: 'Plant only clean cuttings from healthy farms; do not take cuttings from sick plants.',
+                frequency: 'Check weekly in the rainy season and remove sick plants early.',
+              },
+              twi: {
+                mixing: 'Aduro biara nni hɔ a wode bɛpete saa bacteria yi.',
+                amount: 'Twa afifideɛ a ayare no na hye no sɛdeɛ ɛrentrɛ wɔ osutɔ mu.',
+                application: 'Dua bankye a ɛho teɛ firi afuom a apɔ; mfa bankye mfiri afifideɛ a ayare.',
+                frequency: 'Hwɛ dapɛn biara wɔ osutɔ berɛ mu na yi afifideɛ a ayare ntɛm.',
+              },
+            },
+            video_url: null,
+          },
+        ],
+      },
+      {
+        id: 'cassava_green_mite',
+        name: { en: 'Cassava Green Mite', twi: 'Bankye Mmoawa Mono' },
+        pathogen: 'Mononychellus tanajoa',
+        description: {
+          en: 'Tiny mites under leaves cause yellow speckling, bunched shoot tips and stunting in the dry season.',
+          twi: 'Mmoawa nketewa a ɛwɔ nhaban ase ma akokɔsradeɛ nsisii, mman atifi boaboa ano ne anyiniabɔne wɔ ɔpɛ berɛ mu.',
+        },
+        symptoms: [
+          { key: 'webbing_mites', weight: 1.0 },
+          { key: 'leaves_bunched', weight: 0.8 },
+          { key: 'yellow_leaves', weight: 0.5 },
+          { key: 'stunted_growth', weight: 0.5 },
+        ],
+        regional_prevalence: {
+          ashanti: 'medium', greater_accra: 'high', western: 'low', volta: 'medium', northern: 'high',
+        },
+        seasonal_months: [11, 12, 1, 2, 3],
+        peak_month: 1,
+        treatments: [
+          {
+            id: 'cassava_mite_resistant',
+            name: 'Tolerant Varieties + Mulching (cultural control)',
+            price_range: 'Free',
+            technical_instruction: 'Plant tolerant varieties; mulch to keep soil moist; predators usually control it.',
+            farmer_instruction: {
+              en: {
+                mixing: 'No spraying needed — natural predator insects usually clear the mites.',
+                amount: 'Spread dry grass/leaves (mulch) around plants to hold moisture in the dry season.',
+                application: 'Next season, plant tolerant varieties (ask your extension officer).',
+                frequency: 'Water and mulch through the dry months; the plant recovers when rains return.',
+              },
+              twi: {
+                mixing: 'Ɛho nhia sɛ wopete aduro — mmoawa a wɔdi mmoawa no usually sɛe wɔn.',
+                amount: 'Trɛw ɛserɛ/nhaban a awo gu afifideɛ no ho na fɔkyee ntena ɔpɛ berɛ mu.',
+                application: 'Berɛ foforɔ no, dua bankye a ɛtumi gyina mu (bisa extension officer).',
+                frequency: 'Gugu nsuo na fa mulch ɔpɛ bosome mu; afifideɛ no ka ne ho sɛ osu ba.',
+              },
+            },
+            video_url: null,
+          },
+        ],
+      },
     ],
   },
   {
@@ -444,6 +596,49 @@ export const CROPS = [
                 amount: 'Toa ano mfutuma mmienu wɔ bokiti nsuo baako mu.',
                 application: 'Pete gu nhaban no so kosi sɛ ɛbɛsɔ, anɔpa anaa anwummerɛ a ahuhuru nni hɔ.',
                 frequency: 'Dapɛn baako kosi mmienu biara mmerɛ a nsisii no retrɛ.',
+              },
+            },
+            video_url: null,
+          },
+        ],
+      },
+      {
+        id: 'sweetpotato_virus',
+        name: { en: 'Sweet Potato Virus Disease (SPVD)', twi: 'Santom Virus Yadeɛ' },
+        pathogen: 'SPCSV + SPFMV (spread by whiteflies/aphids)',
+        description: {
+          en: 'Whitefly-spread viruses that yellow the veins, pucker and shrink leaves, and stunt the plant.',
+          twi: 'Virus a nwansena fitaa de trɛ a ɛma ntini yɛ akokɔsradeɛ, nhaban kuru na afifideɛ no nnyini.',
+        },
+        symptoms: [
+          { key: 'vein_yellowing', weight: 1.0 },
+          { key: 'leaf_narrow_distorted', weight: 0.8 },
+          { key: 'stunted_growth', weight: 0.7 },
+          { key: 'mosaic_pattern', weight: 0.5 },
+        ],
+        regional_prevalence: {
+          ashanti: 'medium', greater_accra: 'high', western: 'medium', volta: 'high', northern: 'medium',
+        },
+        seasonal_months: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+        peak_month: 4,
+        treatments: [
+          {
+            id: 'sweetpotato_virus_clean',
+            name: 'Clean Vines + Roguing (cultural control)',
+            price_range: 'Free',
+            technical_instruction: 'No chemical cure. Use virus-free vines; remove infected plants.',
+            farmer_instruction: {
+              en: {
+                mixing: 'There is no medicine to mix for this virus.',
+                amount: 'Pull out and destroy badly affected plants so whiteflies do not spread it.',
+                application: 'Plant only clean vines from a healthy field, not from sick-looking plants.',
+                frequency: 'Walk the farm weekly and remove sick plants as soon as you see them.',
+              },
+              twi: {
+                mixing: 'Aduro biara nni hɔ a wode bɛfra ma saa virus yi.',
+                amount: 'Tu afifideɛ a ayare paa no na sɛe no sɛdeɛ nwansena fitaa amfa antrɛw.',
+                application: 'Dua santom a ɛho teɛ firi afuo a apɔ mu, ɛnyɛ afifideɛ a ɛyare.',
+                frequency: 'Nantew afuom dapɛn biara na yi afifideɛ a ayare ɛberɛ a wohunu.',
               },
             },
             video_url: null,
@@ -577,6 +772,49 @@ export const CROPS = [
                 amount: 'Wowɔ nkateɛ no wɔ awia mu wɔ kɛtɛ a ɛkorɔn so kosi sɛ ɛbɛpae fann.',
                 application: 'Fa nkateɛ a awo no sie wɔ kotokuo a ɛho teɛ a ɛnni fam, baabi a fɔkyee nni.',
                 frequency: 'Hwɛ nkateɛ a woakora no dapɛn biara. Tow biara a ntotoeɛ ahabammono-akokɔsradeɛ wɔ so gu.',
+              },
+            },
+            video_url: null,
+          },
+        ],
+      },
+      {
+        id: 'groundnut_rosette',
+        name: { en: 'Groundnut Rosette', twi: 'Nkateɛ Rosette Yadeɛ' },
+        pathogen: 'Groundnut rosette virus (spread by aphids)',
+        description: {
+          en: 'Aphid-spread virus: leaves go yellow and bunched, plants are badly stunted, pods fail to fill.',
+          twi: 'Virus a ntɛferɛ de trɛ: nhaban yɛ akokɔsradeɛ na ɛboaboa ano, afifideɛ no nnyini, aba no nyɛ.',
+        },
+        symptoms: [
+          { key: 'yellow_leaves', weight: 0.8 },
+          { key: 'leaves_bunched', weight: 1.0 },
+          { key: 'stunted_growth', weight: 0.9 },
+          { key: 'leaf_narrow_distorted', weight: 0.5 },
+        ],
+        regional_prevalence: {
+          ashanti: 'low', greater_accra: 'low', western: 'low', volta: 'medium', northern: 'high',
+        },
+        seasonal_months: [6, 7, 8, 9, 10],
+        peak_month: 8,
+        treatments: [
+          {
+            id: 'groundnut_rosette_dense',
+            name: 'Early + Dense Planting + Roguing (cultural control)',
+            price_range: 'Free',
+            technical_instruction: 'No chemical cure. Plant early and densely to deter aphids; remove infected plants.',
+            farmer_instruction: {
+              en: {
+                mixing: 'There is no medicine to mix; the trick is to keep aphids from spreading it.',
+                amount: 'Plant early in the season and space plants close together so aphids settle less.',
+                application: 'Pull out and bury any bunched, stunted plants as soon as you see them.',
+                frequency: 'Check weekly for the first 6 weeks after planting — that is when it spreads most.',
+              },
+              twi: {
+                mixing: 'Aduro biara nni hɔ a wode bɛfra; ɛkwan no ne sɛ wobɛsiw ntɛferɛ kwan.',
+                amount: 'Dua ntɛm wɔ berɛ no mu na ma afifideɛ no mmɛn ho sɛdeɛ ntɛferɛ ntena so.',
+                application: 'Tu afifideɛ a aboaboa ano na anyini no na sie no ɛberɛ a wohunu.',
+                frequency: 'Hwɛ dapɛn biara wɔ nnawɔtwe 6 a ɛdi kan akyi — saa berɛ no na ɛtrɛw kɛse.',
               },
             },
             video_url: null,

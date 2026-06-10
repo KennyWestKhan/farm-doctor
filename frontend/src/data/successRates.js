@@ -36,6 +36,15 @@ const RATES = {
   'groundnut_leafspot_chlorothalonil__northern': { total: 29, success: 24, partial: 3, failed: 2, trendDelta: +4 },
   'groundnut_rust_sulfur__northern': { total: 16, success: 13, partial: 2, failed: 1, trendDelta: +1 },
   'groundnut_aflatoxin_drying__northern': { total: 21, success: 19, partial: 1, failed: 1, trendDelta: +6 },
+
+  // Expanded diseases
+  'chilli_leafspot_mancozeb__western': { total: 17, success: 14, partial: 2, failed: 1, trendDelta: +2 },
+  'chilli_leafspot_mancozeb__ashanti': { total: 12, success: 9, partial: 2, failed: 1, trendDelta: +1 },
+  'cassava_cbb_clean__volta': { total: 19, success: 15, partial: 3, failed: 1, trendDelta: +3 },
+  'cassava_mite_resistant__northern': { total: 14, success: 11, partial: 2, failed: 1, trendDelta: +2 },
+  'sweetpotato_virus_clean__greater_accra': { total: 16, success: 12, partial: 3, failed: 1, trendDelta: +1 },
+  'sweetpotato_virus_clean__volta': { total: 13, success: 10, partial: 2, failed: 1, trendDelta: +2 },
+  'groundnut_rosette_dense__northern': { total: 18, success: 14, partial: 3, failed: 1, trendDelta: +3 },
 };
 
 export function getSuccessRate(treatmentId, region) {
