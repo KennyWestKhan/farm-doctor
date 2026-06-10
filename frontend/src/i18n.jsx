@@ -1,0 +1,107 @@
+/**
+ * Tiny bilingual layer (Twi / English).
+ *
+ * - UI chrome strings live in STRINGS below.
+ * - Content strings (disease names, instructions) are already {en, twi} objects
+ *   in the database; use `pick(obj)` to resolve them against the active language.
+ *
+ * Default language auto-detects from the phone: if the browser language starts
+ * with "tw"/"ak" (Twi/Akan) we start in Twi, else English. The choice persists.
+ */
+import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+
+export const LANGS = { en: 'English', twi: 'Twi' };
+
+const STRINGS = {
+  app_name: { en: 'Farm Doctor', twi: 'Farm Doctor' },
+  tagline: {
+    en: 'Find what is wrong with your crop',
+    twi: 'Hwehwɛ deɛ ɛha wo mfudeɛ',
+  },
+  start: { en: 'Start', twi: 'Fi aseɛ' },
+  offline: { en: 'Offline — still works', twi: 'Intanɛt nni hɔ — ɛda so yɛ adwuma' },
+  online: { en: 'Online', twi: 'Intanɛt wɔ hɔ' },
+  choose_crop: { en: 'Which crop?', twi: 'Mfudeɛ bɛn?' },
+  choose_region: { en: 'Where is your farm?', twi: 'Wo afuom wɔ he?' },
+  photo_guide_title: { en: 'Take a good photo', twi: 'Twa mfonin pa' },
+  photo_tip_daylight: { en: 'Stand in daylight, not shade', twi: 'Gyina awia mu, ɛnyɛ nwunu mu' },
+  photo_tip_close: { en: 'Show the sick part close-up', twi: 'Kyerɛ baabi a ayare no bɛn' },
+  photo_tip_compare: { en: 'Show a healthy leaf beside it', twi: 'Fa nhaban a apɔ to ho' },
+  photo_tip_steady: { en: 'Hold the phone with both hands', twi: 'Fa nsa mmienu kura fon no' },
+  take_photo: { en: 'Take photo', twi: 'Twa mfonin' },
+  ready_take: { en: "I'm ready — take photo", twi: 'Masiesie — twa mfonin' },
+  skip_photo: { en: 'Skip photo for now', twi: 'Gyae mfonin no seesei' },
+  symptoms_title: { en: 'What do you see?', twi: 'Ɛdeɛn na wohunu?' },
+  symptoms_help: { en: 'Tap Yes, No, or Not sure for each', twi: 'Mia Aane, Daabi, anaa Mennim wɔ biara so' },
+  yes: { en: 'Yes', twi: 'Aane' },
+  no: { en: 'No', twi: 'Daabi' },
+  unsure: { en: 'Not sure', twi: 'Mennim' },
+  see_result: { en: 'See result', twi: 'Hwɛ deɛ ɛyɛ' },
+  diagnosis: { en: 'Diagnosis', twi: 'Yadeɛ no' },
+  confidence: { en: 'Confidence', twi: 'Ahotosoɔ' },
+  uncertain_title: { en: 'Not fully sure', twi: 'Yɛnnim yie' },
+  uncertain_body: {
+    en: 'We will check your photo with AI when you get internet. For now, here is our best guess:',
+    twi: 'Yɛde AI bɛhwɛ wo mfonin no sɛ wonya intanɛt a. Seesei deɛ, yei ne deɛ yɛsusu:',
+  },
+  no_match_title: { en: 'Could not tell', twi: 'Yɛantumi anhunu' },
+  no_match_body: {
+    en: 'Your answers did not match a known disease. Your photo is saved and will be checked by AI when you are online.',
+    twi: 'Wo mmuaeɛ ne yadeɛ a yɛnim biara anhyia. Yɛakora wo mfonin na AI bɛhwɛ sɛ wonya intanɛt a.',
+  },
+  treatments: { en: 'What to use', twi: 'Deɛ wode bɛyɛ' },
+  how_to_mix: { en: 'How to mix', twi: 'Sɛdeɛ wobɛfra' },
+  how_much: { en: 'How much', twi: 'Dodow a wode bɛyɛ' },
+  how_to_apply: { en: 'How to spray', twi: 'Sɛdeɛ wobɛpete' },
+  how_often: { en: 'How often', twi: 'Mpɛn dodow' },
+  price: { en: 'Price', twi: 'Boɔ' },
+  success_rate: { en: 'success', twi: 'di nkonim' },
+  farmers_tried: { en: 'farmers tried this', twi: 'akuafoɔ asɔ ahwɛ' },
+  find_suppliers: { en: 'Find a shop near you', twi: 'Hwehwɛ sotɔɔ a ɛbɛn wo' },
+  watch_video: { en: 'Watch how (video)', twi: 'Hwɛ sɛdeɛ wɔyɛ (vidyo)' },
+  did_you_use: { en: 'Did you use this treatment?', twi: 'Wode saa aduro yi yɛɛ adwuma?' },
+  did_it_work: { en: 'Did it work?', twi: 'Ɛyɛɛ adwuma?' },
+  worked: { en: 'It worked', twi: 'Ɛyɛɛ adwuma' },
+  partly: { en: 'Partly', twi: 'Kakra' },
+  failed: { en: 'It failed', twi: 'Anyɛ adwuma' },
+  notes_optional: { en: 'Add a note (optional)', twi: 'Ka biribi (sɛ wopɛ a)' },
+  send_feedback: { en: 'Send', twi: 'Fa kɔ' },
+  thanks: { en: 'Thank you for helping other farmers!', twi: 'Meda wo ase sɛ woaboa akuafoɔ foforɔ!' },
+  back: { en: 'Back', twi: 'San kɔ' },
+  open_whatsapp: { en: 'Message on WhatsApp', twi: 'Soma WhatsApp so' },
+  away: { en: 'away', twi: 'kwan' },
+  install_app: { en: 'Add to home screen', twi: 'Fa to fie kɛsɛ so' },
+};
+
+const Ctx = createContext(null);
+
+function detectDefault() {
+  const saved = localStorage.getItem('fd_lang');
+  if (saved && LANGS[saved]) return saved;
+  const nav = (navigator.language || '').toLowerCase();
+  return nav.startsWith('tw') || nav.startsWith('ak') ? 'twi' : 'en';
+}
+
+export function LanguageProvider({ children }) {
+  const [lang, setLang] = useState(detectDefault);
+
+  useEffect(() => {
+    localStorage.setItem('fd_lang', lang);
+    document.documentElement.lang = lang === 'twi' ? 'ak' : 'en';
+  }, [lang]);
+
+  const value = useMemo(() => {
+    const t = (key) => STRINGS[key]?.[lang] ?? STRINGS[key]?.en ?? key;
+    const pick = (obj) => (obj == null ? '' : obj[lang] ?? obj.en ?? '');
+    const toggle = () => setLang((l) => (l === 'en' ? 'twi' : 'en'));
+    return { lang, setLang, toggle, t, pick };
+  }, [lang]);
+
+  return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
+}
+
+export function useLang() {
+  const ctx = useContext(Ctx);
+  if (!ctx) throw new Error('useLang must be used inside LanguageProvider');
+  return ctx;
+}

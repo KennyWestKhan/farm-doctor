@@ -1,0 +1,86 @@
+-- Farm Doctor Ghana — Supabase schema
+-- Run in the Supabase SQL editor once the project exists.
+-- The disease/treatment/supplier content ships in the frontend bundle for offline
+-- use; these tables capture FARMER-GENERATED data (reports + validations) plus
+-- optional server copies of reference data for the dashboard.
+
+create extension if not exists "pgcrypto";
+
+create table if not exists crops (
+  id uuid primary key default gen_random_uuid(),
+  slug text unique,
+  name text,
+  twi_name text
+);
+
+create table if not exists diseases (
+  id uuid primary key default gen_random_uuid(),
+  slug text unique,
+  crop_slug text,
+  name text,
+  twi_name text,
+  symptoms text,
+  regional_prevalence jsonb,
+  seasonal_months int[],
+  peak_month int
+);
+
+create table if not exists treatments (
+  id uuid primary key default gen_random_uuid(),
+  slug text unique,
+  disease_slug text,
+  name text,
+  price_range text,
+  technical_instruction text,
+  farmer_instruction_english jsonb,
+  farmer_instruction_twi jsonb,
+  video_url text
+);
+
+create table if not exists suppliers (
+  id uuid primary key default gen_random_uuid(),
+  name text,
+  region text,
+  town text,
+  lat double precision,
+  lng double precision,
+  whatsapp text,
+  products_sold text[],
+  price_range text
+);
+
+create table if not exists farmer_reports (
+  id uuid primary key default gen_random_uuid(),
+  farmer_phone_hash text,
+  crop_slug text,
+  disease_slug text,
+  region text,
+  confidence real,
+  status text,           -- confident | uncertain | no_match
+  offline boolean,
+  created_at timestamptz default now()
+);
+
+create table if not exists validations (
+  id uuid primary key default gen_random_uuid(),
+  report_id uuid,
+  treatment_id text,     -- treatment slug from the local DB
+  region text,
+  treatment_worked boolean,
+  outcome text,          -- worked | partial | failed
+  notes text,
+  created_at timestamptz default now()
+);
+
+-- Convenience view: success rate by treatment + region for the dashboard.
+create or replace view treatment_success_rates as
+select
+  treatment_id,
+  region,
+  count(*) as total,
+  count(*) filter (where outcome = 'worked')  as success,
+  count(*) filter (where outcome = 'partial') as partial,
+  count(*) filter (where outcome = 'failed')  as failed,
+  round(100.0 * count(*) filter (where outcome = 'worked') / nullif(count(*),0)) as success_percent
+from validations
+group by treatment_id, region;

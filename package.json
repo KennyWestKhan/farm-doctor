@@ -1,0 +1,11 @@
+{
+  "name": "farm-doctor-ghana",
+  "private": true,
+  "description": "Offline-first crop disease diagnosis for Ghanaian farmers",
+  "scripts": {
+    "dev:web": "npm --prefix frontend run dev",
+    "dev:api": "npm --prefix backend run dev",
+    "build:web": "npm --prefix frontend run build",
+    "install:all": "npm --prefix frontend install && npm --prefix backend install"
+  }
+}

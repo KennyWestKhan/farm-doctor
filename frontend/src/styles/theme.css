@@ -1,0 +1,245 @@
+/* Farm Doctor Ghana — design system  ·  "Rich Ghanaian Earth"
+ *
+ * Context guardrails (never break these): bright outdoor sunlight, old/cheap
+ * Android screens, big thumbs, low literacy. So every flourish here is CSS-only
+ * and GPU-cheap — no heavy gradients over text, no JS animation, no layout-jank.
+ *
+ * Aesthetic: deep soil + gold + leaf green, kente-stripe accents, layered paper
+ * grain, tactile "pressed-button" cards with real depth, and one orchestrated
+ * entrance per screen.
+ */
+@import '@fontsource/bricolage-grotesque/400.css';
+@import '@fontsource/bricolage-grotesque/600.css';
+@import '@fontsource/bricolage-grotesque/800.css';
+@import '@fontsource/atkinson-hyperlegible/400.css';
+@import '@fontsource/atkinson-hyperlegible/700.css';
+
+:root {
+  /* Surfaces — warm paper / soil, never pure white (kills glare) */
+  --paper: #fbf3e4;
+  --paper-2: #f3e6cd;
+  --paper-3: #ede0c4;
+  --ink: #241a10;
+  --ink-soft: #5c4a35;
+
+  /* Brand — Ghanaian gold/green/red grounded in deep soil */
+  --soil: #3a2a17;
+  --soil-2: #54402a;
+  --soil-3: #6b5436;
+  --gold: #f2a916;
+  --gold-deep: #c97e0a;
+  --gold-soft: #f6c75e;
+  --leaf: #2f7d3a;
+  --leaf-deep: #1f5a28;
+  --leaf-soft: #5aa861;
+  --clay: #c0432b;
+  --clay-deep: #97311e;
+
+  /* Semantic */
+  --ok: var(--leaf);
+  --warn: var(--gold-deep);
+  --bad: var(--clay);
+
+  /* Sizing — generous for thumbs */
+  --tap-min: 64px;
+  --radius: 18px;
+  --radius-lg: 26px;
+  --gap: 16px;
+
+  /* Tactile depth: cards sit on a colored "edge" like a physical button */
+  --edge: rgba(58, 42, 23, 0.28);
+  --shadow: 0 5px 0 var(--edge);
+  --shadow-lg: 0 7px 0 var(--edge), 0 16px 30px rgba(58, 42, 23, 0.18);
+  --shadow-soft: 0 10px 26px rgba(58, 42, 23, 0.16);
+
+  --font-display: 'Bricolage Grotesque', Georgia, serif;
+  --font-body: 'Atkinson Hyperlegible', system-ui, sans-serif;
+
+  /* Kente accent gradient — reused for ribbons/dividers */
+  --kente: repeating-linear-gradient(
+    90deg,
+    var(--gold) 0 14px,
+    var(--clay) 14px 22px,
+    var(--leaf-deep) 22px 36px,
+    var(--soil) 36px 44px
+  );
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body, #root { height: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--ink);
+  font-size: 18px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  /* Layered atmosphere: soft dawn glow + faint woven grain. Cheap, static. */
+  background-color: var(--paper-2);
+  background-image:
+    radial-gradient(135% 70% at 50% -15%, var(--paper) 0%, transparent 60%),
+    radial-gradient(90% 60% at 100% 0%, rgba(242, 169, 22, 0.10) 0%, transparent 55%),
+    radial-gradient(90% 60% at 0% 10%, rgba(47, 125, 58, 0.08) 0%, transparent 55%),
+    repeating-linear-gradient(45deg, rgba(58,42,23,0.025) 0 1px, transparent 1px 9px),
+    repeating-linear-gradient(-45deg, rgba(58,42,23,0.02) 0 1px, transparent 1px 9px);
+  background-attachment: fixed;
+}
+
+h1, h2, h3 { font-family: var(--font-display); font-weight: 800; line-height: 1.04; margin: 0; }
+h1 { font-size: clamp(30px, 9vw, 46px); letter-spacing: -0.025em; }
+h2 { font-size: clamp(23px, 6.5vw, 32px); letter-spacing: -0.015em; }
+h3 { font-size: 20px; }
+
+button { font-family: var(--font-body); cursor: pointer; }
+
+/* App frame — phone-width, with kente ribbons top & bottom */
+.app-shell {
+  max-width: 520px;
+  margin: 0 auto;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background:
+    linear-gradient(var(--paper-2), var(--paper-2)) padding-box,
+    var(--kente) border-box;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  box-shadow: 0 0 60px rgba(58, 42, 23, 0.08);
+}
+
+.screen {
+  flex: 1;
+  padding: 20px 18px calc(28px + env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+}
+
+/* One orchestrated entrance: children rise + fade, staggered. */
+.screen > * { animation: rise 0.5s cubic-bezier(0.2, 0.85, 0.25, 1) both; }
+.screen > *:nth-child(1) { animation-delay: 0.02s; }
+.screen > *:nth-child(2) { animation-delay: 0.08s; }
+.screen > *:nth-child(3) { animation-delay: 0.14s; }
+.screen > *:nth-child(4) { animation-delay: 0.20s; }
+.screen > *:nth-child(5) { animation-delay: 0.26s; }
+.screen > *:nth-child(6) { animation-delay: 0.32s; }
+.screen > *:nth-child(n+7) { animation-delay: 0.36s; }
+@keyframes rise {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .screen > * { animation: none !important; }
+}
+
+/* ---- Buttons: tactile, with a colored bottom edge that compresses on press ---- */
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  min-height: var(--tap-min);
+  padding: 16px 20px;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--leaf);
+  box-shadow: 0 5px 0 var(--leaf-deep);
+  transition: transform 0.08s ease, box-shadow 0.08s ease, filter 0.15s ease;
+  position: relative;
+}
+.btn:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--leaf-deep); }
+.btn--gold { background: var(--gold); color: var(--soil); box-shadow: 0 5px 0 var(--gold-deep); }
+.btn--gold:active { box-shadow: 0 1px 0 var(--gold-deep); }
+.btn--soil { background: var(--soil); box-shadow: 0 5px 0 #1d1409; }
+.btn--soil:active { box-shadow: 0 1px 0 #1d1409; }
+.btn--ghost {
+  background: rgba(255,255,255,0.55); color: var(--ink); box-shadow: 0 4px 0 var(--edge);
+  border: 2px solid rgba(58,42,23,0.18);
+}
+.btn--ghost:active { box-shadow: 0 1px 0 var(--edge); transform: translateY(3px); }
+.btn[disabled] { filter: grayscale(0.6) opacity(0.5); pointer-events: none; }
+
+/* ---- Cards: paper with depth + a faint top sheen ---- */
+.card {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0) 40%),
+    #fff;
+  border: 2px solid rgba(58,42,23,0.10);
+  border-radius: var(--radius-lg);
+  padding: 18px;
+  box-shadow: var(--shadow);
+  position: relative;
+}
+/* tactile card-buttons compress like the .btn */
+button.card { transition: transform 0.08s ease, box-shadow 0.08s ease; }
+button.card:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--edge); }
+
+/* Card with a kente ribbon down the left edge — for hero/result moments */
+.card--ribbon { overflow: hidden; }
+.card--ribbon::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 8px;
+  background: var(--kente);
+}
+.card--ribbon { padding-left: 24px; }
+
+/* ---- Kente divider (thin woven rule) ---- */
+.kente-rule {
+  height: 8px; border-radius: 99px; background: var(--kente);
+  background-size: 44px 100%; opacity: 0.9;
+}
+
+/* ---- Pills / chips ---- */
+.pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 13px; border-radius: 999px; font-weight: 700; font-size: 14px;
+}
+.pill--ok { background: rgba(47,125,58,0.15); color: var(--leaf-deep); }
+.pill--warn { background: rgba(201,126,10,0.18); color: var(--gold-deep); }
+.pill--bad { background: rgba(192,67,43,0.15); color: var(--clay-deep); }
+.pill--soil { background: rgba(58,42,23,0.10); color: var(--soil); }
+
+.muted { color: var(--ink-soft); }
+.center { text-align: center; }
+.stack > * + * { margin-top: var(--gap); }
+.row { display: flex; gap: 12px; align-items: center; }
+
+/* ---- Net bar ---- */
+.netbar {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  font-weight: 700; font-size: 14px; padding: 6px;
+  color: #fff; letter-spacing: 0.01em;
+}
+.netbar--off { background: var(--soil-2); }
+.netbar--on { background: var(--leaf-deep); }
+
+/* ---- Confidence / progress meter, with a candy-stripe shimmer ---- */
+.meter { height: 16px; border-radius: 999px; background: rgba(58,42,23,0.12); overflow: hidden; box-shadow: inset 0 2px 4px rgba(58,42,23,0.18); }
+.meter > span {
+  display: block; height: 100%; border-radius: 999px;
+  background-image: linear-gradient(90deg, rgba(255,255,255,0.25) 25%, transparent 25% 50%, rgba(255,255,255,0.25) 50% 75%, transparent 75%);
+  background-size: 22px 100%;
+  width: 0; /* animated to target via inline custom prop */
+  animation: fill 0.9s cubic-bezier(0.2, 0.85, 0.25, 1) forwards, stripe 1s linear infinite;
+}
+@keyframes fill { to { width: var(--to, 0%); } }
+@keyframes stripe { to { background-position: 22px 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .meter > span { animation: none; width: var(--to, 0%); }
+}
+
+/* Count-up numbers pop in */
+.pop { animation: pop 0.5s cubic-bezier(0.2, 1.4, 0.4, 1) both; }
+@keyframes pop { from { transform: scale(0.7); opacity: 0; } to { transform: none; opacity: 1; } }
+
+/* Subtle idle float for hero art */
+.float { animation: float 5s ease-in-out infinite; }
+@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+@media (prefers-reduced-motion: reduce) { .float { animation: none; } }
+
+/* Leaflet popups in our type */
+.leaflet-popup-content { font-family: var(--font-body); font-size: 14px; }
