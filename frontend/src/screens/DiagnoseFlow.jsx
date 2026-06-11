@@ -1,0 +1,70 @@
+import { useState, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
+import CropSelect from './CropSelect.jsx';
+import RegionSelect from './RegionSelect.jsx';
+import PhotoGuide from './PhotoGuide.jsx';
+import SymptomChecklist from './SymptomChecklist.jsx';
+import Result from './Result.jsx';
+import { diagnoseOffline } from '../engine/symptomMatcher';
+import { saveReport, queueForVision } from '../db/storage';
+
+/**
+ * The /diagnose tab. A linear step machine: crop -> region -> photo -> symptoms
+ * -> result. Runs the offline matcher, persists a report, and queues the photo
+ * for Claude Vision when the offline confidence is low.
+ */
+export default function DiagnoseFlow() {
+  const [step, setStep] = useState('crop');
+  const [session, setSession] = useState({
+    cropId: null, region: null, photoBlob: null, answers: {}, result: null, report: null,
+  });
+  const navigate = useNavigate();
+
+  const go = (s) => setStep(s);
+  const patch = (p) => setSession((s) => ({ ...s, ...p }));
+  const reset = () => {
+    setSession({ cropId: null, region: null, photoBlob: null, answers: {}, result: null, report: null });
+    setStep('crop');
+  };
+
+  const runDiagnosis = useCallback(async (answers) => {
+    const result = diagnoseOffline(session.cropId, answers, session.region);
+    const report = await saveReport({
+      cropId: session.cropId,
+      region: session.region,
+      topDiseaseId: result.top?.disease.id ?? null,
+      confidence: result.top?.confidence ?? 0,
+      status: result.status,
+      hadPhoto: !!session.photoBlob,
+    });
+    if (result.needsVision && session.photoBlob) {
+      await queueForVision({ reportId: report.id, cropId: session.cropId, photoBlob: session.photoBlob });
+    }
+    patch({ answers, result, report });
+    go('result');
+  }, [session.cropId, session.region, session.photoBlob]);
+
+  // Back from the first step leaves the flow entirely (to Home).
+  const leave = () => navigate('/');
+
+  switch (step) {
+    case 'crop':
+      return <CropSelect onPick={(cropId) => { patch({ cropId }); go('region'); }} onBack={leave} />;
+    case 'region':
+      return <RegionSelect onPick={(region) => { patch({ region }); go('photo'); }} onBack={() => go('crop')} />;
+    case 'photo':
+      return (
+        <PhotoGuide
+          onPhoto={(photoBlob) => { patch({ photoBlob }); go('symptoms'); }}
+          onSkip={() => { patch({ photoBlob: null }); go('symptoms'); }}
+          onBack={() => go('region')}
+        />
+      );
+    case 'symptoms':
+      return <SymptomChecklist cropId={session.cropId} onDone={runDiagnosis} onBack={() => go('photo')} />;
+    case 'result':
+      return <Result session={session} onRestart={reset} onHome={leave} />;
+    default:
+      return null;
+  }
+}

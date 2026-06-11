@@ -12,8 +12,10 @@
   "dependencies": {
     "@fontsource/atkinson-hyperlegible": "^5.2.8",
     "@fontsource/bricolage-grotesque": "^5.2.10",
+    "@fontsource/plus-jakarta-sans": "^5.2.8",
     "idb": "^8.0.3",
     "leaflet": "^1.9.4",
+    "qrcode": "^1.5.4",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "react-leaflet": "^5.0.0",

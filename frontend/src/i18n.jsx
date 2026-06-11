@@ -71,6 +71,43 @@ const STRINGS = {
   open_whatsapp: { en: 'Message on WhatsApp', twi: 'Soma WhatsApp so' },
   away: { en: 'away', twi: 'kwan' },
   install_app: { en: 'Add to home screen', twi: 'Fa to fie kɛsɛ so' },
+
+  // Bottom nav
+  tab_home: { en: 'Home', twi: 'Fie' },
+  tab_diagnose: { en: 'Diagnose', twi: 'Hwɛ' },
+  tab_shops: { en: 'Shops', twi: 'Sotɔɔ' },
+  tab_reports: { en: 'Reports', twi: 'Krataa' },
+
+  // Home
+  greeting_morning: { en: 'Good morning', twi: 'Maakye' },
+  greeting_afternoon: { en: 'Good afternoon', twi: 'Maaha' },
+  greeting_evening: { en: 'Good evening', twi: 'Maadwo' },
+  home_prompt: { en: "What's wrong with your crop?", twi: 'Ɛdeɛn na ɛha wo mfudeɛ?' },
+  home_diagnose_cta: { en: 'Diagnose a crop', twi: 'Hwɛ mfudeɛ ho' },
+  home_browse_shops: { en: 'Find input shops', twi: 'Hwehwɛ sotɔɔ' },
+  home_recent: { en: 'Recent checks', twi: 'Nsɛm a atwam' },
+  home_no_recent: { en: 'No checks yet. Start your first one!', twi: 'Biribiara nni hɔ. Fi aseɛ!' },
+  home_tip_title: { en: 'Tip of the day', twi: 'Ɛnnɛ afotuo' },
+  home_tip_body: { en: 'Spray in the cool morning or evening, never in hot midday sun.', twi: 'Pete anɔpa anaa anwummerɛ a ahuhuru nni hɔ, ɛnyɛ awia ketee mu.' },
+
+  // Shops
+  shops_title: { en: 'Input shops', twi: 'Sotɔɔ' },
+  shops_subtitle: { en: 'Agro-dealers near your region', twi: 'Sotɔɔ a ɛbɛn wo mpɔtam' },
+  shops_filter_all: { en: 'All regions', twi: 'Mpɔtam nyinaa' },
+  shops_sells: { en: 'Sells', twi: 'Tɔn' },
+
+  // Reports
+  reports_title: { en: 'My reports', twi: 'Me krataa' },
+  reports_subtitle: { en: 'Crops you have checked', twi: 'Mfudeɛ a woahwɛ' },
+  reports_empty: { en: 'No reports yet. Diagnose a crop to see it here.', twi: 'Krataa biara nni hɔ. Hwɛ mfudeɛ na ɛbɛba ha.' },
+  reports_offline_tag: { en: 'Checked offline', twi: 'Hwɛɛ a intanɛt nni hɔ' },
+  reports_pending_vision: { en: 'Will recheck with AI online', twi: 'AI bɛsan ahwɛ wɔ intanɛt so' },
+
+  // Desktop gate
+  gate_title: { en: 'Open on your phone', twi: 'Bue wɔ wo fon so' },
+  gate_body: { en: 'Farm Doctor is built for your phone. Scan this code or open the link on your mobile.', twi: 'Wɔayɛ Farm Doctor ama wo fon. Scan kɔɔd yi anaa bue link no wɔ wo fon so.' },
+  gate_dashboard_link: { en: 'View the impact dashboard →', twi: 'Hwɛ impact dashboard →' },
+  view_all: { en: 'View all', twi: 'Hwɛ ne nyinaa' },
 };
 
 const Ctx = createContext(null);

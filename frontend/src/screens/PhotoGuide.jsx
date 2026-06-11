@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { useLang } from '../i18n.jsx';
-import { BackButton } from '../components/Chrome.jsx';
+import { Header } from '../components/Chrome.jsx';
 
 const TIPS = [
   { icon: '☀️', key: 'photo_tip_daylight' },
@@ -15,54 +15,34 @@ export default function PhotoGuide({ onPhoto, onSkip, onBack }) {
 
   const handleFile = (e) => {
     const file = e.target.files?.[0];
-    if (file) onPhoto(file); // a Blob; stored in IndexedDB, sent to Vision when online
+    if (file) onPhoto(file);
   };
 
   return (
-    <div className="screen">
-      <BackButton onClick={onBack} />
-      <div>
-        <h2>📸 {t('photo_guide_title')}</h2>
-        <div className="kente-rule" style={{ width: 80, margin: '12px 0 4px' }} />
-      </div>
-      <div className="stack" style={{ marginTop: 14 }}>
+    <div className="screen page-enter" style={{ display: 'flex', flexDirection: 'column' }}>
+      <Header title={t('photo_guide_title')} onBack={onBack} />
+
+      <div className="stagger stack" style={{ marginTop: 6 }}>
         {TIPS.map((tip) => (
-          <div key={tip.key} className="card row" style={{ gap: 14 }}>
-            <span style={{ fontSize: 34 }}>{tip.icon}</span>
-            <strong style={{ fontSize: 18 }}>{t(tip.key)}</strong>
+          <div key={tip.key} className="card row" style={{ gap: 14, padding: 16 }}>
+            <span style={{ fontSize: 30 }}>{tip.icon}</span>
+            <strong style={{ fontSize: 17 }}>{t(tip.key)}</strong>
           </div>
         ))}
 
-        {/* Video placeholder — real 30s farmer demo swaps in here later */}
-        <div
-          className="card center"
-          style={{ background: 'var(--soil)', color: '#fff', padding: 22 }}
-        >
-          <div style={{ fontSize: 40 }}>▶️</div>
-          <strong>{t('watch_video')}</strong>
-          <div className="muted" style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13 }}>
-            (video coming soon)
-          </div>
+        {/* Video placeholder */}
+        <div className="card center" style={{ background: 'var(--grad-green)', color: '#fff' }}>
+          <div style={{ fontSize: 36 }}>▶️</div>
+          <strong style={{ fontFamily: 'var(--font-display)' }}>{t('watch_video')}</strong>
+          <div style={{ color: 'rgba(255,255,255,0.75)', fontSize: 13 }}>(video coming soon)</div>
         </div>
       </div>
 
-      {/* `capture="environment"` opens the rear camera directly on Android */}
-      <input
-        ref={inputRef}
-        type="file"
-        accept="image/*"
-        capture="environment"
-        onChange={handleFile}
-        hidden
-      />
+      <input ref={inputRef} type="file" accept="image/*" capture="environment" onChange={handleFile} hidden />
 
-      <div className="stack" style={{ marginTop: 20 }}>
-        <button className="btn" onClick={() => inputRef.current?.click()}>
-          📷 {t('ready_take')}
-        </button>
-        <button className="btn btn--ghost" onClick={onSkip}>
-          {t('skip_photo')}
-        </button>
+      <div className="sticky-cta stack" style={{ marginTop: 'auto' }}>
+        <button className="btn btn--block" onClick={() => inputRef.current?.click()}>📷 {t('ready_take')}</button>
+        <button className="btn btn--tint btn--block" onClick={onSkip}>{t('skip_photo')}</button>
       </div>
     </div>
   );

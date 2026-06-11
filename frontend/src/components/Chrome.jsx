@@ -1,39 +1,54 @@
 import { useLang } from '../i18n.jsx';
 import { useOnline } from './useOnline';
 
-/** Top bar: app name, online/offline status, language toggle. */
-export function TopBar() {
-  const { t, lang, toggle } = useLang();
-  const online = useOnline();
+/** Small language toggle pill — green tint on light, ghost on gradient headers. */
+export function LangToggle({ onGradient = false }) {
+  const { lang, toggle } = useLang();
   return (
-    <>
-      <div className={`netbar ${online ? 'netbar--on' : 'netbar--off'}`}>
-        <span>{online ? '🟢' : '⚪'}</span>
-        <span>{online ? t('online') : t('offline')}</span>
-      </div>
-      <header className="row" style={{ justifyContent: 'space-between', padding: '12px 18px 0' }}>
-        <strong style={{ fontFamily: 'var(--font-display)', fontSize: 22 }}>
-          🌱 {t('app_name')}
-        </strong>
-        <button
-          className="pill pill--soil"
-          onClick={toggle}
-          aria-label="Switch language"
-          style={{ border: 'none', cursor: 'pointer' }}
-        >
-          {lang === 'en' ? '🇬🇭 Twi' : '🇬🇧 English'}
-        </button>
-      </header>
-    </>
+    <button
+      className={`pill ${onGradient ? 'pill--ghost' : 'pill--green'}`}
+      onClick={toggle}
+      aria-label="Switch language"
+      style={{ border: 'none' }}
+    >
+      {lang === 'en' ? '🇬🇭 Twi' : '🇬🇧 English'}
+    </button>
   );
 }
 
-export function BackButton({ onClick }) {
+/** Online/offline dot — subtle, used in headers. */
+export function NetDot({ onGradient = false }) {
   const { t } = useLang();
-  if (!onClick) return null;
+  const online = useOnline();
   return (
-    <button className="btn btn--ghost" onClick={onClick} style={{ marginBottom: 16 }}>
-      ← {t('back')}
-    </button>
+    <span
+      className={`pill ${onGradient ? 'pill--ghost' : 'pill--green'}`}
+      style={{ fontSize: 12 }}
+      title={online ? t('online') : t('offline')}
+    >
+      {online ? '🟢' : '⚪'} {online ? t('online') : t('offline')}
+    </span>
+  );
+}
+
+/**
+ * Detail-screen header: circular back button, centered title, optional right
+ * action. White by default; pass `gradient` to sit on a gradient block.
+ */
+export function Header({ title, onBack, action, gradient = false }) {
+  return (
+    <div className="between" style={{ padding: gradient ? 0 : '4px 0 14px' }}>
+      {onBack ? (
+        <button className={`icon-btn ${gradient ? 'icon-btn--on-grad' : ''}`} onClick={onBack} aria-label="Back">
+          ←
+        </button>
+      ) : (
+        <span style={{ width: 44 }} />
+      )}
+      <strong style={{ fontFamily: 'var(--font-display)', fontSize: 18, color: gradient ? '#fff' : 'var(--ink)' }}>
+        {title}
+      </strong>
+      <span style={{ minWidth: 44, display: 'flex', justifyContent: 'flex-end' }}>{action}</span>
+    </div>
   );
 }
