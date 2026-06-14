@@ -2,10 +2,11 @@ import { useState } from 'react';
 import { useLang } from '../i18n.jsx';
 import { REGIONS } from '../data/diseaseDatabase';
 import SupplierList from '../components/SupplierList.jsx';
+import { getSavedRegion } from '../utils/prefs';
 
 export default function Shops() {
   const { t, pick } = useLang();
-  const [region, setRegion] = useState('ashanti');
+  const [region, setRegion] = useState(getSavedRegion() || 'ashanti');
 
   return (
     <div className="screen screen--flush page-enter">

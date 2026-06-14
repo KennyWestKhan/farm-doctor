@@ -108,6 +108,15 @@ const STRINGS = {
   gate_body: { en: 'Farm Doctor is built for your phone. Scan this code or open the link on your mobile.', twi: 'Wɔayɛ Farm Doctor ama wo fon. Scan kɔɔd yi anaa bue link no wɔ wo fon so.' },
   gate_dashboard_link: { en: 'View the impact dashboard →', twi: 'Hwɛ impact dashboard →' },
   view_all: { en: 'View all', twi: 'Hwɛ ne nyinaa' },
+
+  // Location preference
+  set_location: { en: 'Set location', twi: 'Si wo beaeɛ' },
+  change_location: { en: 'Change location', twi: 'Sesa wo beaeɛ' },
+  change: { en: 'Change', twi: 'Sesa' },
+
+  // Report detail
+  diagnosed_on: { en: 'Diagnosed', twi: 'Wɔhwɛeɛ' },
+  report_recommend: { en: 'Recommended at the time', twi: 'Deɛ wɔkamfo kyerɛɛ saa berɛ no' },
 };
 
 const Ctx = createContext(null);

@@ -3,10 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { useLang } from '../i18n.jsx';
 import { LangToggle, NetDot } from '../components/Chrome.jsx';
 import { getReports } from '../db/storage';
-import { getCrop, getDisease } from '../data/diseaseDatabase';
+import { getCrop, getDisease, REGIONS } from '../data/diseaseDatabase';
 import CropPhoto from '../components/CropPhoto.jsx';
+import RegionSheet from '../components/RegionSheet.jsx';
 import { sanitizeText, LIMITS } from '../utils/sanitize';
 import { searchKnowledge } from '../utils/search';
+import { getSavedRegion } from '../utils/prefs';
 
 function greetingKey() {
   const h = new Date().getHours();
@@ -21,6 +23,8 @@ export default function Home() {
   const [recent, setRecent] = useState([]);
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
+  const [region, setRegion] = useState(getSavedRegion());
+  const [showRegion, setShowRegion] = useState(false);
 
   useEffect(() => { getReports().then((r) => setRecent(r.slice(0, 3))); }, []);
 
@@ -48,6 +52,16 @@ export default function Home() {
           </div>
           <LangToggle onGradient />
         </div>
+
+        {/* Location chip — set once, change anytime */}
+        <button
+          className="pill pill--ghost"
+          onClick={() => setShowRegion(true)}
+          style={{ border: 'none', marginTop: 12 }}
+        >
+          📍 {region ? pick(REGIONS[region]) : t('set_location')} ▾
+        </button>
+
         <label className="search" style={{ marginTop: 16 }}>
           🔍
           <input
@@ -139,7 +153,12 @@ export default function Home() {
               const crop = getCrop(r.cropId);
               const disease = r.topDiseaseId ? getDisease(r.topDiseaseId) : null;
               return (
-                <div key={r.id} className="card row" style={{ padding: 12, gap: 12 }}>
+                <button
+                  key={r.id}
+                  className="card row"
+                  onClick={() => nav('/reports', { state: { openReportId: r.id } })}
+                  style={{ padding: 12, gap: 12, textAlign: 'left' }}
+                >
                   <div style={{ width: 54, flexShrink: 0 }}>
                     <CropPhoto cropId={r.cropId} height={54} radius="var(--radius-sm)" />
                   </div>
@@ -150,7 +169,7 @@ export default function Home() {
                     <div className="muted" style={{ fontSize: 13 }}>{pick(crop?.name)}</div>
                   </div>
                   <span className="pill pill--green">{Math.round((r.confidence || 0) * 100)}%</span>
-                </div>
+                </button>
               );
             })}
           </div>
@@ -169,6 +188,10 @@ export default function Home() {
 
         <div className="center" style={{ marginTop: 18 }}><NetDot /></div>
       </div>
+
+      {showRegion && (
+        <RegionSheet current={region} onPick={setRegion} onClose={() => setShowRegion(false)} />
+      )}
     </div>
   );
 }

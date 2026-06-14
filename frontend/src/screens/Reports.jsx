@@ -1,16 +1,31 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useLang } from '../i18n.jsx';
 import { getReports } from '../db/storage';
 import { getCrop, getDisease, REGIONS } from '../data/diseaseDatabase';
 import CropPhoto from '../components/CropPhoto.jsx';
+import ReportDetail from './ReportDetail.jsx';
 
 export default function Reports() {
   const { t, pick } = useLang();
   const nav = useNavigate();
+  const openReportId = useLocation().state?.openReportId || null;
   const [reports, setReports] = useState(null);
+  const [selected, setSelected] = useState(null);
 
-  useEffect(() => { getReports().then(setReports); }, []);
+  useEffect(() => {
+    getReports().then((all) => {
+      setReports(all);
+      // Deep-link from Home's "recent checks" into a specific report.
+      if (openReportId) {
+        const match = all.find((r) => r.id === openReportId);
+        if (match) setSelected(match);
+      }
+    });
+  }, [openReportId]);
+
+  // Tapping a report opens its full reconstructed diagnosis.
+  if (selected) return <ReportDetail report={selected} onBack={() => setSelected(null)} />;
 
   return (
     <div className="screen screen--flush page-enter">
@@ -34,7 +49,7 @@ export default function Reports() {
             const disease = r.topDiseaseId ? getDisease(r.topDiseaseId) : null;
             const date = new Date(r.createdAt).toLocaleDateString(undefined, { day: 'numeric', month: 'short' });
             return (
-              <div key={r.id} className="card row" style={{ gap: 12, padding: 12 }}>
+              <button key={r.id} className="card row" onClick={() => setSelected(r)} style={{ gap: 12, padding: 12, textAlign: 'left' }}>
                 <div style={{ width: 60, flexShrink: 0 }}>
                   <CropPhoto cropId={r.cropId} diseaseId={r.topDiseaseId} height={60} radius="var(--radius-sm)" />
                 </div>
@@ -50,8 +65,11 @@ export default function Reports() {
                     {r.status === 'uncertain' && <span className="pill pill--warn" style={{ fontSize: 11 }}>🤖 {t('reports_pending_vision')}</span>}
                   </div>
                 </div>
-                <span className="pill pill--green">{Math.round((r.confidence || 0) * 100)}%</span>
-              </div>
+                <span className="row" style={{ gap: 6 }}>
+                  <span className="pill pill--green">{Math.round((r.confidence || 0) * 100)}%</span>
+                  <span style={{ color: 'var(--green)' }}>→</span>
+                </span>
+              </button>
             );
           })}
         </div>

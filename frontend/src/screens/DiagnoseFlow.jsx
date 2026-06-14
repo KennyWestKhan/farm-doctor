@@ -7,6 +7,7 @@ import SymptomChecklist from './SymptomChecklist.jsx';
 import Result from './Result.jsx';
 import { diagnoseOffline } from '../engine/symptomMatcher';
 import { saveReport, queueForVision } from '../db/storage';
+import { getSavedRegion } from '../utils/prefs';
 
 /**
  * The /diagnose tab. A linear step machine: crop -> region -> photo -> symptoms
@@ -17,9 +18,13 @@ export default function DiagnoseFlow() {
   const navigate = useNavigate();
   // A crop may be preselected from the Home search (router state).
   const preCrop = useLocation().state?.cropId || null;
-  const [step, setStep] = useState(preCrop ? 'region' : 'crop');
+  // Region is asked once and saved; skip the step on subsequent diagnoses.
+  const savedRegion = getSavedRegion();
+  const skipRegion = !!savedRegion;
+  const firstStep = preCrop ? (skipRegion ? 'photo' : 'region') : 'crop';
+  const [step, setStep] = useState(firstStep);
   const [session, setSession] = useState({
-    cropId: preCrop, region: null, photoBlob: null, answers: {}, result: null, report: null,
+    cropId: preCrop, region: savedRegion, photoBlob: null, answers: {}, result: null, report: null,
   });
 
   const go = (s) => setStep(s);
@@ -51,7 +56,7 @@ export default function DiagnoseFlow() {
 
   switch (step) {
     case 'crop':
-      return <CropSelect onPick={(cropId) => { patch({ cropId }); go('region'); }} onBack={leave} />;
+      return <CropSelect onPick={(cropId) => { patch({ cropId }); go(skipRegion ? 'photo' : 'region'); }} onBack={leave} />;
     case 'region':
       return <RegionSelect onPick={(region) => { patch({ region }); go('photo'); }} onBack={() => go('crop')} />;
     case 'photo':
@@ -59,7 +64,7 @@ export default function DiagnoseFlow() {
         <PhotoGuide
           onPhoto={(photoBlob) => { patch({ photoBlob }); go('symptoms'); }}
           onSkip={() => { patch({ photoBlob: null }); go('symptoms'); }}
-          onBack={() => go('region')}
+          onBack={() => go(skipRegion ? 'crop' : 'region')}
         />
       );
     case 'symptoms':
