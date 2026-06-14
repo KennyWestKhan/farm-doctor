@@ -117,6 +117,11 @@ const STRINGS = {
   // Report detail
   diagnosed_on: { en: 'Diagnosed', twi: 'Wɔhwɛeɛ' },
   report_recommend: { en: 'Recommended at the time', twi: 'Deɛ wɔkamfo kyerɛɛ saa berɛ no' },
+  your_feedback: { en: 'Your feedback', twi: 'Wo nsɛm' },
+  you_used_it: { en: 'You used this treatment', twi: 'Wode saa aduro yi diiɛ dwuma' },
+  you_didnt_use: { en: "You didn't use this treatment", twi: 'Woamfa saa aduro yi anni dwuma' },
+  result_label: { en: 'Result', twi: 'Deɛ ɛyɛeɛ' },
+  not_found: { en: 'Report not found', twi: 'Yɛanhunu krataa no' },
 
   // Install / Add to Home Screen
   install_title: { en: 'Install Farm Doctor', twi: 'Fa Farm Doctor to wo fon so' },

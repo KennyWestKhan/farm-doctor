@@ -1,31 +1,16 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useLang } from '../i18n.jsx';
 import { getReports } from '../db/storage';
 import { getCrop, getDisease, REGIONS } from '../data/diseaseDatabase';
 import CropPhoto from '../components/CropPhoto.jsx';
-import ReportDetail from './ReportDetail.jsx';
 
 export default function Reports() {
   const { t, pick } = useLang();
   const nav = useNavigate();
-  const openReportId = useLocation().state?.openReportId || null;
   const [reports, setReports] = useState(null);
-  const [selected, setSelected] = useState(null);
 
-  useEffect(() => {
-    getReports().then((all) => {
-      setReports(all);
-      // Deep-link from Home's "recent checks" into a specific report.
-      if (openReportId) {
-        const match = all.find((r) => r.id === openReportId);
-        if (match) setSelected(match);
-      }
-    });
-  }, [openReportId]);
-
-  // Tapping a report opens its full reconstructed diagnosis.
-  if (selected) return <ReportDetail report={selected} onBack={() => setSelected(null)} />;
+  useEffect(() => { getReports().then(setReports); }, []);
 
   return (
     <div className="screen screen--flush page-enter">
@@ -49,7 +34,7 @@ export default function Reports() {
             const disease = r.topDiseaseId ? getDisease(r.topDiseaseId) : null;
             const date = new Date(r.createdAt).toLocaleDateString(undefined, { day: 'numeric', month: 'short' });
             return (
-              <button key={r.id} className="card row" onClick={() => setSelected(r)} style={{ gap: 12, padding: 12, textAlign: 'left' }}>
+              <button key={r.id} className="card row" onClick={() => nav(`/reports/${r.id}`)} style={{ gap: 12, padding: 12, textAlign: 'left' }}>
                 <div style={{ width: 60, flexShrink: 0 }}>
                   <CropPhoto cropId={r.cropId} diseaseId={r.topDiseaseId} height={60} radius="var(--radius-sm)" />
                 </div>

@@ -58,6 +58,11 @@ export async function getReports() {
   );
 }
 
+export async function getReport(id) {
+  const db = await getDB();
+  return db.get('reports', id);
+}
+
 // ---- pending Claude Vision queue ----------------------------------------
 
 export async function queueForVision({ reportId, cropId, photoBlob }) {
@@ -101,6 +106,14 @@ export async function getUnsyncedValidations() {
   const db = await getDB();
   const all = await db.getAll('validations');
   return all.filter((v) => !v.synced);
+}
+
+export async function getValidationsForReport(reportId) {
+  const db = await getDB();
+  const all = await db.getAll('validations');
+  return all
+    .filter((v) => v.reportId === reportId)
+    .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
 }
 
 export async function markValidationSynced(id) {

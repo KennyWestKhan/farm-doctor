@@ -156,7 +156,7 @@ export default function Home() {
                 <button
                   key={r.id}
                   className="card row"
-                  onClick={() => nav('/reports', { state: { openReportId: r.id } })}
+                  onClick={() => nav(`/reports/${r.id}`)}
                   style={{ padding: 12, gap: 12, textAlign: 'left' }}
                 >
                   <div style={{ width: 54, flexShrink: 0 }}>
