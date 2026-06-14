@@ -117,6 +117,19 @@ const STRINGS = {
   // Report detail
   diagnosed_on: { en: 'Diagnosed', twi: 'Wɔhwɛeɛ' },
   report_recommend: { en: 'Recommended at the time', twi: 'Deɛ wɔkamfo kyerɛɛ saa berɛ no' },
+
+  // Install / Add to Home Screen
+  install_title: { en: 'Install Farm Doctor', twi: 'Fa Farm Doctor to wo fon so' },
+  install_body: {
+    en: 'Add it to your phone. It works offline and opens like a normal app.',
+    twi: 'Fa to wo fon so. Ɛyɛ adwuma a intanɛt nni hɔ, na ɛbue te sɛ app biara.',
+  },
+  install_cta: { en: 'Install', twi: 'Fa to so' },
+  install_later: { en: 'Not now', twi: 'Ɛnnɛ deɛ daabi' },
+  install_ios_pre: { en: 'Tap', twi: 'Mia' },
+  install_ios_post: { en: "then 'Add to Home Screen'", twi: "na pia 'Add to Home Screen'" },
+  install_offline_perk: { en: 'Works offline', twi: 'Yɛ adwuma a intanɛt nni hɔ' },
+  install_fast_perk: { en: 'Opens instantly', twi: 'Bue ntɛm' },
 };
 
 const Ctx = createContext(null);

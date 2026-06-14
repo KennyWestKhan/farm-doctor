@@ -15,6 +15,9 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg'],
+      // Run the service worker in dev too, so the install prompt is testable
+      // against the dev server (e.g. over an ngrok tunnel on a real phone).
+      devOptions: { enabled: true, type: 'module' },
       manifest: {
         name: 'Farm Doctor Ghana',
         short_name: 'Farm Doctor',

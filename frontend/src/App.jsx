@@ -1,6 +1,7 @@
 import { Routes, Route, Outlet } from 'react-router-dom';
 import MobileGate from './components/MobileGate.jsx';
 import TabBar from './components/TabBar.jsx';
+import InstallPrompt from './components/InstallPrompt.jsx';
 import Home from './screens/Home.jsx';
 import DiagnoseFlow from './screens/DiagnoseFlow.jsx';
 import Shops from './screens/Shops.jsx';
@@ -13,6 +14,7 @@ function AppShell() {
     <div className="app-shell">
       <Outlet />
       <TabBar />
+      <InstallPrompt />
     </div>
   );
 }
