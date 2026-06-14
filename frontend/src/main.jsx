@@ -18,3 +18,7 @@ createRoot(document.getElementById('root')).render(
     </BrowserRouter>
   </StrictMode>
 );
+
+// Dismiss the static splash once the first app frame has actually painted
+// (two rAFs = after layout + paint). The inline fallback timer covers edge cases.
+requestAnimationFrame(() => requestAnimationFrame(() => window.__hideSplash?.()));
