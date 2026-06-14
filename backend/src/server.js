@@ -15,8 +15,10 @@ import cors from 'cors';
 import ws from 'ws';
 import Anthropic from '@anthropic-ai/sdk';
 import { createClient } from '@supabase/supabase-js';
+import { TextractClient } from '@aws-sdk/client-textract';
 import { VISION_SYSTEM_PROMPT } from './prompt.js';
 import { sanitizeText } from './sanitize.js';
+import { translateLabel } from './labelTranslate.js';
 
 // supabase-js spins up a realtime (WebSocket) client on creation. Node < 22 has
 // no global WebSocket, which throws even though we only do REST inserts. Provide
@@ -39,8 +41,14 @@ const supabase =
 
 const VISION_MODEL = process.env.VISION_MODEL || 'claude-haiku-4-5-20251001';
 
+// Textract for label OCR. The AWS SDK reads AWS_REGION / AWS_ACCESS_KEY_ID /
+// AWS_SECRET_ACCESS_KEY from the environment automatically.
+const textract = process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY
+  ? new TextractClient({ region: process.env.AWS_REGION || 'us-east-1' })
+  : null;
+
 app.get('/api/health', (_req, res) => {
-  res.json({ ok: true, vision: !!anthropic, db: !!supabase });
+  res.json({ ok: true, vision: !!anthropic, db: !!supabase, ocr: !!textract });
 });
 
 /**
@@ -90,6 +98,45 @@ app.post('/api/diagnose', async (req, res) => {
   } catch (err) {
     console.error('diagnose error', err);
     res.status(500).json({ error: 'Vision request failed' });
+  }
+});
+
+/**
+ * POST /api/translate-label
+ * First pass:  { imageBase64, mediaType, context? }  → Textract OCR + translate.
+ * Refine pass: { rawText, context }                  → skip OCR, re-translate.
+ * `context` = { farmSize, crop, growthStage, note } (all sanitized here).
+ */
+app.post('/api/translate-label', async (req, res) => {
+  if (!anthropic) return res.status(503).json({ error: 'Translation not configured (missing ANTHROPIC_API_KEY)' });
+
+  const { imageBase64, rawText, context = {} } = req.body || {};
+  if (!imageBase64 && !rawText) return res.status(400).json({ error: 'imageBase64 or rawText required' });
+  if (imageBase64 && !textract) return res.status(503).json({ error: 'OCR not configured (missing AWS credentials)' });
+  if (typeof imageBase64 === 'string' && imageBase64.length > 8_000_000) {
+    return res.status(413).json({ error: 'image too large' });
+  }
+
+  // Sanitize all farmer-supplied context before it reaches the model.
+  const clean = {
+    farmSize: context.farmSize ? sanitizeText(context.farmSize, 40) : '',
+    crop: context.crop ? sanitizeText(context.crop, 40) : '',
+    growthStage: context.growthStage ? sanitizeText(context.growthStage, 40) : '',
+    note: context.note ? sanitizeText(context.note, 200) : '',
+  };
+
+  try {
+    const result = await translateLabel({
+      anthropic,
+      textract,
+      imageBase64,
+      rawText: rawText ? sanitizeText(rawText, 4000) : undefined,
+      context: clean,
+    });
+    res.json(result);
+  } catch (err) {
+    console.error('translate-label error', err);
+    res.status(500).json({ error: 'Label translation failed' });
   }
 });
 

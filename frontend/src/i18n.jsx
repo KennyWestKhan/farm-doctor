@@ -123,6 +123,35 @@ const STRINGS = {
   result_label: { en: 'Result', twi: 'Deɛ ɛyɛeɛ' },
   not_found: { en: 'Report not found', twi: 'Yɛanhunu krataa no' },
 
+  // Scan a label
+  scan_title: { en: 'Scan a label', twi: 'Scan label no' },
+  scan_home_cta: { en: 'Scan a chemical label', twi: 'Scan aduro label' },
+  scan_subtitle: { en: 'Photograph the writing on the chemical container — we turn it into plain words.', twi: 'Twa mfonin fa nsɛm a ɛwɔ aduro toa no so — yɛbɛdane no nsɛm a wote aseɛ.' },
+  scan_cta: { en: 'Take photo of the label', twi: 'Twa label no mfonin' },
+  scan_from_result: { en: 'Bought it? Scan the label', twi: 'Woatɔ? Scan label no' },
+  scan_reading: { en: 'Reading the label…', twi: 'Yɛrekenkan label no…' },
+  scan_needs_internet: { en: 'Scanning needs internet. Connect and try again.', twi: 'Scan hia intanɛt. Fa intanɛt na sɔ hwɛ bio.' },
+  scan_failed: { en: 'Could not read the label. Try a clearer, brighter photo.', twi: 'Yɛantumi ankenkan label no. Twa mfonin a emu da hɔ.' },
+  scan_unreadable: { en: 'The label was hard to read. This is general guidance — ask your agro-dealer to confirm.', twi: 'Label no kenkan yɛ den. Yei yɛ akwankyerɛ kɛkɛ — bisa wo aduro tɔnfoɔ ma ɔnhwɛ.' },
+  scan_again: { en: 'Scan another', twi: 'Scan foforɔ' },
+  label_product: { en: 'Product', twi: 'Aduro' },
+  label_treats: { en: 'For', twi: 'Ma' },
+  label_safety: { en: 'Stay safe', twi: 'Bɔ wo ho ban' },
+
+  // Refine
+  refine_title: { en: 'Make it fit your farm', twi: 'Ma ɛnfata wo afuo' },
+  refine_update: { en: 'Update instructions', twi: 'Sesa akwankyerɛ no' },
+  refine_farm_size: { en: 'Farm size', twi: 'Afuo no kɛseɛ' },
+  refine_stage: { en: 'Crop stage', twi: 'Mfudeɛ no berɛ' },
+  refine_crop: { en: 'Crop', twi: 'Mfudeɛ' },
+  refine_other: { en: 'Other detail (optional)', twi: 'Biribi foforɔ (sɛ wopɛ a)' },
+  farm_small: { en: 'Small', twi: 'Ketewa' },
+  farm_medium: { en: 'Medium', twi: 'Ntam' },
+  farm_large: { en: 'Large', twi: 'Kɛseɛ' },
+  stage_seedling: { en: 'Young', twi: 'Aba foforɔ' },
+  stage_flowering: { en: 'Flowering', twi: 'Regugu nhwiren' },
+  stage_fruiting: { en: 'Fruiting', twi: 'Reso aba' },
+
   // Install / Add to Home Screen
   install_title: { en: 'Install Farm Doctor', twi: 'Fa Farm Doctor to wo fon so' },
   install_body: {
