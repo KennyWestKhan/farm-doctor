@@ -1,0 +1,28 @@
+# Render Blueprint for the Farm Doctor backend.
+#
+# The backend lives in backend/, so Render must install AND run from there —
+# otherwise its deps (dotenv, express, …) are never installed and the server
+# crashes with ERR_MODULE_NOT_FOUND. `rootDir: backend` fixes that.
+#
+# Secrets (ANTHROPIC_API_KEY, SUPABASE_*) are NOT stored here — set them in the
+# Render dashboard (sync: false keeps them out of the repo).
+services:
+  - type: web
+    name: farm-doctor-api
+    runtime: node
+    rootDir: backend
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: VISION_MODEL
+        value: claude-haiku-4-5-20251001
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_KEY
+        sync: false
