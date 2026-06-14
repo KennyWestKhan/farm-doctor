@@ -12,10 +12,17 @@
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
+import ws from 'ws';
 import Anthropic from '@anthropic-ai/sdk';
 import { createClient } from '@supabase/supabase-js';
 import { VISION_SYSTEM_PROMPT } from './prompt.js';
 import { sanitizeText } from './sanitize.js';
+
+// supabase-js spins up a realtime (WebSocket) client on creation. Node < 22 has
+// no global WebSocket, which throws even though we only do REST inserts. Provide
+// the `ws` implementation so the client constructs cleanly. (Upgrading to Node
+// 22+ would also fix this natively.)
+if (typeof globalThis.WebSocket === 'undefined') globalThis.WebSocket = ws;
 
 const app = express();
 app.use(cors());
