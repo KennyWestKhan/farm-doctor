@@ -5,6 +5,8 @@ import { LangToggle, NetDot } from '../components/Chrome.jsx';
 import { getReports } from '../db/storage';
 import { getCrop, getDisease } from '../data/diseaseDatabase';
 import CropPhoto from '../components/CropPhoto.jsx';
+import { sanitizeText, LIMITS } from '../utils/sanitize';
+import { searchKnowledge } from '../utils/search';
 
 function greetingKey() {
   const h = new Date().getHours();
@@ -17,8 +19,23 @@ export default function Home() {
   const { t, pick } = useLang();
   const nav = useNavigate();
   const [recent, setRecent] = useState([]);
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState([]);
 
   useEffect(() => { getReports().then((r) => setRecent(r.slice(0, 3))); }, []);
+
+  // Sanitize on every keystroke, then run the local (offline) search. Input
+  // never reaches the LLM here — this is a lexical search over bundled data.
+  const onSearch = (raw) => {
+    const clean = sanitizeText(raw, LIMITS.query);
+    setQuery(clean);
+    setResults(clean.length >= 2 ? searchKnowledge(clean) : []);
+  };
+
+  // Selecting a result jumps into the diagnose flow with the crop preselected.
+  const openResult = (r) => {
+    nav('/diagnose', { state: { cropId: r.cropId, diseaseId: r.diseaseId || null } });
+  };
 
   return (
     <div className="screen screen--flush page-enter">
@@ -31,9 +48,52 @@ export default function Home() {
           </div>
           <LangToggle onGradient />
         </div>
-        <div className="search" style={{ marginTop: 16 }}>
-          🔍 <span style={{ flex: 1 }}>{t('home_prompt')}</span>
-        </div>
+        <label className="search" style={{ marginTop: 16 }}>
+          🔍
+          <input
+            type="search"
+            inputMode="search"
+            enterKeyHint="search"
+            autoComplete="off"
+            autoCorrect="off"
+            spellCheck={false}
+            maxLength={LIMITS.query}
+            value={query}
+            onChange={(e) => onSearch(e.target.value)}
+            placeholder={t('home_prompt')}
+            aria-label={t('home_prompt')}
+          />
+          {query && (
+            <button
+              type="button"
+              onClick={() => onSearch('')}
+              aria-label="Clear"
+              style={{ border: 'none', background: 'none', color: 'var(--ink-soft)', fontSize: 18 }}
+            >
+              ✕
+            </button>
+          )}
+        </label>
+
+        {/* Live search results */}
+        {results.length > 0 && (
+          <div className="card" style={{ marginTop: 10, padding: 8 }}>
+            {results.map((r) => (
+              <button
+                key={`${r.type}-${r.diseaseId || r.cropId}`}
+                onClick={() => openResult(r)}
+                style={{ display: 'flex', alignItems: 'center', gap: 12, width: '100%', background: 'none', border: 'none', padding: '12px 10px', textAlign: 'left', borderRadius: 'var(--radius-sm)' }}
+              >
+                <span style={{ fontSize: 22 }}>{r.type === 'crop' ? '🌱' : '🦠'}</span>
+                <span style={{ flex: 1 }}>
+                  <strong style={{ fontFamily: 'var(--font-display)', fontSize: 15, display: 'block', color: 'var(--ink)' }}>{pick(r.label)}</strong>
+                  {r.type === 'disease' && <span className="muted" style={{ fontSize: 13 }}>{pick(r.cropName)}</span>}
+                </span>
+                <span style={{ color: 'var(--green)' }}>→</span>
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="stagger" style={{ padding: '18px 18px 0' }}>

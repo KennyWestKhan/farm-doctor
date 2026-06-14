@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useLang } from '../i18n.jsx';
 import { saveValidation } from '../db/storage';
+import { sanitizeText, LIMITS } from '../utils/sanitize';
 
 /** "Did it work?" feedback. Saved locally; synced to backend when online. */
 export default function ValidationForm({ reportId, treatmentId, region }) {
@@ -20,7 +21,9 @@ export default function ValidationForm({ reportId, treatmentId, region }) {
   }
 
   const submit = async () => {
-    await saveValidation({ reportId, treatmentId, region, used, outcome, notes: notes.trim() || null });
+    // Sanitize the free-text note before it is stored or later synced to the backend.
+    const cleanNote = sanitizeText(notes, LIMITS.note);
+    await saveValidation({ reportId, treatmentId, region, used, outcome, notes: cleanNote || null });
     setDone(true);
   };
 
@@ -42,6 +45,7 @@ export default function ValidationForm({ reportId, treatmentId, region }) {
           </div>
           <input
             placeholder={t('notes_optional')} value={notes} onChange={(e) => setNotes(e.target.value)}
+            maxLength={LIMITS.note}
             style={{ padding: 14, fontSize: 16, fontFamily: 'var(--font-body)', border: '1px solid var(--line)', borderRadius: 'var(--radius)', outline: 'none' }}
           />
         </>

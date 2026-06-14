@@ -4,6 +4,12 @@ import { VitePWA } from 'vite-plugin-pwa';
 
 // https://vite.dev/config/
 export default defineConfig({
+  server: {
+    host: true, // listen on all interfaces so tunnels/LAN devices can reach it
+    port: Number(process.env.PORT) || 5173, // honor an assigned PORT (preview tooling)
+    // Allow any ngrok tunnel (the URL changes each run). Leading dot = all subdomains.
+    allowedHosts: ['.ngrok-free.app', '.ngrok.app', '.ngrok.io'],
+  },
   plugins: [
     react(),
     VitePWA({

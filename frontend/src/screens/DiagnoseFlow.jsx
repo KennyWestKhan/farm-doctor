@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import CropSelect from './CropSelect.jsx';
 import RegionSelect from './RegionSelect.jsx';
 import PhotoGuide from './PhotoGuide.jsx';
@@ -14,11 +14,13 @@ import { saveReport, queueForVision } from '../db/storage';
  * for Claude Vision when the offline confidence is low.
  */
 export default function DiagnoseFlow() {
-  const [step, setStep] = useState('crop');
-  const [session, setSession] = useState({
-    cropId: null, region: null, photoBlob: null, answers: {}, result: null, report: null,
-  });
   const navigate = useNavigate();
+  // A crop may be preselected from the Home search (router state).
+  const preCrop = useLocation().state?.cropId || null;
+  const [step, setStep] = useState(preCrop ? 'region' : 'crop');
+  const [session, setSession] = useState({
+    cropId: preCrop, region: null, photoBlob: null, answers: {}, result: null, report: null,
+  });
 
   const go = (s) => setStep(s);
   const patch = (p) => setSession((s) => ({ ...s, ...p }));
