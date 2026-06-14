@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLang } from '../i18n.jsx';
 import { LangToggle, NetDot } from '../components/Chrome.jsx';
-import { getReports } from '../db/storage';
+import { getRecentReports } from '../db/storage';
 import { getCrop, getDisease, REGIONS } from '../data/diseaseDatabase';
 import CropPhoto from '../components/CropPhoto.jsx';
 import RegionSheet from '../components/RegionSheet.jsx';
@@ -26,7 +26,7 @@ export default function Home() {
   const [region, setRegion] = useState(getSavedRegion());
   const [showRegion, setShowRegion] = useState(false);
 
-  useEffect(() => { getReports().then((r) => setRecent(r.slice(0, 3))); }, []);
+  useEffect(() => { getRecentReports(3).then(setRecent); }, []);
 
   // Sanitize on every keystroke, then run the local (offline) search. Input
   // never reaches the LLM here — this is a lexical search over bundled data.

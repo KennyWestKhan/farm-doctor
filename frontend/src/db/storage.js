@@ -1,36 +1,52 @@
 /**
  * IndexedDB layer (via idb).
  *
- * Three stores:
- *  - reports:        every diagnosis the farmer makes (offline or online).
- *  - pendingVision:  photos whose offline match was weak, queued to send to
- *                    Claude Vision when the device next has internet.
- *  - validations:    "did the treatment work?" feedback, queued to sync to backend.
+ * Stores:
+ *  - reports:        every diagnosis (offline or online). Index: createdAt.
+ *  - pendingVision:  photos queued for Claude Vision when back online.
+ *  - validations:    "did it work?" feedback. Indexes: synced, reportId.
  *
- * Everything is written locally first. A background sync (see sync.js) flushes the
- * pendingVision and validations queues when connectivity returns.
+ * Performance notes (why this file looks the way it does):
+ *  - ONE connection. `db()` memoises a single openDB promise instead of opening a
+ *    fresh connection on every call.
+ *  - Read only what you need. Lookups go through indexes (getAllFromIndex /
+ *    cursors) rather than getAll()-then-filter-in-JS, and `getRecentReports`
+ *    reads just N rows via a reverse cursor.
+ *  - Single-transaction writes for read-modify-write (markValidationSynced).
  */
 import { openDB } from 'idb';
 
 const DB_NAME = 'farm-doctor';
-const DB_VERSION = 1;
+const DB_VERSION = 2; // v2: add `reportId` index on validations
 
-export function getDB() {
-  return openDB(DB_NAME, DB_VERSION, {
-    upgrade(db) {
-      if (!db.objectStoreNames.contains('reports')) {
-        const reports = db.createObjectStore('reports', { keyPath: 'id' });
-        reports.createIndex('createdAt', 'createdAt');
-      }
-      if (!db.objectStoreNames.contains('pendingVision')) {
-        db.createObjectStore('pendingVision', { keyPath: 'id' });
-      }
-      if (!db.objectStoreNames.contains('validations')) {
-        const v = db.createObjectStore('validations', { keyPath: 'id' });
-        v.createIndex('synced', 'synced');
-      }
-    },
-  });
+let _dbPromise = null;
+
+function db() {
+  if (!_dbPromise) {
+    _dbPromise = openDB(DB_NAME, DB_VERSION, {
+      upgrade(database, oldVersion, _newVersion, tx) {
+        if (!database.objectStoreNames.contains('reports')) {
+          database.createObjectStore('reports', { keyPath: 'id' }).createIndex('createdAt', 'createdAt');
+        }
+        if (!database.objectStoreNames.contains('pendingVision')) {
+          database.createObjectStore('pendingVision', { keyPath: 'id' });
+        }
+        if (!database.objectStoreNames.contains('validations')) {
+          const v = database.createObjectStore('validations', { keyPath: 'id' });
+          v.createIndex('synced', 'synced');
+          v.createIndex('reportId', 'reportId');
+        } else if (oldVersion < 2) {
+          // Existing installs: add the new index to the live store.
+          const v = tx.objectStore('validations');
+          if (!v.indexNames.contains('reportId')) v.createIndex('reportId', 'reportId');
+        }
+      },
+      terminated() {
+        _dbPromise = null; // allow a reconnect if the connection is dropped
+      },
+    });
+  }
+  return _dbPromise;
 }
 
 const uid = () =>
@@ -40,87 +56,86 @@ const uid = () =>
 // ---- reports -------------------------------------------------------------
 
 export async function saveReport(report) {
-  const db = await getDB();
   const record = {
     id: uid(),
     createdAt: new Date().toISOString(),
     offline: !navigator.onLine,
     ...report,
   };
-  await db.put('reports', record);
+  await (await db()).put('reports', record);
   return record;
 }
 
+/** All reports, newest first (createdAt is ISO, so index order == chronological). */
 export async function getReports() {
-  const db = await getDB();
-  return (await db.getAll('reports')).sort((a, b) =>
-    b.createdAt.localeCompare(a.createdAt)
-  );
+  const rows = await (await db()).getAllFromIndex('reports', 'createdAt');
+  return rows.reverse();
+}
+
+/** Just the N most recent reports — reads only N rows via a reverse cursor. */
+export async function getRecentReports(limit = 3) {
+  const out = [];
+  let cursor = await (await db())
+    .transaction('reports')
+    .store.index('createdAt')
+    .openCursor(null, 'prev');
+  while (cursor && out.length < limit) {
+    out.push(cursor.value);
+    cursor = await cursor.continue();
+  }
+  return out;
 }
 
 export async function getReport(id) {
-  const db = await getDB();
-  return db.get('reports', id);
+  return (await db()).get('reports', id);
 }
 
 // ---- pending Claude Vision queue ----------------------------------------
 
 export async function queueForVision({ reportId, cropId, photoBlob }) {
-  const db = await getDB();
-  const record = {
-    id: uid(),
-    reportId,
-    cropId,
-    photoBlob, // stored as Blob; IndexedDB handles binary natively
-    queuedAt: new Date().toISOString(),
-  };
-  await db.put('pendingVision', record);
+  const record = { id: uid(), reportId, cropId, photoBlob, queuedAt: new Date().toISOString() };
+  await (await db()).put('pendingVision', record);
   return record;
 }
 
 export async function getPendingVision() {
-  const db = await getDB();
-  return db.getAll('pendingVision');
+  return (await db()).getAll('pendingVision');
 }
 
 export async function removePendingVision(id) {
-  const db = await getDB();
-  await db.delete('pendingVision', id);
+  await (await db()).delete('pendingVision', id);
 }
 
 // ---- validations ---------------------------------------------------------
 
 export async function saveValidation(validation) {
-  const db = await getDB();
   const record = {
     id: uid(),
     createdAt: new Date().toISOString(),
-    synced: 0, // idb indexes can't key on booleans reliably; use 0/1
+    synced: 0, // idb indexes don't key reliably on booleans; use 0/1
     ...validation,
   };
-  await db.put('validations', record);
+  await (await db()).put('validations', record);
   return record;
 }
 
+/** Unsynced rows only, via the `synced` index (no full-table scan). */
 export async function getUnsyncedValidations() {
-  const db = await getDB();
-  const all = await db.getAll('validations');
-  return all.filter((v) => !v.synced);
+  return (await db()).getAllFromIndex('validations', 'synced', 0);
 }
 
+/** Validations for one report, via the `reportId` index, newest first. */
 export async function getValidationsForReport(reportId) {
-  const db = await getDB();
-  const all = await db.getAll('validations');
-  return all
-    .filter((v) => v.reportId === reportId)
-    .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+  const rows = await (await db()).getAllFromIndex('validations', 'reportId', reportId);
+  return rows.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
 }
 
 export async function markValidationSynced(id) {
-  const db = await getDB();
-  const v = await db.get('validations', id);
+  const tx = (await db()).transaction('validations', 'readwrite');
+  const v = await tx.store.get(id);
   if (v) {
     v.synced = 1;
-    await db.put('validations', v);
+    await tx.store.put(v);
   }
+  await tx.done;
 }
