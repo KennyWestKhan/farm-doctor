@@ -7,6 +7,7 @@ import SymptomChecklist from './SymptomChecklist.jsx';
 import Result from './Result.jsx';
 import { diagnoseOffline } from '../engine/symptomMatcher';
 import { saveReport, queueForVision } from '../db/storage';
+import { syncNow } from '../db/sync';
 import { getSavedRegion } from '../utils/prefs';
 
 /**
@@ -46,6 +47,8 @@ export default function DiagnoseFlow() {
     });
     if (result.needsVision && session.photoBlob) {
       await queueForVision({ reportId: report.id, cropId: session.cropId, photoBlob: session.photoBlob });
+      // If online, recheck with Claude Vision now so the result is ready in Reports.
+      syncNow();
     }
     patch({ answers, result, report });
     go('result');

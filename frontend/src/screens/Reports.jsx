@@ -47,7 +47,9 @@ export default function Reports() {
                   </div>
                   <div className="row" style={{ gap: 6, marginTop: 6, flexWrap: 'wrap' }}>
                     {r.offline && <span className="pill pill--green" style={{ fontSize: 11 }}>📴 {t('reports_offline_tag')}</span>}
-                    {r.status === 'uncertain' && <span className="pill pill--warn" style={{ fontSize: 11 }}>🤖 {t('reports_pending_vision')}</span>}
+                    {r.rechecked
+                      ? <span className="pill pill--green" style={{ fontSize: 11 }}>🤖 {t('rechecked_by_ai')}</span>
+                      : r.status === 'uncertain' && <span className="pill pill--warn" style={{ fontSize: 11 }}>🤖 {t('reports_pending_vision')}</span>}
                   </div>
                 </div>
                 <span className="row" style={{ gap: 6 }}>

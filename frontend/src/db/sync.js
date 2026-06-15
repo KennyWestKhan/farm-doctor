@@ -18,10 +18,28 @@ import {
   removePendingVision,
   getUnsyncedValidations,
   markValidationSynced,
+  updateReport,
 } from './storage';
+import { matchDiseaseByName } from '../data/diseaseDatabase';
 
 const API = import.meta.env.VITE_API_URL || '';
 const BATCH_SIZE = 4;
+
+// Turn a Claude Vision result into a patch for the local report. When the AI's
+// disease name maps to one of our crop's diseases, we adopt it (so the report
+// shows our structured treatments/suppliers); the raw result is always kept.
+function visionPatch(cropId, vision) {
+  const matchedId = matchDiseaseByName(cropId, vision?.disease);
+  const conf = typeof vision?.confidence === 'number' ? vision.confidence : 0;
+  return {
+    vision,
+    visionAt: new Date().toISOString(),
+    rechecked: true,
+    ...(matchedId
+      ? { topDiseaseId: matchedId, confidence: conf, status: conf >= 0.7 ? 'confident' : 'uncertain' }
+      : {}),
+  };
+}
 
 function blobToBase64(blob) {
   return new Promise((resolve, reject) => {
@@ -53,8 +71,13 @@ async function flushVision() {
         cropId: item.cropId,
       }),
     });
-    // On success clear the queue item; otherwise it stays for the next run.
-    if (res.ok) await removePendingVision(item.id);
+    // On success, write the AI diagnosis back onto the report, then clear the
+    // queue item. On failure it stays queued for the next run.
+    if (res.ok) {
+      const vision = await res.json();
+      await updateReport(item.reportId, visionPatch(item.cropId, vision));
+      await removePendingVision(item.id);
+    }
   });
 }
 

@@ -90,6 +90,15 @@ export async function getReport(id) {
   return (await db()).get('reports', id);
 }
 
+/** Merge a patch into a report (single read-modify-write transaction). */
+export async function updateReport(id, patch) {
+  const tx = (await db()).transaction('reports', 'readwrite');
+  const r = await tx.store.get(id);
+  if (r) await tx.store.put({ ...r, ...patch });
+  await tx.done;
+  return r ? { ...r, ...patch } : null;
+}
+
 // ---- pending Claude Vision queue ----------------------------------------
 
 export async function queueForVision({ reportId, cropId, photoBlob }) {

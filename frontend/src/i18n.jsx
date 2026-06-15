@@ -102,6 +102,9 @@ const STRINGS = {
   reports_empty: { en: 'No reports yet. Diagnose a crop to see it here.', twi: 'Krataa biara nni hɔ. Hwɛ mfudeɛ na ɛbɛba ha.' },
   reports_offline_tag: { en: 'Checked offline', twi: 'Hwɛɛ a intanɛt nni hɔ' },
   reports_pending_vision: { en: 'Will recheck with AI online', twi: 'AI bɛsan ahwɛ wɔ intanɛt so' },
+  rechecked_by_ai: { en: 'Rechecked by AI', twi: 'AI asan ahwɛ' },
+  ai_observed: { en: 'What the AI saw', twi: 'Deɛ AI hunuiɛ' },
+  ai_note: { en: 'AI note', twi: 'AI asɛm' },
 
   // Desktop gate
   gate_title: { en: 'Open on your phone', twi: 'Bue wɔ wo fon so' },

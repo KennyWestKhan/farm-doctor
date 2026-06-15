@@ -838,6 +838,30 @@ export function getDisease(diseaseId) {
   return ALL_DISEASES.find((d) => d.id === diseaseId) || null;
 }
 
+/**
+ * Map a free-text disease name (e.g. from Claude Vision) to one of THIS crop's
+ * disease ids, so an AI recheck can reuse our structured treatments/suppliers.
+ * Returns the id or null when nothing matches confidently.
+ */
+export function matchDiseaseByName(cropId, name) {
+  const crop = getCrop(cropId);
+  if (!crop || !name) return null;
+  const n = name.toLowerCase().trim();
+
+  // 1. Whole-name containment either direction (handles "anthracnose" ⊂ "Anthracnose").
+  for (const d of crop.diseases) {
+    const dn = d.name.en.toLowerCase();
+    if (dn === n || dn.includes(n) || n.includes(dn)) return d.id;
+  }
+  // 2. Significant-word overlap (e.g. "brown streak virus" → "Cassava Brown Streak").
+  const words = n.split(/\s+/).filter((w) => w.length > 3);
+  for (const d of crop.diseases) {
+    const dn = d.name.en.toLowerCase();
+    if (words.some((w) => dn.includes(w))) return d.id;
+  }
+  return null;
+}
+
 // Questions relevant to a given crop (union of its diseases' symptom keys),
 // preserving SYMPTOM_QUESTIONS order for a stable checklist.
 export function getQuestionsForCrop(cropId) {
