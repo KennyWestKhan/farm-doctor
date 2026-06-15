@@ -9,7 +9,9 @@
  * server still runs and the relevant endpoint returns a clear 503, so the
  * frontend works in local/offline demo mode without any cloud setup.
  */
-import 'dotenv/config';
+// Load .env for local dev. In production (Render etc.) env vars are injected by
+// the platform, so dotenv is optional — never crash if it isn't installed.
+try { await import('dotenv/config'); } catch { /* dotenv absent: platform provides env */ }
 import express from 'express';
 import cors from 'cors';
 import ws from 'ws';
