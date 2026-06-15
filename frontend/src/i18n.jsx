@@ -68,7 +68,8 @@ const STRINGS = {
   send_feedback: { en: 'Send', twi: 'Fa kɔ' },
   thanks: { en: 'Thank you for helping other farmers!', twi: 'Meda wo ase sɛ woaboa akuafoɔ foforɔ!' },
   back: { en: 'Back', twi: 'San kɔ' },
-  open_whatsapp: { en: 'Message on WhatsApp', twi: 'Soma WhatsApp so' },
+  open_whatsapp: { en: 'WhatsApp', twi: 'WhatsApp' },
+  call_shop: { en: 'Call', twi: 'Frɛ' },
   away: { en: 'away', twi: 'kwan' },
   install_app: { en: 'Add to home screen', twi: 'Fa to fie kɛsɛ so' },
 

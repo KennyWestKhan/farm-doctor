@@ -2,7 +2,7 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { useLang } from '../i18n.jsx';
-import { findSuppliers, whatsappLink } from '../data/suppliers';
+import { findSuppliers, whatsappLink, telLink } from '../data/suppliers';
 
 const icon = new L.Icon({
   iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -49,14 +49,23 @@ export default function SupplierList({ region, productName = '', showMap = true 
           {!productName && (
             <div className="muted" style={{ fontSize: 13 }}>{t('shops_sells')}: {s.products.join(', ')}</div>
           )}
-          <a
-            className="btn btn--block"
-            href={whatsappLink(s, productName || s.products[0], lang)}
-            target="_blank" rel="noopener noreferrer"
-            style={{ textDecoration: 'none', background: '#25D366', boxShadow: 'none' }}
-          >
-            💬 {t('open_whatsapp')}
-          </a>
+          <div className="row" style={{ gap: 10 }}>
+            <a
+              className="btn"
+              href={telLink(s)}
+              style={{ textDecoration: 'none', flex: 1, background: 'var(--green)', boxShadow: 'none' }}
+            >
+              📞 {t('call_shop')}
+            </a>
+            <a
+              className="btn"
+              href={whatsappLink(s, productName || s.products[0], lang)}
+              target="_blank" rel="noopener noreferrer"
+              style={{ textDecoration: 'none', flex: 1, background: '#25D366', boxShadow: 'none' }}
+            >
+              💬 {t('open_whatsapp')}
+            </a>
+          </div>
         </div>
       ))}
     </div>

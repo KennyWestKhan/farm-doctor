@@ -42,6 +42,11 @@ export function findSuppliers(region, treatmentName = '') {
   });
 }
 
+/** Builds a tel: link that opens the phone dialer with the shop's number preloaded. */
+export function telLink(supplier) {
+  return `tel:${supplier.whatsapp.replace(/[^0-9+]/g, '')}`;
+}
+
 /** Builds a wa.me deep link with a pre-filled, polite product enquiry. */
 export function whatsappLink(supplier, productName, lang = 'en') {
   const msg =
