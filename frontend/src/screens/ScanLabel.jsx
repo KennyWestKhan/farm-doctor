@@ -80,10 +80,10 @@ export default function ScanLabel() {
   if (step === 'intro' || step === 'error') {
     return (
       <div className="screen page-enter" style={{ display: 'flex', flexDirection: 'column' }}>
-        <Header title={t('scan_title')} onBack={() => nav('/')} />
+        <Header title={t('scan_label_title')} onBack={() => nav('/scan')} />
         <div className="stagger stack" style={{ marginTop: 6 }}>
           <div className="card center stack">
-            <div style={{ fontSize: 52 }}>🧴📷</div>
+            <div style={{ fontSize: 52 }}>🏷️📷</div>
             <p className="muted" style={{ margin: 0 }}>{t('scan_subtitle')}</p>
           </div>
           {step === 'error' && (
@@ -114,7 +114,7 @@ export default function ScanLabel() {
   if (step === 'loading') {
     return (
       <div className="screen page-enter">
-        <Header title={t('scan_title')} onBack={reset} />
+        <Header title={t('scan_label_title')} onBack={reset} />
         <div className="card center stack" style={{ marginTop: 40 }}>
           <div className="pop" style={{ fontSize: 48 }}>🔎</div>
           <strong style={{ fontFamily: 'var(--font-display)' }}>{t('scan_reading')}</strong>
@@ -136,7 +136,7 @@ export default function ScanLabel() {
 
   return (
     <div className="screen page-enter">
-      <Header title={t('scan_title')} onBack={reset} />
+      <Header title={t('scan_label_title')} onBack={reset} />
       <div className="stagger">
         <div className="card stack">
           <div className="between" style={{ alignItems: 'flex-start' }}>

@@ -127,9 +127,20 @@ const STRINGS = {
   result_label: { en: 'Result', twi: 'Deɛ ɛyɛeɛ' },
   not_found: { en: 'Report not found', twi: 'Yɛanhunu krataa no' },
 
+  // Scan hub
+  scan_title: { en: 'Scan', twi: 'Scan' },
+  scan_home_cta: { en: 'Scan crop or label', twi: 'Scan mfudeɛ anaa label' },
+  scan_home_desc: { en: 'Take a photo to find a crop disease or understand a chemical label.', twi: 'Twa mfonin hwehwɛ mfudeɛ yadeɛ anaa te aduro label ase.' },
+  scan_hub_subtitle: { en: 'Take a photo — what do you want to scan?', twi: 'Twa mfonin — ɛdeɛn na wopɛ sɛ wo scan?' },
+  scan_crop_title: { en: 'Scan my crop', twi: 'Scan me mfudeɛ' },
+  scan_crop_desc: { en: 'Photograph the sick plant. We find the disease and tell you what to do.', twi: 'Twa afifideɛ a ayare no mfonin. Yɛbɛhwehwɛ yadeɛ no na yɛaka deɛ wonyɛ.' },
+  scan_crop_cta: { en: 'Take photo of the crop', twi: 'Twa mfudeɛ no mfonin' },
+  scan_crop_reading: { en: 'Looking at your crop…', twi: 'Yɛrehwɛ wo mfudeɛ no…' },
+  scan_crop_unclear: { en: 'The photo was unclear. Try again in good light, or answer questions instead.', twi: 'Mfonin no mu anna hɔ. San sɔ hwɛ wɔ hann mu, anaa bua nsɛmmisa.' },
+  scan_use_questions: { en: 'Answer questions instead', twi: 'Bua nsɛmmisa mmom' },
+
   // Scan a label
-  scan_title: { en: 'Scan a label', twi: 'Scan label no' },
-  scan_home_cta: { en: 'Scan a chemical label', twi: 'Scan aduro label' },
+  scan_label_title: { en: 'Scan a label', twi: 'Scan label' },
   scan_subtitle: { en: 'Photograph the writing on the chemical container — we turn it into plain words.', twi: 'Twa mfonin fa nsɛm a ɛwɔ aduro toa no so — yɛbɛdane no nsɛm a wote aseɛ.' },
   scan_cta: { en: 'Take photo of the label', twi: 'Twa label no mfonin' },
   scan_from_result: { en: 'Bought it? Scan the label', twi: 'Woatɔ? Scan label no' },

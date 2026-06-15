@@ -40,7 +40,7 @@ export default function Result({ session, onRestart, onHome }) {
           region={region}
         />
         {/* Bought the chemical? Scan its label for plain-language directions. */}
-        <button className="card" onClick={() => nav('/scan')} style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14 }}>
+        <button className="card" onClick={() => nav('/scan/label')} style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14 }}>
           <span style={{ fontSize: 30 }}>🧴</span>
           <strong style={{ flex: 1, fontFamily: 'var(--font-display)', fontSize: 16 }}>{t('scan_from_result')}</strong>
           <span style={{ fontSize: 20, color: 'var(--green)' }}>→</span>
