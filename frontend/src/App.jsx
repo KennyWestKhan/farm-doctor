@@ -7,6 +7,7 @@ import DiagnoseFlow from './screens/DiagnoseFlow.jsx';
 import Shops from './screens/Shops.jsx';
 import Reports from './screens/Reports.jsx';
 import ReportDetail from './screens/ReportDetail.jsx';
+import ScanLabel from './screens/ScanLabel.jsx';
 import Dashboard from './screens/Dashboard.jsx';
 
 // Layout for the four tabbed screens: scrollable content + fixed bottom nav.
@@ -33,6 +34,7 @@ export default function App() {
           <Route path="/shops" element={<Shops />} />
           <Route path="/reports" element={<Reports />} />
           <Route path="/reports/:id" element={<ReportDetail />} />
+          <Route path="/scan" element={<ScanLabel />} />
         </Route>
       </Routes>
     </MobileGate>

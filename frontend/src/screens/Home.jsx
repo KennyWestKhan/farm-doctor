@@ -123,6 +123,16 @@ export default function Home() {
           <span style={{ fontSize: 22, color: 'var(--green)' }}>→</span>
         </button>
 
+        {/* Scan a label */}
+        <button className="card" onClick={() => nav('/scan')} style={{ marginTop: 14, display: 'flex', alignItems: 'center', gap: 14 }}>
+          <span style={{ fontSize: 34 }}>🧴</span>
+          <span style={{ flex: 1 }}>
+            <strong style={{ fontFamily: 'var(--font-display)', fontSize: 18, display: 'block' }}>{t('scan_home_cta')}</strong>
+            <span className="muted" style={{ fontSize: 13 }}>{t('scan_subtitle')}</span>
+          </span>
+          <span style={{ fontSize: 22, color: 'var(--green)' }}>→</span>
+        </button>
+
         {/* Quick actions */}
         <div className="row" style={{ marginTop: 16 }}>
           <button className="card" onClick={() => nav('/shops')} style={{ flex: 1 }}>
