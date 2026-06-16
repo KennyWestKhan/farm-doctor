@@ -1,6 +1,7 @@
 import { useLang } from '../i18n.jsx';
 import CropPhoto from './CropPhoto.jsx';
 import TreatmentCard from './TreatmentCard.jsx';
+import DiseaseVideos from './DiseaseVideos.jsx';
 
 /**
  * Presentational view of a single diagnosis: photo hero with the disease +
@@ -61,6 +62,8 @@ export default function DiagnosisDetail({ cropId, disease, confidencePct, uncert
           <TreatmentCard treatment={tr} region={region} />
         </div>
       ))}
+
+      <DiseaseVideos disease={disease} />
     </>
   );
 }

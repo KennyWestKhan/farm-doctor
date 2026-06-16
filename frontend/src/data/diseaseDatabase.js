@@ -358,6 +358,9 @@ export const CROPS = [
         },
         seasonal_months: [1, 2, 3, 11, 12],
         peak_month: 2,
+        // Curated authoritative video(s). Add YouTube IDs to embed; others fall
+        // back to a YouTube search. (F_LEL7G2SjA: "How to identify Cassava Brown Streak".)
+        videos: ['F_LEL7G2SjA'],
         treatments: [
           {
             id: 'cassava_cbsd_rogue',
@@ -401,6 +404,7 @@ export const CROPS = [
         },
         seasonal_months: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
         peak_month: 5,
+        videos: ['Qqy9NYNqKTU'], // IITA: cassava mosaic & brown streak threat
         treatments: [
           {
             id: 'cassava_cmd_resistant',

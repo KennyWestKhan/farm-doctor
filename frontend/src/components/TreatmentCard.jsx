@@ -44,11 +44,6 @@ export default function TreatmentCard({ treatment, region }) {
         ))}
       </div>
 
-      <div className="row" style={{ gap: 10, padding: '10px 14px', background: 'var(--green-tint)', borderRadius: 'var(--radius)' }}>
-        <span style={{ fontSize: 22 }}>▶️</span>
-        <span style={{ fontSize: 15 }}>{t('watch_video')} <span className="muted">(soon)</span></span>
-      </div>
-
       <button className="btn btn--block" onClick={() => setShowShops(true)}>🏪 {t('find_suppliers')}</button>
 
       {showShops && (
