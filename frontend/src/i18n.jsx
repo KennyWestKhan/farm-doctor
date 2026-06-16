@@ -189,6 +189,46 @@ const STRINGS = {
   install_ios_post: { en: "then 'Add to Home Screen'", twi: "na pia 'Add to Home Screen'" },
   install_offline_perk: { en: 'Works offline', twi: 'Yɛ adwuma a intanɛt nni hɔ' },
   install_fast_perk: { en: 'Opens instantly', twi: 'Bue ntɛm' },
+
+  // Welcome / Auth
+  welcome_sign_in: { en: 'Sign in with phone', twi: 'De wo fon nɔma bra mu' },
+  welcome_guest: { en: 'Continue as guest', twi: 'Kɔ so sɛ ahɔho' },
+  welcome_guest_note: { en: 'Guest mode works fully offline. Sign in later to save your data across devices.', twi: 'Ahɔho kwan yɛ adwuma a intanɛt nni hɔ. Bra mu akyire na wo data bɛtra wɔ fon biara so.' },
+  welcome_phone_title: { en: 'Your phone number', twi: 'Wo fon nɔma' },
+  welcome_phone_desc: { en: "We'll send a code to verify it's you.", twi: 'Yɛbɛde kɔɔd abrɛ wo de ahwɛ sɛ ɛyɛ wo.' },
+  welcome_phone_invalid: { en: 'Enter a valid phone number', twi: 'Hyɛ fon nɔma pa' },
+  welcome_send_code: { en: 'Send code', twi: 'De kɔɔd brɛ me' },
+  welcome_skip: { en: 'Skip for now', twi: 'Gyae seesei' },
+  welcome_verify_title: { en: 'Enter the code', twi: 'Hyɛ kɔɔd no' },
+  welcome_verify_desc: { en: 'We sent a code to', twi: 'Yɛde kɔɔd abrɛ' },
+  welcome_verify_btn: { en: 'Verify', twi: 'Hwɛ' },
+  welcome_code_invalid: { en: 'Enter the code we sent you', twi: 'Hyɛ kɔɔd a yɛde brɛɛ wo no' },
+  welcome_resend: { en: 'Send code again', twi: 'San de kɔɔd brɛ me' },
+
+  // Profile
+  profile_title: { en: 'Profile', twi: 'Wo ho nsɛm' },
+  profile_signed_in: { en: 'Signed in', twi: 'Wɔabra mu' },
+  profile_guest: { en: 'Guest', twi: 'Ahɔho' },
+  profile_guest_desc: { en: 'Sign in to save your data across devices', twi: 'Bra mu na wo data bɛtra wɔ fon biara so' },
+  profile_sign_in: { en: 'Sign in', twi: 'Bra mu' },
+  profile_sign_out: { en: 'Sign out', twi: 'Fi mu' },
+  profile_language: { en: 'Language', twi: 'Kasa' },
+  profile_region: { en: 'Region', twi: 'Mpɔtam' },
+  profile_crops: { en: 'My crops', twi: 'Me mfudeɛ' },
+  profile_my_diagnoses: { en: 'My diagnoses', twi: 'Me nhwɛsoɔ' },
+  profile_fav_suppliers: { en: 'Favourite shops', twi: 'Sotɔɔ a mepɛ' },
+  profile_default_supplier: { en: 'My go-to shop', twi: 'Me sotɔɔ titire' },
+  profile_no_favs: { en: 'No favourite shops yet. Star a shop to save it here.', twi: 'Sotɔɔ biara nni ha. Fa nsoromma to sotɔɔ so de kora no ha.' },
+  profile_notes: { en: 'Notes', twi: 'Nsɛm' },
+  profile_add_note: { en: 'Add a note about this shop', twi: 'Ka biribi fa saa sotɔɔ yi ho' },
+  profile_set_default: { en: 'Set as my go-to shop', twi: 'Yɛ me sotɔɔ titire' },
+  profile_is_default: { en: 'Your go-to shop', twi: 'Wo sotɔɔ titire' },
+  profile_remove_fav: { en: 'Remove from favourites', twi: 'Yi fi me pɛ mu' },
+  profile_suggest_fav: { en: 'You contact this shop often. Add to favourites?', twi: 'Wone saa sotɔɔ yi di nkutaho pii. Fa to wo pɛ mu?' },
+  profile_crop_select: { en: 'Select your crops', twi: 'Paw wo mfudeɛ' },
+
+  // Scan limit
+  scan_limit_reached: { en: 'You have reached your daily scan limit. Try again tomorrow.', twi: 'Woadu wo scan dodow ɛnnɛ. Sɔ hwɛ ɔkyena.' },
 };
 
 const Ctx = createContext(null);

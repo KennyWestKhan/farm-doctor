@@ -14,40 +14,7 @@
  *    reads just N rows via a reverse cursor.
  *  - Single-transaction writes for read-modify-write (markValidationSynced).
  */
-import { openDB } from 'idb';
-
-const DB_NAME = 'farm-doctor';
-const DB_VERSION = 2; // v2: add `reportId` index on validations
-
-let _dbPromise = null;
-
-function db() {
-  if (!_dbPromise) {
-    _dbPromise = openDB(DB_NAME, DB_VERSION, {
-      upgrade(database, oldVersion, _newVersion, tx) {
-        if (!database.objectStoreNames.contains('reports')) {
-          database.createObjectStore('reports', { keyPath: 'id' }).createIndex('createdAt', 'createdAt');
-        }
-        if (!database.objectStoreNames.contains('pendingVision')) {
-          database.createObjectStore('pendingVision', { keyPath: 'id' });
-        }
-        if (!database.objectStoreNames.contains('validations')) {
-          const v = database.createObjectStore('validations', { keyPath: 'id' });
-          v.createIndex('synced', 'synced');
-          v.createIndex('reportId', 'reportId');
-        } else if (oldVersion < 2) {
-          // Existing installs: add the new index to the live store.
-          const v = tx.objectStore('validations');
-          if (!v.indexNames.contains('reportId')) v.createIndex('reportId', 'reportId');
-        }
-      },
-      terminated() {
-        _dbPromise = null; // allow a reconnect if the connection is dropped
-      },
-    });
-  }
-  return _dbPromise;
-}
+import { db } from './favorites';
 
 const uid = () =>
   (crypto.randomUUID && crypto.randomUUID()) ||

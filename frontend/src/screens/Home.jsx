@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLang } from '../i18n.jsx';
 import { LangToggle, NetDot } from '../components/Chrome.jsx';
+import { useAuth } from '../auth/AuthContext.jsx';
 import { getRecentReports } from '../db/storage';
 import { getCrop, getDisease, REGIONS } from '../data/diseaseDatabase';
 import CropPhoto from '../components/CropPhoto.jsx';
@@ -21,6 +22,7 @@ function greetingKey() {
 export default function Home() {
   const { t, pick } = useLang();
   const nav = useNavigate();
+  const { user } = useAuth();
   const [recent, setRecent] = useState([]);
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
@@ -51,7 +53,17 @@ export default function Home() {
             <div style={{ opacity: 0.85, fontSize: 14 }}>{t(greetingKey())} 👋</div>
             <h1 style={{ marginTop: 2 }}>{t('app_name')}</h1>
           </div>
-          <LangToggle onGradient />
+          <div className="row" style={{ gap: 8 }}>
+            <LangToggle onGradient />
+            <button
+              className="icon-btn icon-btn--on-grad"
+              onClick={() => nav('/profile')}
+              aria-label="Profile"
+              style={{ width: 38, height: 38, fontSize: 16 }}
+            >
+              {user ? '👤' : '👋'}
+            </button>
+          </div>
         </div>
 
         {/* Location chip — set once, change anytime */}

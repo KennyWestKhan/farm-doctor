@@ -42,6 +42,11 @@ export default function ScanLabel() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
     });
+    if (res.status === 429) {
+      const err = new Error('scan_limit');
+      err.isLimit = true;
+      throw err;
+    }
     if (!res.ok) throw new Error(`status ${res.status}`);
     return res.json();
   }
@@ -54,8 +59,8 @@ export default function ScanLabel() {
       const data = await callTranslate({ imageBase64, mediaType: file.type || 'image/jpeg' });
       setResult(data);
       setStep('result');
-    } catch {
-      setErrorMsg(t('scan_failed'));
+    } catch (err) {
+      setErrorMsg(err?.isLimit ? t('scan_limit_reached') : t('scan_failed'));
       setStep('error');
     }
   }

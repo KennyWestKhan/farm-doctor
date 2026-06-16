@@ -72,6 +72,27 @@ create table if not exists validations (
   created_at timestamptz default now()
 );
 
+-- User preferences (synced from device for logged-in users)
+create table if not exists user_preferences (
+  user_id uuid primary key references auth.users(id),
+  region text,
+  lang text default 'en',
+  crop_ids text[] default '{}',
+  favourite_suppliers jsonb default '[]',
+  default_supplier_id text,
+  updated_at timestamptz default now()
+);
+
+-- Supplier notes (per user)
+create table if not exists supplier_notes (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid references auth.users(id),
+  supplier_id text not null,
+  notes text,
+  created_at timestamptz default now(),
+  unique(user_id, supplier_id)
+);
+
 -- Convenience view: success rate by treatment + region for the dashboard.
 create or replace view treatment_success_rates as
 select

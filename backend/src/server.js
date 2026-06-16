@@ -58,6 +58,41 @@ const supabase =
 
 const VISION_MODEL = process.env.VISION_MODEL || 'claude-haiku-4-5-20251001';
 
+// ---- scan rate limiting (protect Claude credits) ----------------------------
+// SCAN_LIMIT controls how many AI scans (diagnose + label) each user gets.
+// 0 or unset = unlimited. Keyed by user ID header or IP.
+const SCAN_LIMIT = parseInt(process.env.SCAN_LIMIT, 10) || 0;
+const scanCounts = new Map(); // key → { count, resetAt }
+const SCAN_WINDOW_MS = 24 * 60 * 60 * 1000; // 24-hour rolling window
+
+function scanLimiter(req, res, next) {
+  if (!SCAN_LIMIT) return next();
+
+  const key = req.headers['x-user-id'] || req.ip;
+  const now = Date.now();
+  let entry = scanCounts.get(key);
+
+  if (!entry || now > entry.resetAt) {
+    entry = { count: 0, resetAt: now + SCAN_WINDOW_MS };
+    scanCounts.set(key, entry);
+  }
+
+  if (entry.count >= SCAN_LIMIT) {
+    const retryAfter = Math.ceil((entry.resetAt - now) / 1000);
+    res.set('Retry-After', String(retryAfter));
+    return res.status(429).json({
+      error: 'scan_limit_reached',
+      limit: SCAN_LIMIT,
+      retryAfterSeconds: retryAfter,
+    });
+  }
+
+  entry.count++;
+  scanCounts.set(key, entry);
+  res.set('X-Scans-Remaining', String(SCAN_LIMIT - entry.count));
+  next();
+}
+
 // Textract for label OCR. The AWS SDK reads AWS_REGION / AWS_ACCESS_KEY_ID /
 // AWS_SECRET_ACCESS_KEY from the environment automatically.
 const textract = process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY
@@ -65,7 +100,7 @@ const textract = process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_
   : null;
 
 app.get('/api/health', (_req, res) => {
-  res.json({ ok: true, vision: !!anthropic, db: !!supabase, ocr: !!textract });
+  res.json({ ok: true, vision: !!anthropic, db: !!supabase, ocr: !!textract, scanLimit: SCAN_LIMIT || null });
 });
 
 /**
@@ -73,7 +108,7 @@ app.get('/api/health', (_req, res) => {
  * Accepts a base64 image (JSON: { imageBase64, mediaType, reportId }).
  * Returns the parsed Vision diagnosis JSON.
  */
-app.post('/api/diagnose', async (req, res) => {
+app.post('/api/diagnose', scanLimiter, async (req, res) => {
   if (!anthropic) {
     return res.status(503).json({ error: 'Vision not configured (missing ANTHROPIC_API_KEY)' });
   }
@@ -124,7 +159,7 @@ app.post('/api/diagnose', async (req, res) => {
  * Refine pass: { rawText, context }                  → skip OCR, re-translate.
  * `context` = { farmSize, crop, growthStage, note } (all sanitized here).
  */
-app.post('/api/translate-label', async (req, res) => {
+app.post('/api/translate-label', scanLimiter, async (req, res) => {
   if (!anthropic) return res.status(503).json({ error: 'Translation not configured (missing ANTHROPIC_API_KEY)' });
 
   const { imageBase64, rawText, context = {} } = req.body || {};

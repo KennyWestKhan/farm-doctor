@@ -58,6 +58,11 @@ export default function ScanCrop() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ imageBase64, mediaType: file.type || 'image/jpeg' }),
       });
+      if (res.status === 429) {
+        setFeedback(t('scan_limit_reached'));
+        setStep('unclear');
+        return;
+      }
       if (!res.ok) throw new Error('vision failed');
       const v = await res.json();
       const detectedCrop = matchCropByName(v.crop) || CROPS[0].id;
