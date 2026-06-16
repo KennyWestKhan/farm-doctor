@@ -118,7 +118,7 @@ export default function ScanLabel() {
         <div className="card center stack" style={{ marginTop: 40 }}>
           <div className="pop" style={{ fontSize: 48 }}>🔎</div>
           <strong style={{ fontFamily: 'var(--font-display)' }}>{t('scan_reading')}</strong>
-          <div className="meter" style={{ width: '70%' }}><span style={{ '--to': '90%' }} /></div>
+          <div className="meter" style={{ width: '100%' }}><span style={{ '--to': '92%' }} /></div>
         </div>
       </div>
     );

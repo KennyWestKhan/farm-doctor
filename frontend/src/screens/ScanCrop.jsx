@@ -3,12 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { useLang } from '../i18n.jsx';
 import { Header } from '../components/Chrome.jsx';
 import { useOnline } from '../components/useOnline';
-import CropSelect from './CropSelect.jsx';
 import DiagnosisDetail from '../components/DiagnosisDetail.jsx';
 import AiTag from '../components/AiTag.jsx';
-import { getDisease, matchDiseaseByName } from '../data/diseaseDatabase';
+import { CROPS, getDisease, matchCropByName, matchDiseaseByName } from '../data/diseaseDatabase';
 import { buildRegionalNote } from '../engine/symptomMatcher';
-import { saveReport } from '../db/storage';
+import { saveReport, updateReport } from '../db/storage';
 import { getSavedRegion } from '../utils/prefs';
 
 const API = import.meta.env.VITE_API_URL || '';
@@ -23,10 +22,10 @@ function fileToBase64(file) {
 }
 
 /**
- * Scan-my-crop: pick crop → photograph the plant → Claude Vision diagnoses →
- * reconstruct full treatments via our DB and save a report. Online-only (Vision
- * needs internet); no AWS needed. Falls back to the symptom checklist when the
- * photo is unclear.
+ * Scan-my-crop: straight to the camera (no crop-picking step). Claude Vision
+ * identifies BOTH the crop and the disease; the result shows the diagnosis with
+ * a crop dropdown pre-filled with the detected crop, which the farmer can correct
+ * (re-deriving the disease within the chosen crop).
  */
 export default function ScanCrop() {
   const { t, pick } = useLang();
@@ -34,13 +33,20 @@ export default function ScanCrop() {
   const online = useOnline();
   const inputRef = useRef(null);
 
-  const [step, setStep] = useState('crop'); // crop | photo | loading | result | unclear
+  const [step, setStep] = useState('capture'); // capture | loading | result | unclear
+  const [vision, setVision] = useState(null);
   const [cropId, setCropId] = useState(null);
-  const [diag, setDiag] = useState(null); // { disease, confidencePct, uncertain, regionalNote, vision }
+  const [reportId, setReportId] = useState(null);
   const [feedback, setFeedback] = useState('');
 
   const region = getSavedRegion();
   const canScan = online && API;
+
+  // Derive the diagnosis for the currently-selected crop from the AI's disease text.
+  const matchedId = vision ? matchDiseaseByName(cropId, vision.disease) : null;
+  const disease = matchedId ? getDisease(matchedId) : null;
+  const conf = typeof vision?.confidence === 'number' ? vision.confidence : 0;
+  const status = matchedId && conf >= 0.7 ? 'confident' : matchedId ? 'uncertain' : 'no_match';
 
   async function onPhoto(file) {
     if (!file) return;
@@ -53,43 +59,43 @@ export default function ScanCrop() {
         body: JSON.stringify({ imageBase64, mediaType: file.type || 'image/jpeg' }),
       });
       if (!res.ok) throw new Error('vision failed');
-      const vision = await res.json();
+      const v = await res.json();
+      const detectedCrop = matchCropByName(v.crop) || CROPS[0].id;
+      const did = matchDiseaseByName(detectedCrop, v.disease);
+      const c = typeof v.confidence === 'number' ? v.confidence : 0;
+      const st = did && c >= 0.7 ? 'confident' : did ? 'uncertain' : 'no_match';
 
-      const matchedId = matchDiseaseByName(cropId, vision.disease);
-      const conf = typeof vision.confidence === 'number' ? vision.confidence : 0;
-      const status = matchedId && conf >= 0.7 ? 'confident' : matchedId ? 'uncertain' : 'no_match';
+      const report = await saveReport({ cropId: detectedCrop, region, topDiseaseId: did, confidence: c, status: st, hadPhoto: true, vision: v, rechecked: true });
 
-      // Save so it shows in Reports, with the raw AI result attached.
-      await saveReport({ cropId, region, topDiseaseId: matchedId, confidence: conf, status, hadPhoto: true, vision, rechecked: true });
+      setVision(v);
+      setCropId(detectedCrop);
+      setReportId(report.id);
 
-      if (matchedId) {
-        const disease = getDisease(matchedId);
-        setDiag({
-          disease,
-          confidencePct: Math.round(conf * 100),
-          uncertain: status !== 'confident',
-          regionalNote: status === 'confident' ? buildRegionalNote(disease, region, new Date()) : null,
-          vision,
-        });
-        setStep('result');
-      } else {
-        setFeedback(vision.feedback_if_unclear || t('scan_crop_unclear'));
-        setStep('unclear');
-      }
+      if (did) setStep('result');
+      else { setFeedback(v.feedback_if_unclear || t('scan_crop_unclear')); setStep('unclear'); }
     } catch {
       setFeedback(t('scan_failed'));
       setStep('unclear');
     }
   }
 
-  if (step === 'crop') {
-    return <CropSelect onPick={(id) => { setCropId(id); setStep('photo'); }} onBack={() => nav('/scan')} />;
+  // Farmer corrects the crop → re-derive disease and update the saved report.
+  function changeCrop(newCropId) {
+    setCropId(newCropId);
+    if (reportId && vision) {
+      const did = matchDiseaseByName(newCropId, vision.disease);
+      const st = did && conf >= 0.7 ? 'confident' : did ? 'uncertain' : 'no_match';
+      updateReport(reportId, { cropId: newCropId, topDiseaseId: did, status: st });
+    }
   }
 
-  if (step === 'photo') {
+  const restart = () => { setVision(null); setCropId(null); setReportId(null); setStep('capture'); };
+
+  // ---- capture (entry) ----
+  if (step === 'capture') {
     return (
       <div className="screen page-enter" style={{ display: 'flex', flexDirection: 'column' }}>
-        <Header title={t('scan_crop_title')} onBack={() => setStep('crop')} />
+        <Header title={t('scan_crop_title')} onBack={() => nav('/scan')} />
         <div className="stagger stack" style={{ marginTop: 6 }}>
           <div className="card center stack">
             <div style={{ fontSize: 52 }}>🌿📷</div>
@@ -112,7 +118,7 @@ export default function ScanCrop() {
   if (step === 'loading') {
     return (
       <div className="screen page-enter">
-        <Header title={t('scan_crop_title')} onBack={() => setStep('photo')} />
+        <Header title={t('scan_crop_title')} onBack={restart} />
         <div className="card center stack" style={{ marginTop: 40 }}>
           <div className="pop" style={{ fontSize: 48 }}>🔎</div>
           <strong style={{ fontFamily: 'var(--font-display)' }}>{t('scan_crop_reading')}</strong>
@@ -125,36 +131,57 @@ export default function ScanCrop() {
   if (step === 'unclear') {
     return (
       <div className="screen page-enter">
-        <Header title={t('scan_crop_title')} onBack={() => setStep('crop')} />
+        <Header title={t('scan_crop_title')} onBack={restart} />
         <div className="stagger stack">
           <div className="card center stack" style={{ marginTop: 8 }}>
             <div style={{ fontSize: 48 }}>🤔</div>
             <p className="muted" style={{ margin: 0 }}>{feedback}</p>
           </div>
-          <button className="btn btn--block" onClick={() => setStep('photo')}>📷 {t('scan_crop_cta')}</button>
+          <button className="btn btn--block" onClick={() => setStep('capture')}>📷 {t('scan_crop_cta')}</button>
           <button className="btn btn--tint btn--block" onClick={() => nav('/diagnose')}>📋 {t('scan_use_questions')}</button>
         </div>
       </div>
     );
   }
 
-  // result
+  // ---- result ----
   return (
     <div className="screen page-enter">
-      <Header title={t('diagnosis')} onBack={() => nav('/scan')} action={<AiTag vision={diag.vision} />} />
+      <Header title={t('diagnosis')} onBack={() => nav('/scan')} action={<AiTag vision={vision} />} />
       <div className="stagger">
-        <DiagnosisDetail
-          cropId={cropId}
-          disease={diag.disease}
-          confidencePct={diag.confidencePct}
-          uncertain={diag.uncertain}
-          regionalNote={diag.regionalNote}
-          region={region}
-          uncertainNote={t('uncertain_ai_body')}
-        />
-        <button className="btn btn--tint btn--block" onClick={() => { setStep('crop'); setCropId(null); setDiag(null); }} style={{ marginTop: 14 }}>
-          📷 {t('scan_again')}
-        </button>
+        {/* Editable crop — prefilled with what the AI detected */}
+        <div className="card" style={{ marginBottom: 14 }}>
+          <label className="muted" style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+            {t('scan_crop_label')}
+          </label>
+          <select
+            value={cropId}
+            onChange={(e) => changeCrop(e.target.value)}
+            style={{ width: '100%', marginTop: 8, padding: 14, fontSize: 17, fontFamily: 'var(--font-display)', fontWeight: 700, color: 'var(--ink)', border: '2px solid var(--line)', borderRadius: 'var(--radius)', background: '#fff' }}
+          >
+            {CROPS.map((c) => <option key={c.id} value={c.id}>{pick(c.name)}</option>)}
+          </select>
+        </div>
+
+        {disease ? (
+          <DiagnosisDetail
+            cropId={cropId}
+            disease={disease}
+            confidencePct={Math.round(conf * 100)}
+            uncertain={status !== 'confident'}
+            regionalNote={status === 'confident' ? buildRegionalNote(disease, region, new Date()) : null}
+            region={region}
+            uncertainNote={t('uncertain_ai_body')}
+          />
+        ) : (
+          <div className="card center stack">
+            <div style={{ fontSize: 44 }}>🤔</div>
+            <p className="muted" style={{ margin: 0 }}>{t('scan_crop_unclear')}</p>
+            <button className="btn btn--tint btn--block" onClick={() => nav('/diagnose')}>📋 {t('scan_use_questions')}</button>
+          </div>
+        )}
+
+        <button className="btn btn--tint btn--block" onClick={restart} style={{ marginTop: 14 }}>📷 {t('scan_again')}</button>
       </div>
     </div>
   );

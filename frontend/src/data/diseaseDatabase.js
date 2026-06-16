@@ -842,6 +842,20 @@ export function getDisease(diseaseId) {
   return ALL_DISEASES.find((d) => d.id === diseaseId) || null;
 }
 
+/** Map a free-text crop name (e.g. from Claude Vision) to one of our crop ids. */
+export function matchCropByName(name) {
+  if (!name) return null;
+  const n = name.toLowerCase().trim();
+  for (const c of CROPS) {
+    const cn = c.name.en.toLowerCase();
+    if (cn === n || cn.includes(n) || n.includes(cn)) return c.id;
+  }
+  for (const c of CROPS) {
+    if (c.name.en.toLowerCase().split(/\s+/).some((w) => w.length > 3 && n.includes(w))) return c.id;
+  }
+  return null;
+}
+
 /**
  * Map a free-text disease name (e.g. from Claude Vision) to one of THIS crop's
  * disease ids, so an AI recheck can reuse our structured treatments/suppliers.

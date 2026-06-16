@@ -146,6 +146,8 @@ const STRINGS = {
   scan_crop_reading: { en: 'Looking at your crop…', twi: 'Yɛrehwɛ wo mfudeɛ no…' },
   scan_crop_unclear: { en: 'The photo was unclear. Try again in good light, or answer questions instead.', twi: 'Mfonin no mu anna hɔ. San sɔ hwɛ wɔ hann mu, anaa bua nsɛmmisa.' },
   scan_use_questions: { en: 'Answer questions instead', twi: 'Bua nsɛmmisa mmom' },
+  scan_crop_label: { en: 'Crop (change if wrong)', twi: 'Mfudeɛ (sesa sɛ ɛnyɛ)' },
+  scan_detected: { en: 'We think this is', twi: 'Yɛsusu sɛ yei yɛ' },
 
   // Scan a label
   scan_label_title: { en: 'Scan a label', twi: 'Scan label' },
