@@ -5,6 +5,7 @@ import { Header } from '../components/Chrome.jsx';
 import { useOnline } from '../components/useOnline';
 import CropSelect from './CropSelect.jsx';
 import DiagnosisDetail from '../components/DiagnosisDetail.jsx';
+import AiTag from '../components/AiTag.jsx';
 import { getDisease, matchDiseaseByName } from '../data/diseaseDatabase';
 import { buildRegionalNote } from '../engine/symptomMatcher';
 import { saveReport } from '../db/storage';
@@ -140,7 +141,7 @@ export default function ScanCrop() {
   // result
   return (
     <div className="screen page-enter">
-      <Header title={t('diagnosis')} onBack={() => nav('/scan')} />
+      <Header title={t('diagnosis')} onBack={() => nav('/scan')} action={<AiTag vision={diag.vision} />} />
       <div className="stagger">
         <DiagnosisDetail
           cropId={cropId}
@@ -151,12 +152,6 @@ export default function ScanCrop() {
           region={region}
           uncertainNote={t('uncertain_ai_body')}
         />
-        {diag.vision?.symptoms_observed && (
-          <div className="card" style={{ background: 'var(--green-tint)', marginTop: 14 }}>
-            <span className="pill pill--green" style={{ marginBottom: 8 }}>🤖 {t('ai_observed')}</span>
-            <div style={{ fontSize: 15 }}>{diag.vision.symptoms_observed}</div>
-          </div>
-        )}
         <button className="btn btn--tint btn--block" onClick={() => { setStep('crop'); setCropId(null); setDiag(null); }} style={{ marginTop: 14 }}>
           📷 {t('scan_again')}
         </button>

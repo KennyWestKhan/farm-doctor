@@ -108,6 +108,7 @@ const STRINGS = {
   reports_offline_tag: { en: 'Checked offline', twi: 'Hwɛɛ a intanɛt nni hɔ' },
   reports_pending_vision: { en: 'Will recheck with AI online', twi: 'AI bɛsan ahwɛ wɔ intanɛt so' },
   rechecked_by_ai: { en: 'Rechecked by AI', twi: 'AI asan ahwɛ' },
+  ai_tag: { en: 'AI', twi: 'AI' },
   ai_observed: { en: 'What the AI saw', twi: 'Deɛ AI hunuiɛ' },
   ai_note: { en: 'AI note', twi: 'AI asɛm' },
 

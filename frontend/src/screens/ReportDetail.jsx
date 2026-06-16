@@ -5,6 +5,7 @@ import { getDisease } from '../data/diseaseDatabase';
 import { buildRegionalNote } from '../engine/symptomMatcher';
 import { getReport, getValidationsForReport } from '../db/storage';
 import DiagnosisDetail from '../components/DiagnosisDetail.jsx';
+import AiTag from '../components/AiTag.jsx';
 import { Header } from '../components/Chrome.jsx';
 
 /**
@@ -68,14 +69,13 @@ export default function ReportDetail() {
   if (!disease) {
     return (
       <div className="screen page-enter">
-        <Header title={t('diagnosis')} onBack={back} />
+        <Header title={t('diagnosis')} onBack={back} action={<AiTag vision={report.vision} />} />
         <div className="stagger">
           <div className="card center stack" style={{ marginTop: 8 }}>
             <div style={{ fontSize: 52 }}>🤔</div>
             <h3>{t('no_match_title')}</h3>
             <p className="muted">{t('no_match_body')}</p>
           </div>
-          <AiCard vision={report.vision} t={t} />
         </div>
       </div>
     );
@@ -88,13 +88,11 @@ export default function ReportDetail() {
 
   return (
     <div className="screen page-enter">
-      <Header title={t('diagnosis')} onBack={back} />
+      <Header title={t('diagnosis')} onBack={back} action={<AiTag vision={report.vision} />} />
       <div className="stagger">
         <div className="muted" style={{ fontSize: 13, marginBottom: 4 }}>
           {t('diagnosed_on')} {dateLabel}
         </div>
-
-        <AiCard vision={report.vision} t={t} />
 
         <DiagnosisDetail
           cropId={report.cropId}
@@ -134,29 +132,3 @@ export default function ReportDetail() {
   );
 }
 
-/** "Rechecked by AI" banner — shows Claude Vision's finding for the report. */
-function AiCard({ vision, t }) {
-  if (!vision) return null;
-  return (
-    <div className="card stack" style={{ background: 'var(--green-tint)', marginBottom: 14 }}>
-      <span className="pill pill--green" style={{ alignSelf: 'flex-start' }}>🤖 {t('rechecked_by_ai')}</span>
-      {vision.disease && (
-        <strong style={{ fontFamily: 'var(--font-display)', fontSize: 17, textTransform: 'capitalize' }}>
-          {vision.disease}
-        </strong>
-      )}
-      {vision.symptoms_observed && (
-        <div>
-          <div className="muted" style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em' }}>{t('ai_observed')}</div>
-          <div style={{ fontSize: 15 }}>{vision.symptoms_observed}</div>
-        </div>
-      )}
-      {vision.feedback_if_unclear && (
-        <div>
-          <div className="muted" style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em' }}>{t('ai_note')}</div>
-          <div style={{ fontSize: 15 }}>{vision.feedback_if_unclear}</div>
-        </div>
-      )}
-    </div>
-  );
-}

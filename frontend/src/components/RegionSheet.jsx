@@ -1,3 +1,4 @@
+import { createPortal } from 'react-dom';
 import { useLang } from '../i18n.jsx';
 import { REGIONS } from '../data/diseaseDatabase';
 import { setSavedRegion } from '../utils/prefs';
@@ -10,7 +11,7 @@ export default function RegionSheet({ current, onPick, onClose }) {
     onPick?.(id);
     onClose();
   };
-  return (
+  return createPortal(
     <>
       <div className="sheet-scrim" onClick={onClose} />
       <div className="sheet" role="dialog" aria-modal="true">
@@ -39,6 +40,7 @@ export default function RegionSheet({ current, onPick, onClose }) {
           })}
         </div>
       </div>
-    </>
+    </>,
+    document.body
   );
 }

@@ -9,6 +9,7 @@ import RegionSheet from '../components/RegionSheet.jsx';
 import { sanitizeText, LIMITS } from '../utils/sanitize';
 import { searchKnowledge } from '../utils/search';
 import { getSavedRegion } from '../utils/prefs';
+import { tipOfTheDay } from '../data/tips';
 
 function greetingKey() {
   const h = new Date().getHours();
@@ -191,7 +192,7 @@ export default function Home() {
             <span style={{ fontSize: 26 }}>💡</span>
             <div>
               <strong style={{ fontFamily: 'var(--font-display)', color: 'var(--green-deep)' }}>{t('home_tip_title')}</strong>
-              <p className="muted" style={{ margin: '4px 0 0', fontSize: 14 }}>{t('home_tip_body')}</p>
+              <p className="muted" style={{ margin: '4px 0 0', fontSize: 14 }}>{pick(tipOfTheDay())}</p>
             </div>
           </div>
         </div>
