@@ -29,7 +29,22 @@ import { translateLabel } from './labelTranslate.js';
 if (typeof globalThis.WebSocket === 'undefined') globalThis.WebSocket = ws;
 
 const app = express();
-app.use(cors());
+
+// CORS: lock to known origins. ALLOWED_ORIGINS (comma-separated) overrides;
+// otherwise allow localhost (dev) and any *.vercel.app deployment of the app.
+// Requests with no Origin (curl, server-to-server) are allowed.
+const allowlist = (process.env.ALLOWED_ORIGINS || '')
+  .split(',').map((s) => s.trim()).filter(Boolean);
+app.use(cors({
+  origin(origin, cb) {
+    if (!origin) return cb(null, true);
+    if (allowlist.length) return cb(null, allowlist.includes(origin));
+    let host = '';
+    try { host = new URL(origin).host; } catch { return cb(null, false); }
+    const ok = /^localhost(:\d+)?$/.test(host) || host.endsWith('.vercel.app');
+    return cb(null, ok);
+  },
+}));
 app.use(express.json({ limit: '10mb' }));
 
 const anthropic = process.env.ANTHROPIC_API_KEY
