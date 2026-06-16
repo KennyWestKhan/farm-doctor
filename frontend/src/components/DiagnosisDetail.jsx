@@ -12,8 +12,11 @@ import TreatmentCard from './TreatmentCard.jsx';
  *  - cropId, disease (full disease object), confidencePct, uncertain,
  *    regionalNote ({en,twi}|null), region
  */
-export default function DiagnosisDetail({ cropId, disease, confidencePct, uncertain, regionalNote, region }) {
+export default function DiagnosisDetail({ cropId, disease, confidencePct, uncertain, regionalNote, region, uncertainNote }) {
   const { t, pick } = useLang();
+  // The "not fully sure" copy depends on the source: an offline guess promises an
+  // AI recheck when online; an AI result (scan / rechecked) does not.
+  const note = uncertainNote ?? t('uncertain_body');
 
   return (
     <>
@@ -47,7 +50,7 @@ export default function DiagnosisDetail({ cropId, disease, confidencePct, uncert
         {uncertain && (
           <div className="card--tint" style={{ borderRadius: 'var(--radius)', padding: 14 }}>
             <strong style={{ color: 'var(--green-deep)' }}>{t('uncertain_title')}</strong>
-            <p style={{ margin: '6px 0 0' }} className="muted">{t('uncertain_body')}</p>
+            <p style={{ margin: '6px 0 0' }} className="muted">{note}</p>
           </div>
         )}
       </div>

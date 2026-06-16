@@ -149,6 +149,7 @@ export default function ScanCrop() {
           uncertain={diag.uncertain}
           regionalNote={diag.regionalNote}
           region={region}
+          uncertainNote={t('uncertain_ai_body')}
         />
         {diag.vision?.symptoms_observed && (
           <div className="card" style={{ background: 'var(--green-tint)', marginTop: 14 }}>

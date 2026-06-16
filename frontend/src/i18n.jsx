@@ -44,6 +44,10 @@ const STRINGS = {
     en: 'We will check your photo with AI when you get internet. For now, here is our best guess:',
     twi: 'Yɛde AI bɛhwɛ wo mfonin no sɛ wonya intanɛt a. Seesei deɛ, yei ne deɛ yɛsusu:',
   },
+  uncertain_ai_body: {
+    en: 'The AI is not fully sure from this photo. Try a clearer photo in good light, or confirm with your agro-dealer before spraying.',
+    twi: 'AI nnim yie mfiri saa mfonin yi. Twa mfonin a emu da hɔ wɔ hann mu, anaa bisa wo aduro tɔnfoɔ ansa na woapete.',
+  },
   no_match_title: { en: 'Could not tell', twi: 'Yɛantumi anhunu' },
   no_match_body: {
     en: 'Your answers did not match a known disease. Your photo is saved and will be checked by AI when you are online.',

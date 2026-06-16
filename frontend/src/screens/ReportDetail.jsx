@@ -103,6 +103,7 @@ export default function ReportDetail() {
           uncertain={report.status === 'uncertain'}
           regionalNote={regionalNote}
           region={report.region}
+          uncertainNote={report.rechecked ? t('uncertain_ai_body') : t('uncertain_body')}
         />
 
         {/* The farmer's own "did it work?" feedback, if they gave any */}
