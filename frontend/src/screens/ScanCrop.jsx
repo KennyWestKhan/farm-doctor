@@ -9,6 +9,8 @@ import { CROPS, getDisease, matchCropByName, matchDiseaseByName } from '../data/
 import { buildRegionalNote } from '../engine/symptomMatcher';
 import { saveReport, updateReport } from '../db/storage';
 import { getSavedRegion } from '../utils/prefs';
+import { bumpScanCount } from '../components/ReviewPrompt.jsx';
+import ReviewPrompt from '../components/ReviewPrompt.jsx';
 
 const API = import.meta.env.VITE_API_URL || '';
 
@@ -75,6 +77,7 @@ export default function ScanCrop() {
       setVision(v);
       setCropId(detectedCrop);
       setReportId(report.id);
+      bumpScanCount();
 
       if (did) setStep('result');
       else { setFeedback(v.feedback_if_unclear || t('scan_crop_unclear')); setStep('unclear'); }
@@ -188,6 +191,7 @@ export default function ScanCrop() {
 
         <button className="btn btn--tint btn--block" onClick={restart} style={{ marginTop: 14 }}>📷 {t('scan_again')}</button>
       </div>
+      <ReviewPrompt />
     </div>
   );
 }

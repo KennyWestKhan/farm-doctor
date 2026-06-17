@@ -196,7 +196,7 @@ const STRINGS = {
   welcome_guest_note: { en: 'Guest mode works fully offline. Sign in later to save your data across devices.', twi: 'Ahɔho kwan yɛ adwuma a intanɛt nni hɔ. Bra mu akyire na wo data bɛtra wɔ fon biara so.' },
   welcome_phone_title: { en: 'Your phone number', twi: 'Wo fon nɔma' },
   welcome_phone_desc: { en: "We'll send a code to verify it's you.", twi: 'Yɛbɛde kɔɔd abrɛ wo de ahwɛ sɛ ɛyɛ wo.' },
-  welcome_phone_invalid: { en: 'Enter a valid phone number', twi: 'Hyɛ fon nɔma pa' },
+  welcome_phone_invalid: { en: 'Enter a valid Ghana phone number (10 digits)', twi: 'Hyɛ Ghana fon nɔma pa (nɔma 10)' },
   welcome_send_code: { en: 'Send code', twi: 'De kɔɔd brɛ me' },
   welcome_skip: { en: 'Skip for now', twi: 'Gyae seesei' },
   welcome_verify_title: { en: 'Enter the code', twi: 'Hyɛ kɔɔd no' },
@@ -226,6 +226,14 @@ const STRINGS = {
   profile_remove_fav: { en: 'Remove from favourites', twi: 'Yi fi me pɛ mu' },
   profile_suggest_fav: { en: 'You contact this shop often. Add to favourites?', twi: 'Wone saa sotɔɔ yi di nkutaho pii. Fa to wo pɛ mu?' },
   profile_crop_select: { en: 'Select your crops', twi: 'Paw wo mfudeɛ' },
+
+  // Review prompt
+  review_title: { en: 'Enjoying Farm Doctor?', twi: 'Wo pɛ Farm Doctor?' },
+  review_body: { en: 'Your feedback helps us improve the app for farmers across Ghana.', twi: 'Wo nsɛm boa yɛn ma yɛ app no yɛ papa ma afuom nipa wɔ Ghana nyinaa.' },
+  review_submit: { en: 'Submit', twi: 'Mena so' },
+  review_later: { en: 'Maybe later', twi: 'Akyire yi' },
+  review_thanks: { en: 'Thank you for your feedback!', twi: 'Yɛda wo ase wɔ wo nsɛm no ho!' },
+  review_comment_placeholder: { en: 'Any thoughts? (optional)', twi: 'Wo adwene bi wɔ ho? (ɛnyɛ dɛ ɛsɛ)' },
 
   // Scan limit
   scan_limit_reached: { en: 'You have reached your daily scan limit. Try again tomorrow.', twi: 'Woadu wo scan dodow ɛnnɛ. Sɔ hwɛ ɔkyena.' },

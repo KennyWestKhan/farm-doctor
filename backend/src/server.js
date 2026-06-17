@@ -220,5 +220,30 @@ app.post('/api/validations', async (req, res) => {
   }
 });
 
+/**
+ * POST /api/reviews
+ * Stores an app rating. One per device_id (upsert).
+ */
+app.post('/api/reviews', async (req, res) => {
+  const { deviceId, rating, comment } = req.body || {};
+  if (!supabase) return res.status(503).json({ error: 'DB not configured' });
+  if (!deviceId || typeof deviceId !== 'string') return res.status(400).json({ error: 'deviceId required' });
+  const r = parseInt(rating, 10);
+  if (!r || r < 1 || r > 5) return res.status(400).json({ error: 'rating must be 1-5' });
+
+  try {
+    const { error } = await supabase.from('reviews').upsert({
+      device_id: deviceId.slice(0, 128),
+      rating: r,
+      comment: comment ? sanitizeText(comment, 500) : null,
+    }, { onConflict: 'device_id' });
+    if (error) throw error;
+    res.json({ ok: true });
+  } catch (err) {
+    console.error('review insert error', err);
+    res.status(500).json({ error: 'Could not store review' });
+  }
+});
+
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`Farm Doctor API on :${PORT}`));

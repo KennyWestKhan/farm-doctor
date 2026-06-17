@@ -93,6 +93,16 @@ create table if not exists supplier_notes (
   unique(user_id, supplier_id)
 );
 
+-- App reviews / ratings (unique per device fingerprint or user)
+create table if not exists reviews (
+  id uuid primary key default gen_random_uuid(),
+  device_id text unique not null,
+  user_id uuid references auth.users(id),
+  rating smallint not null check (rating between 1 and 5),
+  comment text,
+  created_at timestamptz default now()
+);
+
 -- Convenience view: success rate by treatment + region for the dashboard.
 create or replace view treatment_success_rates as
 select

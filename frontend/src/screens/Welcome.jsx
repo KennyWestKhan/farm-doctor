@@ -2,8 +2,22 @@ import { useState } from 'react';
 import { useLang } from '../i18n.jsx';
 import { useAuth } from '../auth/AuthContext.jsx';
 import { LangToggle } from '../components/Chrome.jsx';
+import logoSrc from '/icons/icon-192.png';
 
 const STEPS = { choice: 0, phone: 1, otp: 2 };
+
+function formatGhanaPhone(raw) {
+  const digits = raw.replace(/\D/g, '');
+  if (digits.length <= 3) return '+' + digits;
+  const rest = digits.slice(3, 12);
+  const parts = [rest.slice(0, 2), rest.slice(2, 5), rest.slice(5)].filter(Boolean);
+  return '+' + digits.slice(0, 3) + ' ' + parts.join(' ');
+}
+
+function isValidGhanaPhone(phone) {
+  const digits = phone.replace(/\D/g, '');
+  return digits.length === 12 && digits.startsWith('233');
+}
 
 export default function Welcome() {
   const { t } = useLang();
@@ -17,7 +31,7 @@ export default function Welcome() {
   const handleSendOtp = async () => {
     setError('');
     const cleaned = phone.replace(/[^0-9+]/g, '');
-    if (cleaned.length < 10) {
+    if (!isValidGhanaPhone(cleaned)) {
       setError(t('welcome_phone_invalid'));
       return;
     }
@@ -55,7 +69,7 @@ export default function Welcome() {
         </div>
 
         <div style={{ marginBottom: 32 }}>
-          <div style={{ fontSize: 64, marginBottom: 12 }}>🌱🩺</div>
+          <img src={logoSrc} alt="" width={80} height={80} style={{ borderRadius: 20, marginBottom: 12 }} />
           <h1 style={{ marginBottom: 6 }}>{t('app_name')}</h1>
           <p className="muted" style={{ fontSize: 16, maxWidth: 280, margin: '0 auto' }}>{t('tagline')}</p>
         </div>
@@ -90,7 +104,7 @@ export default function Welcome() {
         </button>
 
         <div style={{ marginBottom: 28 }}>
-          <div style={{ fontSize: 48, marginBottom: 10 }}>📱</div>
+          <img src={logoSrc} alt="" width={56} height={56} style={{ borderRadius: 14, marginBottom: 10 }} />
           <h2>{t('welcome_phone_title')}</h2>
           <p className="muted" style={{ fontSize: 15, maxWidth: 300, margin: '6px auto 0' }}>
             {t('welcome_phone_desc')}
@@ -103,7 +117,13 @@ export default function Welcome() {
             inputMode="tel"
             autoComplete="tel"
             value={phone}
-            onChange={(e) => setPhone(e.target.value)}
+            onChange={(e) => {
+              const raw = e.target.value.replace(/[^0-9+]/g, '');
+              if (!raw.startsWith('+233') && !'+233'.startsWith(raw)) return;
+              const digits = raw.replace(/\D/g, '');
+              if (digits.length > 12) return;
+              setPhone(formatGhanaPhone(raw));
+            }}
             placeholder="+233 50 123 4567"
             style={{
               width: '100%', padding: '16px 18px', fontSize: 20, fontWeight: 700,
@@ -141,7 +161,7 @@ export default function Welcome() {
       </button>
 
       <div style={{ marginBottom: 28 }}>
-        <div style={{ fontSize: 48, marginBottom: 10 }}>🔐</div>
+        <img src={logoSrc} alt="" width={56} height={56} style={{ borderRadius: 14, marginBottom: 10 }} />
         <h2>{t('welcome_verify_title')}</h2>
         <p className="muted" style={{ fontSize: 15, maxWidth: 300, margin: '6px auto 0' }}>
           {t('welcome_verify_desc')} <strong>{phone}</strong>

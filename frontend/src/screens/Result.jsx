@@ -4,6 +4,7 @@ import { getDisease } from '../data/diseaseDatabase';
 import DiagnosisDetail from '../components/DiagnosisDetail.jsx';
 import ValidationForm from '../components/ValidationForm.jsx';
 import { Header } from '../components/Chrome.jsx';
+import ReviewPrompt from '../components/ReviewPrompt.jsx';
 
 export default function Result({ session, onRestart, onHome }) {
   const { t } = useLang();
@@ -49,6 +50,7 @@ export default function Result({ session, onRestart, onHome }) {
         <ValidationForm reportId={report?.id} treatmentId={disease.treatments[0]?.id} region={region} />
         <button className="btn btn--tint btn--block" onClick={onRestart} style={{ marginTop: 16 }}>↻ {t('start')}</button>
       </div>
+      <ReviewPrompt />
     </div>
   );
 }
