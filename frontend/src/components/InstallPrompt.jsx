@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useLang } from '../i18n.jsx';
 
 /**
@@ -34,10 +34,18 @@ const ShareIcon = () => (
   </svg>
 );
 
+function markSeen() {
+  try { localStorage.setItem(SEEN_KEY, '1'); } catch { /* private browsing */ }
+}
+
 export default function InstallPrompt() {
   const { t } = useLang();
   const [deferred, setDeferred] = useState(null);
-  const [mode, setMode] = useState(null); // 'android' | 'ios' | null
+  const [mode, setMode] = useState(() => {
+    if (isStandalone() || localStorage.getItem(SEEN_KEY)) return null;
+    if (isIOSSafari()) return 'ios';
+    return null;
+  });
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -45,20 +53,18 @@ export default function InstallPrompt() {
 
     let timer;
     const onBIP = (e) => {
-      e.preventDefault(); // stop Chrome's default mini-infobar
+      e.preventDefault();
       setDeferred(e);
       setMode('android');
       timer = setTimeout(() => setVisible(true), 1500);
     };
     window.addEventListener('beforeinstallprompt', onBIP);
 
-    // iOS never fires the event; offer manual instructions instead.
     if (isIOSSafari()) {
-      setMode('ios');
       timer = setTimeout(() => setVisible(true), 1500);
     }
 
-    const onInstalled = () => { remember(); setVisible(false); };
+    const onInstalled = () => { markSeen(); setVisible(false); };
     window.addEventListener('appinstalled', onInstalled);
 
     return () => {
@@ -68,18 +74,16 @@ export default function InstallPrompt() {
     };
   }, []);
 
-  const remember = () => { try { localStorage.setItem(SEEN_KEY, '1'); } catch { /* private mode */ } };
+  const close = useCallback(() => { markSeen(); setVisible(false); }, []);
 
-  const close = () => { remember(); setVisible(false); };
-
-  const install = async () => {
+  const install = useCallback(async () => {
     if (!deferred) return;
     deferred.prompt();
-    await deferred.userChoice.catch(() => {});
-    remember();
+    await deferred.userChoice.catch(() => { /* user dismissed */ });
+    markSeen();
     setVisible(false);
     setDeferred(null);
-  };
+  }, [deferred]);
 
   if (!visible || !mode) return null;
 

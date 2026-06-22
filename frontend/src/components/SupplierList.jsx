@@ -4,8 +4,7 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { useLang } from '../i18n.jsx';
 import { findSuppliers, whatsappLink, telLink } from '../data/suppliers';
-import { getFavourites, toggleFavourite, setDefaultSupplier } from '../db/favorites';
-import { recordContact } from '../db/favorites';
+import { getFavourites, toggleFavourite, recordContact } from '../db/favorites';
 
 const icon = new L.Icon({
   iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',

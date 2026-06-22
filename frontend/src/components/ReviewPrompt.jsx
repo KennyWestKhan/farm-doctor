@@ -18,14 +18,6 @@ function getDeviceId() {
   } catch { return `anon-${Date.now()}`; }
 }
 
-export function bumpScanCount() {
-  try {
-    const n = parseInt(localStorage.getItem(SCAN_COUNT_KEY) || '0', 10) + 1;
-    localStorage.setItem(SCAN_COUNT_KEY, String(n));
-    return n;
-  } catch { return 0; }
-}
-
 function shouldShow() {
   try {
     const state = localStorage.getItem(REVIEW_KEY);
@@ -60,7 +52,7 @@ export default function ReviewPrompt() {
   const [comment, setComment] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const deviceId = useMemo(getDeviceId, []);
+  const deviceId = useMemo(() => getDeviceId(), []);
 
   useEffect(() => {
     const timer = setTimeout(() => { if (shouldShow()) setVisible(true); }, 1200);
@@ -73,7 +65,7 @@ export default function ReviewPrompt() {
     try {
       localStorage.setItem(REVIEW_KEY, 'later');
       localStorage.setItem(REVIEW_KEY + '_ts', String(Date.now()));
-    } catch {}
+    } catch { /* private browsing */ }
     setVisible(false);
   };
 
@@ -87,7 +79,7 @@ export default function ReviewPrompt() {
         body: JSON.stringify({ deviceId, rating, comment: comment.trim() || null }),
       });
     } catch { /* offline — still dismiss */ }
-    try { localStorage.setItem(REVIEW_KEY, 'done'); } catch {}
+    try { localStorage.setItem(REVIEW_KEY, 'done'); } catch { /* private browsing */ }
     setSubmitted(true);
     setTimeout(() => setVisible(false), 1400);
   };

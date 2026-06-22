@@ -10,9 +10,9 @@ jobs:
   lint-and-test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
@@ -29,14 +29,49 @@ jobs:
         working-directory: backend
 
       - name: Lint frontend
-        run: npx eslint src --ext .js,.jsx --max-warnings 0
+        id: lint
+        run: npx eslint src --ext .js,.jsx --max-warnings 0 2>&1 | tee lint-output.txt
         working-directory: frontend
         continue-on-error: true
 
       - name: Test frontend
-        run: npx vitest run
+        id: test
+        run: npx vitest run 2>&1 | tee test-output.txt
         working-directory: frontend
 
       - name: Build frontend
-        run: npm run build
+        id: build
+        run: npm run build 2>&1 | tee build-output.txt
         working-directory: frontend
+
+      - name: Job summary
+        if: always()
+        run: |
+          echo "## 🌱 Farm Doctor CI Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          echo "| Step | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|------|--------|" >> $GITHUB_STEP_SUMMARY
+
+          if [ "${{ steps.lint.outcome }}" = "success" ]; then
+            echo "| Lint | ✅ Passed |" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "| Lint | ⚠️ Warnings |" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          if [ "${{ steps.test.outcome }}" = "success" ]; then
+            TESTS=$(grep -oP '\d+ passed' frontend/test-output.txt || echo "all passed")
+            echo "| Tests | ✅ $TESTS |" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "| Tests | ❌ Failed |" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          if [ "${{ steps.build.outcome }}" = "success" ]; then
+            SIZE=$(grep -oP '\d+\.\d+ kB' frontend/build-output.txt | head -1 || echo "ok")
+            echo "| Build | ✅ Bundle $SIZE |" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "| Build | ❌ Failed |" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Branch:** \`${{ github.ref_name }}\` | **Commit:** \`$(echo ${{ github.sha }} | cut -c1-7)\`" >> $GITHUB_STEP_SUMMARY

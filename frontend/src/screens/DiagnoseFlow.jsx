@@ -9,7 +9,7 @@ import { diagnoseOffline } from '../engine/symptomMatcher';
 import { saveReport, queueForVision } from '../db/storage';
 import { syncNow } from '../db/sync';
 import { getSavedRegion } from '../utils/prefs';
-import { bumpScanCount } from '../components/ReviewPrompt.jsx';
+import { bumpScanCount } from '../utils/scanCount.js';
 
 /**
  * The /diagnose tab. A linear step machine: crop -> region -> photo -> symptoms

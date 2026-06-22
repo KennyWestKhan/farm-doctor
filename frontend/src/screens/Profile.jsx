@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLang } from '../i18n.jsx';
-import { useAuth } from '../auth/AuthContext.jsx';
+import { useAuth } from '../auth/useAuth.js';
 import { LangToggle } from '../components/Chrome.jsx';
 import { CROPS, REGIONS } from '../data/diseaseDatabase';
 import { SUPPLIERS } from '../data/suppliers';
@@ -67,7 +67,7 @@ function SettingRow({ icon, label, value, action, onClick, last = false }) {
 
 /* ── favourite supplier card ────────────────────────────────────────────── */
 
-function FavSupplierCard({ fav, onToggle, onSetDefault, onSaveNote, pick, t }) {
+function FavSupplierCard({ fav, onToggle, onSetDefault, onSaveNote, t }) {
   const supplier = SUPPLIERS.find((s) => s.id === fav.supplierId);
   const [editing, setEditing] = useState(false);
   const [note, setNote] = useState(fav.notes || '');
@@ -414,11 +414,11 @@ export default function Profile() {
         ))}
 
         {defaultFav && (
-          <FavSupplierCard fav={defaultFav} onToggle={handleToggleFav} onSetDefault={handleSetDefault} onSaveNote={handleSaveNote} pick={pick} t={t} />
+          <FavSupplierCard fav={defaultFav} onToggle={handleToggleFav} onSetDefault={handleSetDefault} onSaveNote={handleSaveNote} t={t} />
         )}
 
         {otherFavs.map((fav) => (
-          <FavSupplierCard key={fav.supplierId} fav={fav} onToggle={handleToggleFav} onSetDefault={handleSetDefault} onSaveNote={handleSaveNote} pick={pick} t={t} />
+          <FavSupplierCard key={fav.supplierId} fav={fav} onToggle={handleToggleFav} onSetDefault={handleSetDefault} onSaveNote={handleSaveNote} t={t} />
         ))}
 
         {favs.length === 0 && suggestions.length === 0 && (

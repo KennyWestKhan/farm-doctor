@@ -1,6 +1,5 @@
 import {
   createContext,
-  useContext,
   useEffect,
   useMemo,
   useState,
@@ -9,7 +8,8 @@ import {
 import { supabase } from "../db/supabase";
 import { migrateGuestData } from "./migrate";
 
-const Ctx = createContext(null);
+export const AuthCtx = createContext(null);
+const Ctx = AuthCtx;
 
 const GUEST_KEY = "fd_guest";
 const WELCOME_KEY = "fd_welcomed";
@@ -21,6 +21,7 @@ export function AuthProvider({ children }) {
     try {
       return localStorage.getItem(WELCOME_KEY) === "1";
     } catch {
+      /* private browsing */
       return false;
     }
   });
@@ -63,6 +64,7 @@ export function AuthProvider({ children }) {
     try {
       return localStorage.getItem(GUEST_KEY) === "1";
     } catch {
+      /* private browsing */
       return false;
     }
   }, [user]);
@@ -80,7 +82,7 @@ export function AuthProvider({ children }) {
   const markWelcomed = useCallback(() => {
     try {
       localStorage.setItem(WELCOME_KEY, "1");
-    } catch {}
+    } catch { /* private browsing */ }
     setWelcomed(true);
   }, []);
 
@@ -101,7 +103,7 @@ export function AuthProvider({ children }) {
       try {
         localStorage.removeItem(GUEST_KEY);
         localStorage.setItem(WELCOME_KEY, "1");
-      } catch {}
+      } catch { /* private browsing */ }
       setWelcomed(true);
     }
     return { data, error };
@@ -112,7 +114,7 @@ export function AuthProvider({ children }) {
     setUser(null);
     try {
       localStorage.setItem(GUEST_KEY, "1");
-    } catch {}
+    } catch { /* private browsing */ }
   }, []);
 
   const value = useMemo(
@@ -143,8 +145,3 @@ export function AuthProvider({ children }) {
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }
 
-export function useAuth() {
-  const ctx = useContext(Ctx);
-  if (!ctx) throw new Error("useAuth must be used inside AuthProvider");
-  return ctx;
-}

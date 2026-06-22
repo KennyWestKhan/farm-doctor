@@ -169,7 +169,7 @@ export async function fetchSuccessRates() {
           percent: row.success_percent,
         })));
       }
-    } catch (_) {
+    } catch {
       // Network error — fall through to cache
     }
   }

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useLang } from "../i18n.jsx";
-import { useAuth } from "../auth/AuthContext.jsx";
+import { useAuth } from "../auth/useAuth.js";
 import { LangToggle } from "../components/Chrome.jsx";
 import { formatGhanaPhone, isValidGhanaPhone } from "../utils/phoneValidation.js";
 import logoSrc from "/icons/icon-192.png";

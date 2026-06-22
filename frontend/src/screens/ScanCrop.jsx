@@ -9,7 +9,7 @@ import { CROPS, getDisease, matchCropByName, matchDiseaseByName } from '../data/
 import { buildRegionalNote } from '../engine/symptomMatcher';
 import { saveReport, updateReport } from '../db/storage';
 import { getSavedRegion } from '../utils/prefs';
-import { bumpScanCount } from '../components/ReviewPrompt.jsx';
+import { bumpScanCount } from '../utils/scanCount.js';
 import ReviewPrompt from '../components/ReviewPrompt.jsx';
 
 const API = import.meta.env.VITE_API_URL || '';

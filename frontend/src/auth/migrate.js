@@ -12,7 +12,7 @@ const MIGRATED_KEY = 'fd_migrated';
 export async function migrateGuestData(userId) {
   try {
     if (localStorage.getItem(MIGRATED_KEY) === userId) return;
-  } catch {}
+  } catch { /* private browsing */ }
 
   const d = await db();
 
@@ -62,5 +62,5 @@ export async function migrateGuestData(userId) {
 
   try {
     localStorage.setItem(MIGRATED_KEY, userId);
-  } catch {}
+  } catch { /* private browsing */ }
 }

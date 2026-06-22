@@ -3,7 +3,7 @@ import ErrorBoundary from './components/ErrorBoundary.jsx';
 import MobileGate from './components/MobileGate.jsx';
 import TabBar from './components/TabBar.jsx';
 import InstallPrompt from './components/InstallPrompt.jsx';
-import { useAuth } from './auth/AuthContext.jsx';
+import { useAuth } from './auth/useAuth.js';
 import Home from './screens/Home.jsx';
 import DiagnoseFlow from './screens/DiagnoseFlow.jsx';
 import Shops from './screens/Shops.jsx';
