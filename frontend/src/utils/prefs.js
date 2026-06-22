@@ -22,7 +22,7 @@ export function getSavedRegion() {
 export function setSavedRegion(region) {
   try {
     if (region && REGIONS[region]) localStorage.setItem(REGION_KEY, region);
-  } catch {}
+  } catch { /* private browsing */ }
 }
 
 export function getSavedCrops() {
@@ -40,5 +40,5 @@ export function getSavedCrops() {
 export function setSavedCrops(cropIds) {
   try {
     localStorage.setItem(CROPS_KEY, JSON.stringify(cropIds));
-  } catch {}
+  } catch { /* private browsing */ }
 }

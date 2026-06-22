@@ -2,7 +2,6 @@ import { useNavigate } from 'react-router-dom';
 import { useLang } from '../i18n.jsx';
 import { Header } from '../components/Chrome.jsx';
 
-// Crisp SVG icons (unambiguous, sharp at any size — no emoji).
 const LeafCamIcon = () => (
   <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
     <path d="M20 8c0 6-4 9-9 9-3 0-5-1-5-1s2-9 9-10c3-.4 5 0 5 2z" fill="rgba(255,255,255,0.18)" />
@@ -16,11 +15,8 @@ const LabelIcon = () => (
   </svg>
 );
 
-export default function Scan() {
-  const { t } = useLang();
-  const nav = useNavigate();
-
-  const Choice = ({ icon, title, desc, to, bg }) => (
+function Choice({ icon, title, desc, to, bg, nav }) {
+  return (
     <button className="card" onClick={() => nav(to)} style={{ display: 'flex', alignItems: 'center', gap: 16, padding: 18, textAlign: 'left' }}>
       <span style={{ width: 64, height: 64, borderRadius: 18, background: bg, display: 'grid', placeItems: 'center', flexShrink: 0 }}>
         {icon}
@@ -32,6 +28,11 @@ export default function Scan() {
       <span style={{ fontSize: 22, color: 'var(--green)' }}>→</span>
     </button>
   );
+}
+
+export default function Scan() {
+  const { t } = useLang();
+  const nav = useNavigate();
 
   return (
     <div className="screen page-enter">
@@ -44,6 +45,7 @@ export default function Scan() {
           desc={t('scan_crop_desc')}
           to="/scan/crop"
           bg="var(--green)"
+          nav={nav}
         />
         <Choice
           icon={<LabelIcon />}
@@ -51,6 +53,7 @@ export default function Scan() {
           desc={t('scan_subtitle')}
           to="/scan/label"
           bg="var(--gold-deep, #c97e0a)"
+          nav={nav}
         />
       </div>
     </div>

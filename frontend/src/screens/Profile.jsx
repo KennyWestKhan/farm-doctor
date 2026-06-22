@@ -250,6 +250,7 @@ export default function Profile() {
     setSuggestions(s);
   }, []);
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- async IDB read
   useEffect(() => { refreshFavs(); }, [refreshFavs]);
 
   const handleToggleCrop = (cropId) => {

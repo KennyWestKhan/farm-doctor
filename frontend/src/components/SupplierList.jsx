@@ -37,6 +37,7 @@ export default function SupplierList({ region, productName = '', showMap = true 
     setDefaultId(def?.supplierId ?? null);
   }, []);
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- async IDB read, not synchronous
   useEffect(() => { refreshFavs(); }, [refreshFavs]);
 
   const handleStar = async (supplierId) => {

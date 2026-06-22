@@ -9,7 +9,7 @@ const STEPS = { choice: 0, phone: 1, otp: 2 };
 
 export default function Welcome() {
   const { t } = useLang();
-  const { continueAsGuest, sendOtp, verifyOtp, markWelcomed } = useAuth();
+  const { continueAsGuest, sendOtp, verifyOtp } = useAuth();
   const [step, setStep] = useState(STEPS.choice);
   const [phone, setPhone] = useState("+233");
   const [code, setCode] = useState("");

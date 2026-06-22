@@ -8,7 +8,7 @@ import {
 import { supabase } from "../db/supabase";
 import { migrateGuestData } from "./migrate";
 
-export const AuthCtx = createContext(null);
+import { AuthCtx } from './useAuth.js';
 const Ctx = AuthCtx;
 
 const GUEST_KEY = "fd_guest";

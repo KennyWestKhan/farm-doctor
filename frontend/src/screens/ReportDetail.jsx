@@ -26,7 +26,7 @@ const OUTCOME = {
 export default function ReportDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { t, pick } = useLang();
+  const { t } = useLang();
   const [state, setState] = useState({ loading: true, report: null, validations: [] });
 
   useEffect(() => {

@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 /**
  * Tiny bilingual layer (Twi / English).
  *
