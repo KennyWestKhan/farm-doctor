@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import { useLang } from '../i18n.jsx';
-import { getSuccessRate } from '../data/successRates';
+import useSuccessRates from './useSuccessRates';
 import SupplierSheet from './SupplierSheet.jsx';
 
 export default function TreatmentCard({ treatment, region }) {
   const { t, lang } = useLang();
   const [showShops, setShowShops] = useState(false);
   const instr = treatment.farmer_instruction[lang] || treatment.farmer_instruction.en;
-  const rate = getSuccessRate(treatment.id, region);
+  const { loading, getRate } = useSuccessRates();
+  const rate = loading ? undefined : getRate(treatment.id, region);
 
   const rows = [
     { icon: '🥣', label: t('how_to_mix'), text: instr.mixing },
@@ -23,12 +24,17 @@ export default function TreatmentCard({ treatment, region }) {
         <span className="pill pill--green">{treatment.price_range}</span>
       </div>
 
-      {rate && (
+      {/* rate === undefined means still loading; null means no data; object = real data */}
+      {rate === undefined ? null : rate ? (
         <div className="row" style={{ gap: 8, flexWrap: 'wrap' }}>
           <span className="pill pill--green" style={{ fontSize: 14 }}>✅ {rate.percent}% {t('success_rate')}</span>
           <span className="muted" style={{ fontSize: 13 }}>
             {rate.total} {t('farmers_tried')}{!rate.exact ? ' (all regions)' : ''}{rate.trendDelta > 0 ? ` · ▲ +${rate.trendDelta}%` : ''}
           </span>
+        </div>
+      ) : (
+        <div className="muted" style={{ fontSize: 13, fontStyle: 'italic' }}>
+          {t('no_farmer_reports')}
         </div>
       )}
 

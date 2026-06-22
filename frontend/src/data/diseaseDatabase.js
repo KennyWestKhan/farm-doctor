@@ -160,6 +160,7 @@ export const CROPS = [
         },
         seasonal_months: [6, 7, 8, 9, 10],
         peak_month: 8,
+        sources: ['MOFA Crop Health Guidelines', 'PPRSD Pest Alerts — Capsicum Diseases'],
         treatments: [
           {
             id: 'chilli_anthracnose_copper',
@@ -224,6 +225,7 @@ export const CROPS = [
         },
         seasonal_months: [4, 5, 6, 7, 8],
         peak_month: 6,
+        sources: ['PPRSD Pest Alerts — Bacterial Diseases of Capsicum','MOFA Extension Training Materials'],
         treatments: [
           {
             id: 'chilli_bacterial_copper',
@@ -266,6 +268,7 @@ export const CROPS = [
         },
         seasonal_months: [9, 10, 11, 12],
         peak_month: 11,
+        sources: ['MOFA Crop Health Guidelines — Fungal Diseases','PPRSD Registered Pesticide List'],
         treatments: [
           {
             id: 'chilli_rust_sulfur',
@@ -308,6 +311,7 @@ export const CROPS = [
         },
         seasonal_months: [5, 6, 7, 8, 9],
         peak_month: 7,
+        sources: ['MOFA Directorate of Crop Services','PPRSD Pest Alerts — Cercospora'],
         treatments: [
           {
             id: 'chilli_leafspot_mancozeb',
@@ -358,6 +362,7 @@ export const CROPS = [
         },
         seasonal_months: [1, 2, 3, 11, 12],
         peak_month: 2,
+        sources: ['IITA Cassava Disease Fact Sheets','CSIR-SARI Annual Reports'],
         // Curated authoritative video(s). Add YouTube IDs to embed; others fall
         // back to a YouTube search. (F_LEL7G2SjA: "How to identify Cassava Brown Streak".)
         videos: ['F_LEL7G2SjA'],
@@ -404,6 +409,7 @@ export const CROPS = [
         },
         seasonal_months: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
         peak_month: 5,
+        sources: ['IITA CMD Management Guide','CSIR-SARI Extension Bulletins'],
         videos: ['Qqy9NYNqKTU'], // IITA: cassava mosaic & brown streak threat
         treatments: [
           {
@@ -448,6 +454,7 @@ export const CROPS = [
         },
         seasonal_months: [4, 5, 6, 7, 8],
         peak_month: 6,
+        sources: ['IITA Cassava Disease Fact Sheets','MOFA Extension Training Materials'],
         treatments: [
           {
             id: 'cassava_cbb_clean',
@@ -491,6 +498,7 @@ export const CROPS = [
         },
         seasonal_months: [11, 12, 1, 2, 3],
         peak_month: 1,
+        sources: ['IITA Biological Control Programme','CSIR-SARI Pest Management Reports'],
         treatments: [
           {
             id: 'cassava_mite_resistant',
@@ -540,6 +548,7 @@ export const CROPS = [
         },
         seasonal_months: [11, 12, 1, 2, 3],
         peak_month: 1,
+        sources: ['CRI Root Crop Technical Bulletins','CSIR Root Crop Disease Guides'],
         treatments: [
           {
             id: 'sweetpotato_weevil_earthup',
@@ -582,6 +591,7 @@ export const CROPS = [
         },
         seasonal_months: [5, 6, 7, 8, 9],
         peak_month: 7,
+        sources: ['CRI Root Crop Technical Bulletins','MOFA Crop Health Guidelines'],
         treatments: [
           {
             id: 'sweetpotato_leafspot_mancozeb',
@@ -625,6 +635,7 @@ export const CROPS = [
         },
         seasonal_months: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
         peak_month: 4,
+        sources: ['CRI Root Crop Technical Bulletins','CSIR Seed Certification Programme'],
         treatments: [
           {
             id: 'sweetpotato_virus_clean',
@@ -675,6 +686,7 @@ export const CROPS = [
         },
         seasonal_months: [6, 7, 8, 9, 10],
         peak_month: 8,
+        sources: ['SARI Groundnut Research Reports','ICRISAT Disease Management Guides'],
         treatments: [
           {
             id: 'groundnut_leafspot_chlorothalonil',
@@ -717,6 +729,7 @@ export const CROPS = [
         },
         seasonal_months: [8, 9, 10, 11],
         peak_month: 10,
+        sources: ['SARI Groundnut Improvement Programme','ICRISAT West Africa Reports'],
         treatments: [
           {
             id: 'groundnut_rust_sulfur',
@@ -758,6 +771,7 @@ export const CROPS = [
         },
         seasonal_months: [10, 11, 12, 1],
         peak_month: 11,
+        sources: ['SARI Aflatoxin Research','ICRISAT Groundnut Research — Pre-harvest Management'],
         treatments: [
           {
             id: 'groundnut_aflatoxin_drying',
@@ -801,6 +815,7 @@ export const CROPS = [
         },
         seasonal_months: [6, 7, 8, 9, 10],
         peak_month: 8,
+        sources: ['SARI Groundnut Research Reports','ICRISAT Rosette Virus Studies'],
         treatments: [
           {
             id: 'groundnut_rosette_dense',

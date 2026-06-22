@@ -70,6 +70,13 @@ export default function SupplierList({ region, productName = '', showMap = true 
 
   return (
     <div className="stack">
+      <div style={{
+        display: 'flex', alignItems: 'center', gap: 8, padding: '8px 12px',
+        borderRadius: 'var(--radius-sm)', background: 'var(--warn-tint)',
+        fontSize: 12, fontWeight: 700, color: 'var(--warn)',
+      }}>
+        <span>⚠️</span> Demo contacts — numbers are placeholders for the competition
+      </div>
       {showMap && (
         <div style={{ height: 190, borderRadius: 'var(--radius)', overflow: 'hidden', boxShadow: 'var(--shadow-card)' }}>
           <MapContainer center={center} zoom={9} style={{ height: '100%', width: '100%' }} scrollWheelZoom={false}>

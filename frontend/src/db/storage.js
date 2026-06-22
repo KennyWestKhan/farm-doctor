@@ -15,6 +15,7 @@
  *  - Single-transaction writes for read-modify-write (markValidationSynced).
  */
 import { db } from './favorites';
+import { supabase } from './supabase';
 
 const uid = () =>
   (crypto.randomUUID && crypto.randomUUID()) ||
@@ -114,4 +115,111 @@ export async function markValidationSynced(id) {
     await tx.store.put(v);
   }
   await tx.done;
+}
+
+// ---- treatment success rates (live from Supabase, cached in IDB) ----------
+
+const RATE_CACHE_TTL = 10 * 60 * 1000; // 10 minutes
+
+/**
+ * Fetch all treatment success rates from the Supabase view.
+ * Results are cached in IDB so the app works offline.
+ * Returns a Map keyed by `${treatmentId}__${region}`.
+ */
+export async function fetchSuccessRates() {
+  const d = await db();
+
+  // Try Supabase first (if configured and online)
+  if (supabase && navigator.onLine) {
+    try {
+      const { data, error } = await supabase
+        .from('treatment_success_rates')
+        .select('treatment_id, region, total, success, partial, failed, success_percent');
+
+      if (!error && data) {
+        // Cache each row in IDB with a timestamp
+        const tx = d.transaction('successRates', 'readwrite');
+        // Clear stale cache
+        await tx.store.clear();
+        const now = Date.now();
+        for (const row of data) {
+          const key = `${row.treatment_id}__${row.region}`;
+          await tx.store.put({
+            key,
+            treatmentId: row.treatment_id,
+            region: row.region,
+            total: row.total,
+            success: row.success,
+            partial: row.partial,
+            failed: row.failed,
+            percent: row.success_percent,
+            cachedAt: now,
+          });
+        }
+        await tx.done;
+
+        return buildRateMap(data.map((row) => ({
+          key: `${row.treatment_id}__${row.region}`,
+          treatmentId: row.treatment_id,
+          region: row.region,
+          total: row.total,
+          success: row.success,
+          partial: row.partial,
+          failed: row.failed,
+          percent: row.success_percent,
+        })));
+      }
+    } catch (_) {
+      // Network error — fall through to cache
+    }
+  }
+
+  // Fall back to IDB cache
+  const cached = await d.getAll('successRates');
+  if (cached.length && Date.now() - cached[0].cachedAt < RATE_CACHE_TTL) {
+    return buildRateMap(cached);
+  }
+
+  // No data at all
+  return new Map();
+}
+
+function buildRateMap(rows) {
+  const map = new Map();
+  for (const r of rows) {
+    map.set(r.key, r);
+  }
+  return map;
+}
+
+/**
+ * Look up a single treatment's success rate from a pre-fetched map.
+ * Falls back to pooling across regions, same logic as the old seeded data.
+ * Returns null when no real data exists.
+ */
+export function lookupSuccessRate(rateMap, treatmentId, region) {
+  if (!rateMap || rateMap.size === 0) return null;
+
+  // Exact match for treatment + region
+  const exact = rateMap.get(`${treatmentId}__${region}`);
+  if (exact) return { ...exact, exact: true, trendDelta: 0 };
+
+  // Pool across all regions for this treatment
+  const pooled = [];
+  for (const [k, v] of rateMap) {
+    if (k.startsWith(`${treatmentId}__`)) pooled.push(v);
+  }
+  if (pooled.length === 0) return null;
+
+  const agg = pooled.reduce(
+    (a, v) => ({ total: a.total + v.total, success: a.success + v.success, partial: a.partial + v.partial, failed: a.failed + v.failed }),
+    { total: 0, success: 0, partial: 0, failed: 0 },
+  );
+  return {
+    ...agg,
+    region: null,
+    exact: false,
+    trendDelta: 0,
+    percent: Math.round((agg.success / agg.total) * 100),
+  };
 }

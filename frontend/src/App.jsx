@@ -1,4 +1,5 @@
 import { Routes, Route, Outlet } from 'react-router-dom';
+import ErrorBoundary from './components/ErrorBoundary.jsx';
 import MobileGate from './components/MobileGate.jsx';
 import TabBar from './components/TabBar.jsx';
 import InstallPrompt from './components/InstallPrompt.jsx';
@@ -34,6 +35,7 @@ function WelcomeGate({ children }) {
 
 export default function App() {
   return (
+    <ErrorBoundary>
     <MobileGate>
       <WelcomeGate>
         <Routes>
@@ -54,5 +56,6 @@ export default function App() {
         </Routes>
       </WelcomeGate>
     </MobileGate>
+    </ErrorBoundary>
   );
 }

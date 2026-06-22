@@ -2,24 +2,10 @@ import { useState } from "react";
 import { useLang } from "../i18n.jsx";
 import { useAuth } from "../auth/AuthContext.jsx";
 import { LangToggle } from "../components/Chrome.jsx";
+import { formatGhanaPhone, isValidGhanaPhone } from "../utils/phoneValidation.js";
 import logoSrc from "/icons/icon-192.png";
 
 const STEPS = { choice: 0, phone: 1, otp: 2 };
-
-function formatGhanaPhone(raw) {
-  const digits = raw.replace(/\D/g, "");
-  if (digits.length <= 3) return "+" + digits;
-  const rest = digits.slice(3, 12);
-  const parts = [rest.slice(0, 2), rest.slice(2, 5), rest.slice(5)].filter(
-    Boolean
-  );
-  return "+" + digits.slice(0, 3) + " " + parts.join(" ");
-}
-
-function isValidGhanaPhone(phone) {
-  const digits = phone.replace(/\D/g, "");
-  return digits.length === 12 && digits.startsWith("233");
-}
 
 export default function Welcome() {
   const { t } = useLang();
@@ -125,6 +111,9 @@ export default function Welcome() {
           style={{ fontSize: 13, marginTop: 28, maxWidth: 300 }}
         >
           {t("welcome_guest_note")}
+        </p>
+        <p className="muted" style={{ fontSize: 11, marginTop: 12, maxWidth: 300, opacity: 0.7 }}>
+          {t('welcome_privacy')}
         </p>
       </div>
     );

@@ -93,6 +93,14 @@ function scanLimiter(req, res, next) {
   next();
 }
 
+// Purge expired entries every hour to prevent unbounded Map growth.
+setInterval(() => {
+  const now = Date.now();
+  for (const [key, entry] of scanCounts) {
+    if (now > entry.resetAt) scanCounts.delete(key);
+  }
+}, 60 * 60 * 1000);
+
 // Textract for label OCR. The AWS SDK reads AWS_REGION / AWS_ACCESS_KEY_ID /
 // AWS_SECRET_ACCESS_KEY from the environment automatically.
 const textract = process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY

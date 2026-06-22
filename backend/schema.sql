@@ -72,7 +72,9 @@ create table if not exists validations (
   created_at timestamptz default now()
 );
 
--- User preferences (synced from device for logged-in users)
+-- User preferences (synced from device for logged-in users).
+-- Currently stored in IndexedDB on-device; this table receives synced copies for
+-- logged-in users so preferences survive device changes. Wiring is planned.
 create table if not exists user_preferences (
   user_id uuid primary key references auth.users(id),
   region text,
@@ -83,7 +85,9 @@ create table if not exists user_preferences (
   updated_at timestamptz default now()
 );
 
--- Supplier notes (per user)
+-- Supplier notes (per user). Planned: farmers can leave private notes about
+-- suppliers (e.g. "good prices", "out of stock last time"). Stored locally via
+-- IndexedDB; this table syncs notes for logged-in users.
 create table if not exists supplier_notes (
   id uuid primary key default gen_random_uuid(),
   user_id uuid references auth.users(id),
