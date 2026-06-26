@@ -13,6 +13,8 @@ import { bumpScanCount } from '../utils/scanCount.js';
 import { apiFetch } from '../utils/apiFetch.js';
 import ReviewPrompt from '../components/ReviewPrompt.jsx';
 
+const API = import.meta.env.VITE_API_URL || '';
+
 function fileToBase64(file) {
   return new Promise((resolve, reject) => {
     const r = new FileReader();

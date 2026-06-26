@@ -24,6 +24,13 @@ export default class ErrorBoundary extends Component {
         <button className="btn" onClick={() => window.location.reload()}>
           Reload
         </button>
+        <button
+          className="btn btn--ghost"
+          style={{ marginTop: 12 }}
+          onClick={() => { window.location.href = '/'; }}
+        >
+          Go Home
+        </button>
       </div>
     );
   }

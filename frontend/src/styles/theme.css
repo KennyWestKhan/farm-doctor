@@ -99,7 +99,7 @@ button { font-family: var(--font-body); cursor: pointer; }
   display: flex;
   flex-direction: column;
 }
-.screen--flush { padding-left: 0; padding-right: 0; } /* for full-bleed gradient headers */
+.screen--flush { padding-left: 0; padding-right: 0; padding-top: 0; } /* for full-bleed gradient headers */
 
 /* Native-feel page transition: slide + fade in */
 .page-enter { animation: slidein 0.34s cubic-bezier(0.22, 0.78, 0.28, 1) both; }
