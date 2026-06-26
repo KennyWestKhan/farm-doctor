@@ -13,6 +13,7 @@
   "dependencies": {
     "@fontsource/atkinson-hyperlegible": "^5.2.8",
     "@fontsource/bricolage-grotesque": "^5.2.10",
+    "@fontsource/hanken-grotesk": "^5.2.8",
     "@fontsource/plus-jakarta-sans": "^5.2.8",
     "@supabase/supabase-js": "^2.108.2",
     "idb": "^8.0.3",
