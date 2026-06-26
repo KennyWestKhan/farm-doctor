@@ -36,6 +36,7 @@ Farm Doctor puts diagnosis, treatment guidance, and supplier access in the farme
 Most agro-apps stop at diagnosis. Farm Doctor goes further: farmers photograph the label on any agrochemical bottle, and the app translates it into language and measurements they actually use. No other tool in the Ghanaian agricultural technology space does this.
 
 AWS Textract extracts the text, then Claude (via function calling) translates it into:
+
 - Plain-language instructions in English and Twi
 - Local measurement analogies (bottle caps, buckets, handfuls, tea colour)
 - Context-aware dosing based on farm size, crop, and growth stage
@@ -46,20 +47,20 @@ After applying a treatment, farmers report whether it worked. These validation r
 
 ## Features
 
-| Feature | Route | Needs internet? |
-|---------|-------|-----------------|
-| Symptom checklist diagnosis | `/diagnose` | No |
-| Camera crop scan (Claude Vision) | `/scan/crop` | Yes |
-| Agrochemical label translation (Textract + Claude) | `/scan/label` | Yes |
-| Supplier map + WhatsApp/call links | `/shops` | No (tiles cache after first load) |
-| Diagnosis history | `/reports` | No |
-| Treatment feedback ("did it work?") | Result screen | Syncs when online |
-| App review / rating | After first scan | Syncs when online |
-| Phone OTP sign-in (Ghana +233) | Welcome | OTP needs Supabase |
-| Guest mode (full offline, no account) | Welcome | No |
-| Bilingual UI (Twi / English) | All screens | No |
-| Profile (region, crops, favourite shops) | `/profile` | No |
-| Impact dashboard | `/dashboard` | No (live data + demo toggle) |
+| Feature                                            | Route            | Needs internet?                   |
+| -------------------------------------------------- | ---------------- | --------------------------------- |
+| Symptom checklist diagnosis                        | `/diagnose`      | No                                |
+| Camera crop scan (Claude Vision)                   | `/scan/crop`     | Yes                               |
+| Agrochemical label translation (Textract + Claude) | `/scan/label`    | Yes                               |
+| Supplier map + WhatsApp/call links                 | `/shops`         | No (tiles cache after first load) |
+| Diagnosis history                                  | `/reports`       | No                                |
+| Treatment feedback ("did it work?")                | Result screen    | Syncs when online                 |
+| App review / rating                                | After first scan | Syncs when online                 |
+| Phone OTP sign-in (Ghana +233)                     | Welcome          | OTP needs Supabase                |
+| Guest mode (full offline, no account)              | Welcome          | No                                |
+| Bilingual UI (Twi / English)                       | All screens      | No                                |
+| Profile (region, crops, favourite shops)           | `/profile`       | No                                |
+| Impact dashboard                                   | `/dashboard`     | No (live data + demo toggle)      |
 
 ## Auth and onboarding
 
@@ -134,22 +135,22 @@ The frontend runs without the backend in demo/offline mode. Point it at the API 
 
 ### Backend (`backend/.env`)
 
-| Variable | Purpose |
-|----------|---------|
-| `ANTHROPIC_API_KEY` | Claude Vision + label translation |
-| `VISION_MODEL` | Default `claude-haiku-4-5-20251001` |
-| `SUPABASE_URL`, `SUPABASE_SERVICE_KEY` | Data storage. Run `backend/schema.sql` in Supabase SQL editor. |
-| `AWS_REGION`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` | Textract for label OCR |
-| `SCAN_LIMIT` | Daily AI scan cap per user/IP (0 = unlimited) |
-| `ALLOWED_ORIGINS` | Comma-separated CORS allowlist |
+| Variable                                                   | Purpose                                                        |
+| ---------------------------------------------------------- | -------------------------------------------------------------- |
+| `ANTHROPIC_API_KEY`                                        | Claude Vision + label translation                              |
+| `VISION_MODEL`                                             | Default `claude-haiku-4-5-20251001`                            |
+| `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`                | Data storage. Run `backend/schema.sql` in Supabase SQL editor. |
+| `AWS_REGION`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` | Textract for label OCR                                         |
+| `SCAN_LIMIT`                                               | Daily AI scan cap per user/IP (0 = unlimited)                  |
+| `ALLOWED_ORIGINS`                                          | Comma-separated CORS allowlist                                 |
 
 ### Frontend (`frontend/.env`)
 
-| Variable | Purpose |
-|----------|---------|
-| `VITE_API_URL` | Backend base URL. Blank = offline-only. |
-| `VITE_SUPABASE_URL` | Supabase project URL (phone OTP auth) |
-| `VITE_SUPABASE_ANON_KEY` | Supabase anon key (safe for client) |
+| Variable                 | Purpose                                 |
+| ------------------------ | --------------------------------------- |
+| `VITE_API_URL`           | Backend base URL. Blank = offline-only. |
+| `VITE_SUPABASE_URL`      | Supabase project URL (phone OTP auth)   |
+| `VITE_SUPABASE_ANON_KEY` | Supabase anon key (safe for client)     |
 
 ## Content coverage (MVP)
 
@@ -160,14 +161,14 @@ The frontend runs without the backend in demo/offline mode. Point it at the API 
 
 ## Data sources
 
-| Data | Source | Format |
-|------|--------|--------|
+| Data                                                                       | Source                                                                                                                                                    | Format                                               |
+| -------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
 | Disease knowledge (symptoms, treatments, regional prevalence, seasonality) | Expert-curated from CSIR/SARI extension guidance, MOFA Directorate of Crop Services materials, IITA cassava disease resources, CRI root crop publications | In-app JSON (`frontend/src/data/diseaseDatabase.js`) |
-| Farmer treatment validations | Self-collected via in-app "Did it work?" feedback form | IndexedDB → Supabase `validations` table |
-| App reviews | Self-collected star ratings + comments | Supabase `reviews` table |
-| Supplier locations | Seeded demo data (placeholder) | In-app JSON (`frontend/src/data/suppliers.js`) |
-| Treatment success rates | Live from Supabase `treatment_success_rates` view; seeded fallback for dashboard demo mode | Supabase view + cached in IndexedDB |
-| Map tiles | OpenStreetMap (© contributors) | Runtime cache via service worker |
+| Farmer treatment validations                                               | Self-collected via in-app "Did it work?" feedback form                                                                                                    | IndexedDB → Supabase `validations` table             |
+| App reviews                                                                | Self-collected star ratings + comments                                                                                                                    | Supabase `reviews` table                             |
+| Supplier locations                                                         | Seeded demo data (placeholder)                                                                                                                            | In-app JSON (`frontend/src/data/suppliers.js`)       |
+| Treatment success rates                                                    | Live from Supabase `treatment_success_rates` view; seeded fallback for dashboard demo mode                                                                | Supabase view + cached in IndexedDB                  |
+| Map tiles                                                                  | OpenStreetMap (© contributors)                                                                                                                            | Runtime cache via service worker                     |
 
 ## Security
 
@@ -179,59 +180,63 @@ The frontend runs without the backend in demo/offline mode. Point it at the API 
 
 ## API endpoints
 
-| Method | Path | Purpose |
-|--------|------|---------|
-| GET | `/api/health` | Health check (reports capability flags) |
-| POST | `/api/diagnose` | Claude Vision crop diagnosis |
-| POST | `/api/translate-label` | Textract OCR + Claude label translation |
-| POST | `/api/validations` | Store farmer treatment feedback |
-| POST | `/api/reviews` | Store app star ratings |
+| Method | Path                   | Purpose                                 |
+| ------ | ---------------------- | --------------------------------------- |
+| GET    | `/api/health`          | Health check (reports capability flags) |
+| POST   | `/api/diagnose`        | Claude Vision crop diagnosis            |
+| POST   | `/api/translate-label` | Textract OCR + Claude label translation |
+| POST   | `/api/validations`     | Store farmer treatment feedback         |
+| POST   | `/api/reviews`         | Store app star ratings                  |
 
 ## Cost analysis
 
-| Component | Service | Cost at MVP | Cost at 10k farmers/month |
-|-----------|---------|-------------|---------------------------|
-| AI diagnosis (Claude Vision) | Anthropic API | ~$0.003/scan (Haiku) | ~$30/month |
-| Label OCR | AWS Textract | ~$0.0015/page | ~$5/month |
-| Database + Auth | Supabase | Free tier (500MB) | $25/month (Pro) |
-| Frontend hosting | Vercel | Free tier | Free tier |
-| Backend hosting | Render | Free tier | $7/month |
-| **Total** | | **~$0/month** (dev) | **~$67/month** |
+| Component                    | Service       | Cost at MVP          | Cost at 10k farmers/month |
+| ---------------------------- | ------------- | -------------------- | ------------------------- |
+| AI diagnosis (Claude Vision) | Anthropic API | ~$0.003/scan (Haiku) | ~$30/month                |
+| Label OCR                    | AWS Textract  | ~$0.0015/page        | ~$5/month                 |
+| Database + Auth              | Supabase      | Free tier (500MB)    | $25/month (Pro)           |
+| Frontend hosting             | Vercel        | Free tier            | Free tier                 |
+| Backend hosting              | Render        | Free tier            | $7/month                  |
+| **Total**                    |               | **~$0/month** (dev)  | **~$67/month**            |
 
 The offline-first architecture keeps costs low: most diagnoses happen on-device with zero API calls. Claude Vision fires only when offline confidence is below 70% or the farmer uses the direct scan feature.
 
 ## Evaluation plan
 
 **Offline matcher accuracy:**
+
 - Ground truth: MOFA/CSIR field-confirmed disease cases from extension reports
 - Metric: top-1 and top-3 accuracy against confirmed diagnoses
 - Target: ≥75% top-1 accuracy on the 15 covered diseases
 - Method: Compile 50+ confirmed cases per crop, run through `diagnoseOffline()`, compare
 
 **Claude Vision accuracy:**
+
 - Ground truth: same field-confirmed cases, using actual farmer-quality photos
 - Metric: agreement rate with expert diagnosis
 - Target: ≥85% agreement on clear presentations
 
 **Treatment validation loop:**
+
 - Track `worked` / `partial` / `failed` outcomes by treatment × region over time
 - Success criterion: ≥70% positive outcome rate per recommended treatment
 - This is the core feedback signal that improves recommendations over time
 
 **User adoption (post-launch):**
+
 - Repeat usage rate (>1 scan per farmer)
 - Treatment feedback submission rate
 - Time-to-diagnosis (target: <2 minutes)
 
 ## Expansion roadmap
 
-| Phase | Scope | Timeline |
-|-------|-------|----------|
-| **MVP** (current) | 4 crops, 15 diseases, 5 regions, Twi + English | Competition submission |
-| **Phase 2** | Add maize, rice, plantain, tomato (Ghana's top staples) | Q3 2026 |
-| **Phase 3** | Ewe, Dagbani, Ga language support; MOFA extension officer dashboard | Q4 2026 |
-| **Phase 4** | Real supplier directory (verified agro-dealers); SMS fallback for non-smartphone users | Q1 2027 |
-| **Phase 5** | Cocoa + export crops; integration with Complete Farmer platform; field-collected accuracy benchmarks | Q2 2027 |
+| Phase             | Scope                                                                                                | Timeline               |
+| ----------------- | ---------------------------------------------------------------------------------------------------- | ---------------------- |
+| **MVP** (current) | 4 crops, 15 diseases, 5 regions, Twi + English                                                       | Competition submission |
+| **Phase 2**       | Add maize, rice, plantain, tomato (Ghana's top staples)                                              | Q3 2026                |
+| **Phase 3**       | Ewe, Dagbani, Ga language support; MOFA extension officer dashboard                                  | Q4 2026                |
+| **Phase 4**       | Real supplier directory (verified agro-dealers); SMS fallback for non-smartphone users               | Q1 2027                |
+| **Phase 5**       | Cocoa + export crops; integration with Complete Farmer platform; field-collected accuracy benchmarks | Q2 2027                |
 
 ## Known limitations
 
