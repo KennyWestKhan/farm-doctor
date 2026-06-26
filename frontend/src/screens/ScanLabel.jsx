@@ -5,6 +5,7 @@ import { Header } from '../components/Chrome.jsx';
 import { useOnline } from '../components/useOnline';
 import { CROPS } from '../data/diseaseDatabase';
 import { sanitizeText, LIMITS } from '../utils/sanitize';
+import { apiFetch } from '../utils/apiFetch.js';
 
 const API = import.meta.env.VITE_API_URL || '';
 
@@ -37,9 +38,8 @@ export default function ScanLabel() {
   const canScan = online && API;
 
   async function callTranslate(body) {
-    const res = await fetch(`${API}/api/translate-label`, {
+    const res = await apiFetch('/api/translate-label', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
     });
     if (res.status === 429) {

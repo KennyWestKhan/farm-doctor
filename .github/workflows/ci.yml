@@ -32,7 +32,6 @@ jobs:
         id: lint
         run: npx eslint src --ext .js,.jsx --max-warnings 0 2>&1 | tee lint-output.txt
         working-directory: frontend
-        continue-on-error: true
 
       - name: Test frontend
         id: test

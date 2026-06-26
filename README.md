@@ -4,10 +4,16 @@
 
 Farmers answer a visual symptom checklist or snap a photo. The app returns a diagnosis in **Twi and English**, recommends **Ghana-specific treatments** in farmer language (bottle caps, weak-tea colour — not ml ratios), links to **local agro-input suppliers** via WhatsApp, and tracks **whether the treatment actually worked**. Built to run on 5–10 year old Android phones with poor cameras and intermittent connectivity.
 
-**Live demo:** [farmdoctor-ghana.vercel.app](https://farmdoctor-ghana.vercel.app)
 **Repository:** [github.com/KennyWestKhan/farm-doctor](https://github.com/KennyWestKhan/farm-doctor)
 
 > Built for the [Ghana AI Innovation Challenge 2026](https://ghanaaisummit.com/research) — Agriculture track.
+
+<p align="center">
+  <img src="docs/screenshots/welcome.png" alt="Welcome screen" width="200" />
+  <img src="docs/screenshots/home.png" alt="Home screen" width="200" />
+  <img src="docs/screenshots/diagnose.png" alt="Crop selection" width="200" />
+  <img src="docs/screenshots/dashboard.png" alt="Impact dashboard" width="200" />
+</p>
 
 ---
 
@@ -25,9 +31,11 @@ Farm Doctor puts diagnosis, treatment guidance, and supplier access in the farme
 2. **Online enhancement** — If offline confidence is below 70%, the photo is queued in IndexedDB and sent to Claude Vision (via the backend) when connectivity returns. The Vision system prompt is tuned for blurry, low-quality field photos from budget Android phones.
 3. **Direct scan** — `/scan/crop` skips the checklist and sends the photo straight to Claude Vision, which identifies both the crop and the disease. The farmer can correct the detected crop via an editable dropdown.
 
-### Agrochemical label translation
+### Agrochemical label translation (novel)
 
-Farmers photograph the label on any agrochemical bottle. AWS Textract extracts the text, then Claude (via function calling) translates it into:
+Most agro-apps stop at diagnosis. Farm Doctor goes further: farmers photograph the label on any agrochemical bottle, and the app translates it into language and measurements they actually use. No other tool in the Ghanaian agricultural technology space does this.
+
+AWS Textract extracts the text, then Claude (via function calling) translates it into:
 - Plain-language instructions in English and Twi
 - Local measurement analogies (bottle caps, buckets, handfuls, tea colour)
 - Context-aware dosing based on farm size, crop, and growth stage
@@ -214,6 +222,16 @@ The offline-first architecture keeps costs low: most diagnoses happen on-device 
 - Repeat usage rate (>1 scan per farmer)
 - Treatment feedback submission rate
 - Time-to-diagnosis (target: <2 minutes)
+
+## Expansion roadmap
+
+| Phase | Scope | Timeline |
+|-------|-------|----------|
+| **MVP** (current) | 4 crops, 15 diseases, 5 regions, Twi + English | Competition submission |
+| **Phase 2** | Add maize, rice, plantain, tomato (Ghana's top staples) | Q3 2026 |
+| **Phase 3** | Ewe, Dagbani, Ga language support; MOFA extension officer dashboard | Q4 2026 |
+| **Phase 4** | Real supplier directory (verified agro-dealers); SMS fallback for non-smartphone users | Q1 2027 |
+| **Phase 5** | Cocoa + export crops; integration with Complete Farmer platform; field-collected accuracy benchmarks | Q2 2027 |
 
 ## Known limitations
 

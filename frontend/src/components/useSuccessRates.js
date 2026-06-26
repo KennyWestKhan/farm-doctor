@@ -32,9 +32,8 @@ function load() {
 export default function useSuccessRates() {
   const [ready, setReady] = useState(!!_cache);
 
-  // eslint-disable-next-line react-hooks/set-state-in-effect -- async fetch, not synchronous
   useEffect(() => {
-    if (_cache) { setReady(true); return; }
+    if (_cache) { setReady(true); return; } // eslint-disable-line react-hooks/set-state-in-effect
     let cancelled = false;
     load().then(() => { if (!cancelled) setReady(true); });
     return () => { cancelled = true; };

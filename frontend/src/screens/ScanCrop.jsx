@@ -10,9 +10,8 @@ import { buildRegionalNote } from '../engine/symptomMatcher';
 import { saveReport, updateReport } from '../db/storage';
 import { getSavedRegion } from '../utils/prefs';
 import { bumpScanCount } from '../utils/scanCount.js';
+import { apiFetch } from '../utils/apiFetch.js';
 import ReviewPrompt from '../components/ReviewPrompt.jsx';
-
-const API = import.meta.env.VITE_API_URL || '';
 
 function fileToBase64(file) {
   return new Promise((resolve, reject) => {
@@ -55,9 +54,8 @@ export default function ScanCrop() {
     setStep('loading');
     try {
       const imageBase64 = await fileToBase64(file);
-      const res = await fetch(`${API}/api/diagnose`, {
+      const res = await apiFetch('/api/diagnose', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ imageBase64, mediaType: file.type || 'image/jpeg' }),
       });
       if (res.status === 429) {

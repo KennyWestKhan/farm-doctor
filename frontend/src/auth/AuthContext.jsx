@@ -1,14 +1,8 @@
-import {
-  createContext,
-  useEffect,
-  useMemo,
-  useState,
-  useCallback
-} from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
 import { supabase } from "../db/supabase";
 import { migrateGuestData } from "./migrate";
 
-import { AuthCtx } from './useAuth.js';
+import { AuthCtx } from "./useAuth.js";
 const Ctx = AuthCtx;
 
 const GUEST_KEY = "fd_guest";
@@ -82,18 +76,22 @@ export function AuthProvider({ children }) {
   const markWelcomed = useCallback(() => {
     try {
       localStorage.setItem(WELCOME_KEY, "1");
-    } catch { /* private browsing */ }
+    } catch {
+      /* private browsing */
+    }
     setWelcomed(true);
   }, []);
 
+  const authError = "Auth not configured";
+
   const sendOtp = useCallback(async (phone) => {
-    if (!supabase) return { error: { message: "Supabase not configured" } };
+    if (!supabase) return { error: { message: authError } };
     const { error } = await supabase.auth.signInWithOtp({ phone });
     return { error };
   }, []);
 
   const verifyOtp = useCallback(async (phone, token) => {
-    if (!supabase) return { error: { message: "Supabase not configured" } };
+    if (!supabase) return { error: { message: authError } };
     const { data, error } = await supabase.auth.verifyOtp({
       phone,
       token,
@@ -103,7 +101,9 @@ export function AuthProvider({ children }) {
       try {
         localStorage.removeItem(GUEST_KEY);
         localStorage.setItem(WELCOME_KEY, "1");
-      } catch { /* private browsing */ }
+      } catch {
+        /* private browsing */
+      }
       setWelcomed(true);
     }
     return { data, error };
@@ -114,7 +114,9 @@ export function AuthProvider({ children }) {
     setUser(null);
     try {
       localStorage.setItem(GUEST_KEY, "1");
-    } catch { /* private browsing */ }
+    } catch {
+      /* private browsing */
+    }
   }, []);
 
   const value = useMemo(
@@ -144,4 +146,3 @@ export function AuthProvider({ children }) {
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }
-

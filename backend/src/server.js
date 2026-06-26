@@ -58,17 +58,29 @@ const supabase =
 
 const VISION_MODEL = process.env.VISION_MODEL || 'claude-haiku-4-5-20251001';
 
-// ---- scan rate limiting (protect Claude credits) ----------------------------
-// SCAN_LIMIT controls how many AI scans (diagnose + label) each user gets.
-// 0 or unset = unlimited. Keyed by user ID header or IP.
-const SCAN_LIMIT = parseInt(process.env.SCAN_LIMIT, 10) || 0;
+// ---- scan rate limiting (protect Claude/Textract credits) ------------------
+//
+// Feature flag: UNLIMITED_SCANS
+//   "true"  → no cap (development / demo day)
+//   unset/false → each device gets SCAN_LIMIT scans per 24h window (default 2)
+//
+// Identity: prefer x-device-id (client-generated UUID, same as review deviceId)
+// → fall back to x-user-id (Supabase auth) → fall back to IP.
+// x-device-id is spoofable, but it's the best signal for guest users on shared
+// WiFi, and matches the review fingerprinting model.
+const UNLIMITED_SCANS = process.env.UNLIMITED_SCANS === 'true';
+const SCAN_LIMIT = UNLIMITED_SCANS ? 0 : (parseInt(process.env.SCAN_LIMIT, 10) || 2);
 const scanCounts = new Map(); // key → { count, resetAt }
 const SCAN_WINDOW_MS = 24 * 60 * 60 * 1000; // 24-hour rolling window
 
-function scanLimiter(req, res, next) {
-  if (!SCAN_LIMIT) return next();
+function scanKey(req) {
+  return req.headers['x-device-id'] || req.headers['x-user-id'] || req.ip;
+}
 
-  const key = req.headers['x-user-id'] || req.ip;
+function scanLimiter(req, res, next) {
+  if (UNLIMITED_SCANS) return next();
+
+  const key = scanKey(req);
   const now = Date.now();
   let entry = scanCounts.get(key);
 
@@ -93,11 +105,40 @@ function scanLimiter(req, res, next) {
   next();
 }
 
+// ---- general write rate limiter (validations, reviews) ---------------------
+// Prevents spam on endpoints that don't call third-party APIs but still write
+// to the database. 30 writes per 15 minutes per device/IP.
+const WRITE_LIMIT = 30;
+const WRITE_WINDOW_MS = 15 * 60 * 1000;
+const writeCounts = new Map();
+
+function writeLimiter(req, res, next) {
+  const key = scanKey(req);
+  const now = Date.now();
+  let entry = writeCounts.get(key);
+
+  if (!entry || now > entry.resetAt) {
+    entry = { count: 0, resetAt: now + WRITE_WINDOW_MS };
+    writeCounts.set(key, entry);
+  }
+
+  if (entry.count >= WRITE_LIMIT) {
+    return res.status(429).json({ error: 'too_many_requests' });
+  }
+
+  entry.count++;
+  writeCounts.set(key, entry);
+  next();
+}
+
 // Purge expired entries every hour to prevent unbounded Map growth.
 setInterval(() => {
   const now = Date.now();
   for (const [key, entry] of scanCounts) {
     if (now > entry.resetAt) scanCounts.delete(key);
+  }
+  for (const [key, entry] of writeCounts) {
+    if (now > entry.resetAt) writeCounts.delete(key);
   }
 }, 60 * 60 * 1000);
 
@@ -108,7 +149,7 @@ const textract = process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_
   : null;
 
 app.get('/api/health', (_req, res) => {
-  res.json({ ok: true, vision: !!anthropic, db: !!supabase, ocr: !!textract, scanLimit: SCAN_LIMIT || null });
+  res.json({ ok: true, vision: !!anthropic, db: !!supabase, ocr: !!textract, scanLimit: UNLIMITED_SCANS ? null : SCAN_LIMIT });
 });
 
 /**
@@ -204,7 +245,7 @@ app.post('/api/translate-label', scanLimiter, async (req, res) => {
  * POST /api/validations
  * Stores a "did the treatment work?" report. No-op-safe without Supabase.
  */
-app.post('/api/validations', async (req, res) => {
+app.post('/api/validations', writeLimiter, async (req, res) => {
   const v = req.body || {};
   if (!supabase) {
     return res.status(503).json({ error: 'DB not configured', echoed: v });
@@ -232,7 +273,7 @@ app.post('/api/validations', async (req, res) => {
  * POST /api/reviews
  * Stores an app rating. One per device_id (upsert).
  */
-app.post('/api/reviews', async (req, res) => {
+app.post('/api/reviews', writeLimiter, async (req, res) => {
   const { deviceId, rating, comment } = req.body || {};
   if (!supabase) return res.status(503).json({ error: 'DB not configured' });
   if (!deviceId || typeof deviceId !== 'string') return res.status(400).json({ error: 'deviceId required' });
