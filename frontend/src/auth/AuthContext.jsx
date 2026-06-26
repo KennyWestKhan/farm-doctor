@@ -85,22 +85,18 @@ export function AuthProvider({ children }) {
   const authError = "Auth not configured";
 
   const sendOtp = useCallback(async (phone) => {
-    console.log("[AUTH] sendOtp called, phone:", phone, "supabase:", !!supabase);
     if (!supabase) return { error: { message: authError } };
     const { error } = await supabase.auth.signInWithOtp({ phone });
-    console.log("[AUTH] sendOtp result:", error ? error.message : "success");
     return { error };
   }, []);
 
   const verifyOtp = useCallback(async (phone, token) => {
-    console.log("[AUTH] verifyOtp called, phone:", phone, "token:", token, "supabase:", !!supabase);
     if (!supabase) return { error: { message: authError } };
     const { data, error } = await supabase.auth.verifyOtp({
       phone,
       token,
       type: "sms"
     });
-    console.log("[AUTH] verifyOtp result:", { error: error?.message, user: !!data?.user, session: !!data?.session });
     if (!error && data?.user) {
       try {
         localStorage.removeItem(GUEST_KEY);

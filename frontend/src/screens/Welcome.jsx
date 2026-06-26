@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useLang } from "../i18n.jsx";
 import { useAuth } from "../auth/useAuth.js";
 import { LangToggle } from "../components/Chrome.jsx";
@@ -10,6 +11,7 @@ const STEPS = { choice: 0, phone: 1, otp: 2 };
 export default function Welcome() {
   const { t } = useLang();
   const { continueAsGuest, sendOtp, verifyOtp } = useAuth();
+  const navigate = useNavigate();
   const [step, setStep] = useState(STEPS.choice);
   const [phone, setPhone] = useState("+233");
   const [code, setCode] = useState("");
@@ -17,17 +19,14 @@ export default function Welcome() {
   const [busy, setBusy] = useState(false);
 
   const handleSendOtp = async () => {
-    console.log("[WELCOME] handleSendOtp, phone:", phone);
     setError("");
     const cleaned = phone.replace(/[^0-9+]/g, "");
     if (!isValidGhanaPhone(cleaned)) {
-      console.log("[WELCOME] invalid phone:", cleaned);
       setError(t("welcome_phone_invalid"));
       return;
     }
     setBusy(true);
     const { error: err } = await sendOtp(cleaned);
-    console.log("[WELCOME] sendOtp result:", err ? err.message : "success");
     setBusy(false);
     if (err) {
       setError(err.message);
@@ -37,7 +36,6 @@ export default function Welcome() {
   };
 
   const handleVerify = async () => {
-    console.log("[WELCOME] handleVerify, code:", code);
     setError("");
     if (code.length < 4) {
       setError(t("welcome_code_invalid"));
@@ -46,10 +44,11 @@ export default function Welcome() {
     setBusy(true);
     const cleaned = phone.replace(/[^0-9+]/g, "");
     const { error: err } = await verifyOtp(cleaned, code);
-    console.log("[WELCOME] verifyOtp result:", err ? err.message : "success");
     setBusy(false);
     if (err) {
       setError(err.message);
+    } else {
+      navigate("/", { replace: true });
     }
   };
 
