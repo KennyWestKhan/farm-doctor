@@ -4,7 +4,7 @@ import { useLang } from '../i18n.jsx';
 import { LangToggle, NetDot } from '../components/Chrome.jsx';
 import { useAuth } from '../auth/useAuth.js';
 import { getRecentReports } from '../db/storage';
-import { getCrop, getDisease, REGIONS } from '../data/diseaseDatabase';
+import { getCrop, getDisease, REGIONS, ALL_DISEASES } from '../data/diseaseDatabase';
 import CropPhoto from '../components/CropPhoto.jsx';
 import RegionSheet from '../components/RegionSheet.jsx';
 import { sanitizeText, LIMITS } from '../utils/sanitize';
@@ -19,6 +19,24 @@ function greetingKey() {
   return 'greeting_evening';
 }
 
+// Diseases currently active in the farmer's region, peaking-now ones first,
+// then high prevalence before medium. Fully offline — just filters the bundled DB.
+function getActiveAlerts(region) {
+  if (!region) return [];
+  const month = new Date().getMonth() + 1;
+  return ALL_DISEASES
+    .filter((d) => d.seasonal_months.includes(month) && ['high', 'medium'].includes(d.regional_prevalence[region]))
+    .sort((a, b) => {
+      const peakA = a.peak_month === month ? 1 : 0;
+      const peakB = b.peak_month === month ? 1 : 0;
+      if (peakA !== peakB) return peakB - peakA;
+      const rankA = a.regional_prevalence[region] === 'high' ? 1 : 0;
+      const rankB = b.regional_prevalence[region] === 'high' ? 1 : 0;
+      return rankB - rankA;
+    })
+    .slice(0, 4);
+}
+
 export default function Home() {
   const { t, pick } = useLang();
   const nav = useNavigate();
@@ -30,6 +48,8 @@ export default function Home() {
   const [showRegion, setShowRegion] = useState(false);
 
   useEffect(() => { getRecentReports(3).then(setRecent); }, []);
+
+  const alerts = getActiveAlerts(region);
 
   // Sanitize on every keystroke, then run the local (offline) search. Input
   // never reaches the LLM here — this is a lexical search over bundled data.
@@ -165,6 +185,38 @@ export default function Home() {
             <strong style={{ fontFamily: 'var(--font-display)', fontSize: 15 }}>{t('tab_reports')}</strong>
           </button>
         </div>
+
+        {/* Regional pest & disease alerts */}
+        {alerts.length > 0 && (
+          <div style={{ marginTop: 22 }}>
+            <h3 style={{ marginBottom: 10 }}>⚠️ {t('alerts_title')}</h3>
+            <div className="stack">
+              {alerts.map((d) => {
+                const crop = getCrop(d.cropId);
+                const peaking = d.peak_month === new Date().getMonth() + 1;
+                return (
+                  <button
+                    key={d.id}
+                    className="card row"
+                    onClick={() => nav('/diagnose', { state: { cropId: d.cropId } })}
+                    style={{ padding: 12, gap: 12, textAlign: 'left' }}
+                  >
+                    <span style={{ fontSize: 28 }}>{crop?.emoji}</span>
+                    <span style={{ flex: 1 }}>
+                      <strong style={{ fontFamily: 'var(--font-display)', fontSize: 15, display: 'block' }}>
+                        {pick(d.name)}
+                      </strong>
+                      <span className="muted" style={{ fontSize: 13 }}>{pick(d.description)}</span>
+                    </span>
+                    <span className={peaking ? 'pill pill--bad' : 'pill pill--warn'}>
+                      {peaking ? t('alerts_peaking') : t('alerts_active')}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
         {/* Recent checks */}
         <div className="between" style={{ marginTop: 22, marginBottom: 10 }}>

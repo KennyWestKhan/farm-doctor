@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { useLang } from '../i18n.jsx';
 import CropPhoto from './CropPhoto.jsx';
 import TreatmentCard from './TreatmentCard.jsx';
 import DiseaseVideos from './DiseaseVideos.jsx';
+import { STORAGE_TIPS } from '../data/storageTips.js';
 
 /**
  * Presentational view of a single diagnosis: photo hero with the disease +
@@ -15,9 +17,11 @@ import DiseaseVideos from './DiseaseVideos.jsx';
  */
 export default function DiagnosisDetail({ cropId, disease, confidencePct, uncertain, regionalNote, region, uncertainNote }) {
   const { t, pick } = useLang();
+  const [storageOpen, setStorageOpen] = useState(false);
   // The "not fully sure" copy depends on the source: an offline guess promises an
   // AI recheck when online; an AI result (scan / rechecked) does not.
   const note = uncertainNote ?? t('uncertain_body');
+  const storageTip = !uncertain ? STORAGE_TIPS[cropId] : null;
 
   return (
     <>
@@ -64,6 +68,39 @@ export default function DiagnosisDetail({ cropId, disease, confidencePct, uncert
       ))}
 
       <DiseaseVideos disease={disease} />
+
+      {storageTip && (
+        <div className="card" style={{ marginTop: 14 }}>
+          <button
+            onClick={() => setStorageOpen((v) => !v)}
+            style={{ display: 'flex', alignItems: 'center', gap: 10, width: '100%', background: 'none', border: 'none', textAlign: 'left' }}
+          >
+            <span style={{ fontSize: 22 }}>🌾</span>
+            <strong style={{ flex: 1, fontFamily: 'var(--font-display)' }}>{t('storage_title')}</strong>
+            <span style={{ color: 'var(--green)' }}>{storageOpen ? '▲' : '▼'}</span>
+          </button>
+          {storageOpen && (
+            <div className="stack" style={{ marginTop: 12 }}>
+              <div>
+                <strong style={{ fontSize: 13, color: 'var(--green-deep)' }}>{t('storage_drying')}</strong>
+                <p className="muted" style={{ margin: '4px 0 0', fontSize: 14 }}>{pick(storageTip.drying)}</p>
+              </div>
+              <div>
+                <strong style={{ fontSize: 13, color: 'var(--green-deep)' }}>{t('storage_storage')}</strong>
+                <p className="muted" style={{ margin: '4px 0 0', fontSize: 14 }}>{pick(storageTip.storage)}</p>
+              </div>
+              <div>
+                <strong style={{ fontSize: 13, color: 'var(--green-deep)' }}>{t('storage_signs')}</strong>
+                <p className="muted" style={{ margin: '4px 0 0', fontSize: 14 }}>{pick(storageTip.signs_of_spoilage)}</p>
+              </div>
+              <div>
+                <strong style={{ fontSize: 13, color: 'var(--green-deep)' }}>{t('storage_duration')}</strong>
+                <p className="muted" style={{ margin: '4px 0 0', fontSize: 14 }}>{pick(storageTip.duration)}</p>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
     </>
   );
 }

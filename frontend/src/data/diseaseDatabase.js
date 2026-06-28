@@ -125,6 +125,36 @@ export const SYMPTOM_QUESTIONS = {
     en: 'Are leaves bunched, small and crowded at the shoot tips?',
     twi: 'Nhaban no aboaboa ano, yɛ nketewa na ahyia wɔ mman no atifi?',
   },
+  // Ginger
+  pseudostem_watersoaked: {
+    en: 'Are there water-soaked patches at the base of the stems that turn brown?',
+    twi: 'Nsuo wɔ mu nsisii wɔ dua no ase a ɛdane kɔkɔɔ?',
+  },
+  rhizome_soft_rot: {
+    en: 'When you dig up the rhizome, is it soft, watery and bad-smelling?',
+    twi: 'Sɛ wotu rhizome no a, ɛyɛ mmrɛ, nsuo wɔ mu na ɛbɔn?',
+  },
+  // Cocoa
+  pod_black_patches: {
+    en: 'Are there black, water-soaked patches spreading across the pod?',
+    twi: 'Nsisii tuntum a nsuo wɔ mu trɛw fa aba no so?',
+  },
+  pod_mummified: {
+    en: 'Have pods turned hard, black and shrivelled (mummified) on the tree?',
+    twi: 'Aba no ayɛ den, tuntum na akusa wɔ dua so?',
+  },
+  red_vein_banding: {
+    en: 'Do young leaves show red or purple banding along the veins?',
+    twi: 'Nhaban foforɔ kyerɛ kɔkɔɔ anaa beredum nsensaneɛ wɔ ntini ho?',
+  },
+  capsid_lesions: {
+    en: 'Are there dark sunken lesions on pods and young stems where insects have fed?',
+    twi: 'Akwammoeɛ tuntum a akɔ mu wɔ aba ne mman foforɔ so baabi a mmoawa adidi?',
+  },
+  stem_borer_holes: {
+    en: 'Are there small holes in the stem or branches with sawdust-like material around them?',
+    twi: 'Ntokuro nketewa wɔ dua anaa mman so a dua mfutuma da ho?',
+  },
 };
 
 export const REGIONS = {
@@ -1422,6 +1452,641 @@ export const CROPS = [
                 amount: 'Bisa wo extension officer anaa SARI ma nkateɛ aba a ɛko tia rosette.',
                 application: 'Suban a ɛko tia no da so nyin na ɛma aba sɛ ntɛferɛ ba mpo.',
                 frequency: 'Fa aba a ɛko tia no di dwuma ɛberɛ biara, titiriw Northern Region baabi a rosette yɛ den.',
+              },
+            },
+            video_url: null,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'ginger',
+    name: { en: 'Ginger', twi: 'Kakaduro' },
+    emoji: '🫚',
+    diseases: [
+      {
+        id: 'ginger_soft_rot',
+        name: { en: 'Bacterial Soft Rot', twi: 'Kakaduro Mmrɛ Porɔeɛ' },
+        pathogen: 'Pythium spp. / Ralstonia spp.',
+        description: {
+          en: 'A fast-moving rot that turns the rhizome soft, watery and foul-smelling; stems yellow and collapse.',
+          twi: 'Porɔeɛ a ɛyɛ ntɛm a ɛma rhizome no yɛ mmrɛ, nsuo wɔ mu na ɛbɔn; dua no yɛ akokɔsradeɛ na ɛhwe.',
+        },
+        symptoms: [
+          { key: 'rhizome_soft_rot', weight: 1.0 },
+          { key: 'pseudostem_watersoaked', weight: 0.7 },
+          { key: 'leaf_wilting', weight: 0.6 },
+          { key: 'yellow_leaves', weight: 0.4 },
+        ],
+        regional_prevalence: {
+          ashanti: 'medium', greater_accra: 'low', western: 'low', volta: 'high', northern: 'low',
+        },
+        seasonal_months: [5, 6, 7, 8, 9],
+        peak_month: 7,
+        sources: ['MOFA Crop Health Guidelines — Ginger', 'CSIR-CRI Root & Tuber Disease Reports'],
+        treatments: [
+          {
+            id: 'ginger_softrot_drainage',
+            name: 'Drainage + Field Sanitation (cultural control)',
+            price_range: 'Free',
+            technical_instruction: 'No chemical cure once rotting starts. Improve drainage, remove and burn infected plants, avoid waterlogging.',
+            farmer_instruction: {
+              en: {
+                mixing: 'No medicine needed. This disease spreads fastest where water sits.',
+                amount: 'Dig small channels so rain water drains away from the ginger beds.',
+                application: 'Pull out and burn any plant with soft, smelly rhizomes — do not compost it.',
+                frequency: 'Check after every heavy rain and remove sick plants immediately.',
+              },
+              twi: {
+                mixing: 'Aduro nhia. Saa yadeɛ yi trɛw ntɛm baabi a nsuo gyina.',
+                amount: 'Tu akwan nketewa ma osu nsuo nya kwan firi kakaduro mfuo no mu.',
+                application: 'Tu afifideɛ a rhizome no yɛ mmrɛ na ɛbɔn na hye no — mfa nyɛ compost.',
+                frequency: 'Hwɛ osutɔ kɛseɛ biara akyi na yi afifideɛ a ayare ntɛm.',
+              },
+            },
+            video_url: null,
+          },
+          {
+            id: 'ginger_softrot_clean_seed',
+            name: 'Clean Seed Rhizomes (prevention)',
+            price_range: 'Free – GHc 20',
+            technical_instruction: 'Plant only disease-free rhizomes from a trusted source; treat seed rhizomes with hot water or copper before planting.',
+            farmer_instruction: {
+              en: {
+                mixing: 'Mix one bottle cap of copper powder into a bucket of water.',
+                amount: 'Dip seed rhizomes in the copper water for a few minutes before planting.',
+                application: 'Let the rhizomes dry in shade before putting them in the ground.',
+                frequency: 'Do this once, just before every new planting.',
+              },
+              twi: {
+                mixing: 'Fra toa ano copper mfutuma baako gu bokiti nsuo mu.',
+                amount: 'Fa rhizome no nyɛ ho wɔ copper nsuo no mu simma kakra ansa na woadua.',
+                application: 'Ma rhizome no wo wɔ nwunu mu ansa na wode gu fam.',
+                frequency: 'Yɛ eyi pɛnkoro, ansa na woadua foforɔ biara.',
+              },
+            },
+            video_url: null,
+          },
+          {
+            id: 'ginger_softrot_rotation',
+            name: 'Crop Rotation (prevention)',
+            price_range: 'Free',
+            technical_instruction: 'Rotate ginger with cereals for 2–3 seasons to reduce soil-borne pathogen build-up.',
+            farmer_instruction: {
+              en: {
+                mixing: 'No medicine needed. This is a planting method.',
+                amount: 'After ginger, plant maize or another cereal on that land for 2–3 seasons.',
+                application: 'Do not replant ginger on the same plot right away.',
+                frequency: 'Follow this rotation every cycle, especially on land that has had rot before.',
+              },
+              twi: {
+                mixing: 'Aduro nhia. Eyi yɛ adua ɛkwan bi.',
+                amount: 'Kakaduro akyi, dua aburo wɔ asaase no so ɛberɛ 2–3.',
+                application: 'Nnua kakaduro wɔ asaase koro no so ntɛm ara.',
+                frequency: 'Di saa ɛkwan yi akyi ɛberɛ biara, titiriw asaase a porɔeɛ aba so dada.',
+              },
+            },
+            video_url: null,
+          },
+        ],
+      },
+      {
+        id: 'ginger_bacterial_wilt',
+        name: { en: 'Bacterial Wilt', twi: 'Kakaduro Nwuwuo (Bacteria)' },
+        pathogen: 'Ralstonia solanacearum',
+        description: {
+          en: 'Bacteria blocking the stem\'s water vessels; lower leaves yellow and wilt even with wet soil, and the rhizome shows brown discolouration.',
+          twi: 'Bacteria a ɛsi nsuo akwan wɔ dua mu; nhaban a ɛwɔ ase yɛ akokɔsradeɛ na ɛhwe wɔ ɛberɛ a asaase yɛ fɔkyee, na rhizome no sesa kɔ kɔkɔɔ mu.',
+        },
+        symptoms: [
+          { key: 'leaf_wilting', weight: 1.0 },
+          { key: 'pseudostem_watersoaked', weight: 0.6 },
+          { key: 'yellow_leaves', weight: 0.5 },
+          { key: 'stunted_growth', weight: 0.4 },
+        ],
+        regional_prevalence: {
+          ashanti: 'medium', greater_accra: 'low', western: 'medium', volta: 'high', northern: 'low',
+        },
+        seasonal_months: [4, 5, 6, 7],
+        peak_month: 6,
+        sources: ['CSIR-CRI Root & Tuber Disease Reports', 'MOFA Extension Training Materials'],
+        treatments: [
+          {
+            id: 'ginger_wilt_rogue',
+            name: 'Roguing + Clean Tools (cultural control)',
+            price_range: 'Free',
+            technical_instruction: 'No chemical cure. Remove infected plants immediately; disinfect cutlasses between plants.',
+            farmer_instruction: {
+              en: {
+                mixing: 'No medicine needed. Clean your cutlass with fire or bleach between plants.',
+                amount: 'Pull out and burn every wilted plant as soon as you see it.',
+                application: 'Wash tools after touching a sick plant before touching a healthy one.',
+                frequency: 'Check the field every few days during the wet season.',
+              },
+              twi: {
+                mixing: 'Aduro nhia. Fa ogya anaa bleach hohoro wo sekan ho ɛberɛ a wode afifideɛ biara di dwuma.',
+                amount: 'Tu afifideɛ biara a ahwe na hye no ɛberɛ a wohunu.',
+                application: 'Hohoro wo nnwuma akode wɔ deɛ ɛkaa afifideɛ a ayare akyi ansa na woaka deɛ ɛho yɛ den.',
+                frequency: 'Hwɛ afuom no nnafua kakra biara wɔ osutɔ berɛ mu.',
+              },
+            },
+            video_url: null,
+          },
+          {
+            id: 'ginger_wilt_clean_seed',
+            name: 'Clean Seed Rhizomes (prevention)',
+            price_range: 'Free – GHc 20',
+            technical_instruction: 'Use certified disease-free seed rhizomes; avoid planting material from wilted fields.',
+            farmer_instruction: {
+              en: {
+                mixing: 'No medicine needed. This is about choosing healthy planting material.',
+                amount: 'Get seed rhizomes from a farm that has never had wilting.',
+                application: 'Inspect every rhizome before planting and discard any with brown rings inside.',
+                frequency: 'Every planting season.',
+              },
+              twi: {
+                mixing: 'Aduro nhia. Eyi fa adua mu nneɛma pa a wobɛpaw ho.',
+                amount: 'Nya rhizome firi afuo a wuwuo mmaa hɔ da.',
+                application: 'Hwɛ rhizome biara ansa na woadua na tow biara a kanko kɔkɔɔ wɔ mu gu.',
+                frequency: 'Adua berɛ biara.',
+              },
+            },
+            video_url: null,
+          },
+          {
+            id: 'ginger_wilt_rotation',
+            name: 'Crop Rotation + Drainage (prevention)',
+            price_range: 'Free',
+            technical_instruction: 'Rotate with non-host crops for 3+ seasons; avoid waterlogged fields.',
+            farmer_instruction: {
+              en: {
+                mixing: 'No medicine needed. This is a farming method.',
+                amount: 'Do not plant ginger on the same land for at least 3 seasons after wilt appears.',
+                application: 'Choose well-drained land, not low areas where water collects.',
+                frequency: 'Plan your rotation every season.',
+              },
+              twi: {
+                mixing: 'Aduro nhia. Eyi yɛ afuo adwuma ɛkwan bi.',
+                amount: 'Nnua kakaduro wɔ asaase koro no so kɔsi ɛberɛ 3 akyi sɛ nwuwuo aba.',
+                application: 'Paw asaase a nsuo nnyina so, ɛnyɛ baabi a nsuo boa so.',
+                frequency: 'Hyehyɛ wo adua nhyehyɛeɛ ɛberɛ biara.',
+              },
+            },
+            video_url: null,
+          },
+        ],
+      },
+      {
+        id: 'ginger_rhizome_rot',
+        name: { en: 'Fusarium Rhizome Rot', twi: 'Kakaduro Rhizome Porɔeɛ' },
+        pathogen: 'Fusarium oxysporum',
+        description: {
+          en: 'A dry rot that darkens and shrinks the rhizome in storage or in the field; plants yellow and stunt.',
+          twi: 'Porɔeɛ a ɛyɛ wo a ɛma rhizome no yɛ tuntum na ɛkusa wɔ store mu anaa afuom; afifideɛ no yɛ akokɔsradeɛ na ɛnnyini.',
+        },
+        symptoms: [
+          { key: 'root_dark_rot', weight: 1.0 },
+          { key: 'yellow_leaves', weight: 0.5 },
+          { key: 'stunted_growth', weight: 0.5 },
+          { key: 'leaf_wilting', weight: 0.3 },
+        ],
+        regional_prevalence: {
+          ashanti: 'medium', greater_accra: 'low', western: 'low', volta: 'medium', northern: 'low',
+        },
+        seasonal_months: [10, 11, 12, 1],
+        peak_month: 12,
+        sources: ['CSIR-CRI Root & Tuber Disease Reports', 'MOFA Crop Health Guidelines — Ginger'],
+        treatments: [
+          {
+            id: 'ginger_rhizomerot_dryingstore',
+            name: 'Proper Curing + Storage (prevention)',
+            price_range: 'Free',
+            technical_instruction: 'Cure harvested rhizomes in shade for 2–3 days before storing; store in a cool, dry, ventilated place.',
+            farmer_instruction: {
+              en: {
+                mixing: 'No medicine needed. This is about handling after harvest.',
+                amount: 'Let rhizomes dry in the shade for 2–3 days before bagging them.',
+                application: 'Store in a cool, airy place, not in a sealed sack on bare ground.',
+                frequency: 'Check stored rhizomes every week and remove any going soft or dark.',
+              },
+              twi: {
+                mixing: 'Aduro nhia. Eyi fa sɛdeɛ wobɛhwɛ no wɔ otwa akyi.',
+                amount: 'Ma rhizome no wo wɔ nwunu mu nnafua 2–3 ansa na woakora.',
+                application: 'Kora wɔ baabi a mframa wɔ mu na ɛyɛ nwunu, ɛnyɛ kotokuo a wɔasɔ ano wɔ fam.',
+                frequency: 'Hwɛ deɛ woakora no dapɛn biara na yi biara a ɛreyɛ mmrɛ anaa atuntum.',
+              },
+            },
+            video_url: null,
+          },
+          {
+            id: 'ginger_rhizomerot_copper',
+            name: 'Copper Hydroxide Seed Treatment',
+            price_range: 'GHc 45–70',
+            technical_instruction: 'Dip seed rhizomes in copper solution before planting to reduce Fusarium load.',
+            farmer_instruction: {
+              en: {
+                mixing: 'Mix one bottle cap of copper powder into a bucket of water.',
+                amount: 'Dip rhizome pieces in the mixture for a few minutes.',
+                application: 'Dry in shade before planting.',
+                frequency: 'Once, just before planting.',
+              },
+              twi: {
+                mixing: 'Fra toa ano copper mfutuma baako gu bokiti nsuo mu.',
+                amount: 'Fa rhizome asinasin nyɛ ho wɔ mu simma kakra.',
+                application: 'Ma ɛwo wɔ nwunu mu ansa na woadua.',
+                frequency: 'Pɛnkoro, ansa na woadua.',
+              },
+            },
+            video_url: null,
+          },
+          {
+            id: 'ginger_rhizomerot_rotation',
+            name: 'Crop Rotation (prevention)',
+            price_range: 'Free',
+            technical_instruction: 'Rotate with cereals for 2–3 seasons; avoid reusing infected fields.',
+            farmer_instruction: {
+              en: {
+                mixing: 'No medicine needed.',
+                amount: 'Plant maize or another cereal on the land for 2–3 seasons after rot appears.',
+                application: 'Avoid replanting ginger on the same spot right away.',
+                frequency: 'Every rotation cycle.',
+              },
+              twi: {
+                mixing: 'Aduro nhia.',
+                amount: 'Dua aburo wɔ asaase no so ɛberɛ 2–3 sɛ porɔeɛ aba akyi.',
+                application: 'Ntɛm nnua kakaduro wɔ baabi koro no.',
+                frequency: 'Ɛberɛ biara a wobɛsesa adua.',
+              },
+            },
+            video_url: null,
+          },
+        ],
+      },
+      {
+        id: 'ginger_leaf_spot',
+        name: { en: 'Ginger Leaf Spot', twi: 'Kakaduro Nhaban Nsisii' },
+        pathogen: 'Phyllosticta zingiberi',
+        description: {
+          en: 'Small water-soaked spots that enlarge into white-centred lesions with brown borders, weakening the plant.',
+          twi: 'Nsisii nketewa a nsuo wɔ mu a ɛyɛ kɛse kɔyɛ akwammoeɛ a emu yɛ fitaa a kɔkɔɔ atwa ho, a ɛma afifideɛ no ahoɔden tew.',
+        },
+        symptoms: [
+          { key: 'leaf_spots_brown', weight: 0.8 },
+          { key: 'leaf_spots_target', weight: 0.6 },
+          { key: 'yellow_leaves', weight: 0.4 },
+        ],
+        regional_prevalence: {
+          ashanti: 'low', greater_accra: 'low', western: 'low', volta: 'medium', northern: 'low',
+        },
+        seasonal_months: [6, 7, 8, 9],
+        peak_month: 8,
+        sources: ['MOFA Crop Health Guidelines — Ginger', 'CSIR-CRI Annual Reports'],
+        treatments: [
+          {
+            id: 'ginger_leafspot_mancozeb',
+            name: 'Mancozeb 80% WP',
+            price_range: 'GHc 40–60',
+            technical_instruction: 'Protectant fungicide, spray every 10–14 days during wet season.',
+            farmer_instruction: {
+              en: {
+                mixing: 'Mix until the water looks like weak tea.',
+                amount: 'Two bottle caps of powder per bucket of water.',
+                application: 'Spray the whole plant until leaves drip.',
+                frequency: 'Every 10–14 days while spots keep appearing.',
+              },
+              twi: {
+                mixing: 'Fra no kosi sɛ nsuo no bɛyɛ sɛ tii a ɛnyɛ den.',
+                amount: 'Toa ano mfutuma mmienu wɔ bokiti nsuo baako mu.',
+                application: 'Pete gu afifideɛ no nyinaa so kosi sɛ nhaban no bɛsɔ.',
+                frequency: 'Nnafua 10–14 biara mmerɛ a nsisii foforɔ da so pue.',
+              },
+            },
+            video_url: null,
+          },
+          {
+            id: 'ginger_leafspot_remove',
+            name: 'Remove Spotted Leaves (cultural control)',
+            price_range: 'Free',
+            technical_instruction: 'Remove and destroy heavily spotted leaves to slow spread.',
+            farmer_instruction: {
+              en: {
+                mixing: 'No medicine needed.',
+                amount: 'Pick off leaves with many spots and burn them away from the farm.',
+                application: 'Improve spacing so air can dry the leaves after rain.',
+                frequency: 'Check every few days during the rainy season.',
+              },
+              twi: {
+                mixing: 'Aduro nhia.',
+                amount: 'Teɛ nhaban a nsisii pii wɔ so na kɔhye no akyiri firi afuom.',
+                application: 'Ma afifideɛ no ntam nna hɔ sɛdeɛ mframa bɛwo nhaban no osu akyi.',
+                frequency: 'Hwɛ nnafua kakra biara wɔ osutɔ berɛ mu.',
+              },
+            },
+            video_url: null,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'cocoa',
+    name: { en: 'Cocoa', twi: 'Kokoɔ' },
+    emoji: '🍫',
+    diseases: [
+      {
+        id: 'cocoa_black_pod',
+        name: { en: 'Black Pod Disease', twi: 'Kokoɔ Aba Tuntum Yadeɛ' },
+        pathogen: 'Phytophthora palmivora / P. megakarya',
+        description: {
+          en: 'A fungus causing black, water-soaked patches on pods that spread fast in wet weather, rotting the beans inside.',
+          twi: 'Honam bi a ɛma aba no so nsisii tuntum a nsuo wɔ mu a ɛtrɛw ntɛm wɔ osutɔ berɛ mu, na ɛma aba no mu porɔ.',
+        },
+        symptoms: [
+          { key: 'pod_black_patches', weight: 1.0 },
+          { key: 'fruit_rotting', weight: 0.7 },
+          { key: 'mold_on_pods', weight: 0.4 },
+        ],
+        regional_prevalence: {
+          ashanti: 'high', greater_accra: 'low', western: 'high', volta: 'medium', northern: 'low',
+        },
+        seasonal_months: [5, 6, 7, 8, 9, 10],
+        peak_month: 7,
+        sources: ['COCOBOD/CRIG Black Pod Management Guide', 'MOFA Crop Health Guidelines — Cocoa'],
+        treatments: [
+          {
+            id: 'cocoa_blackpod_copper',
+            name: 'Copper Fungicide (Kocide / Fungikill)',
+            price_range: 'GHc 50–80',
+            technical_instruction: 'Spray copper-based fungicide every 3–4 weeks through the rainy season, per CRIG calendar.',
+            farmer_instruction: {
+              en: {
+                mixing: 'Mix the powder into water until it looks like weak tea.',
+                amount: 'Follow the bottle/sachet measure for one knapsack sprayer (15L).',
+                application: 'Spray all pods and the lower canopy until they are well covered.',
+                frequency: 'Every 3–4 weeks during the rainy season, starting when pods are small.',
+              },
+              twi: {
+                mixing: 'Fra mfutuma no nsuo mu kosi sɛ ɛbɛyɛ sɛ tii a ɛnyɛ den.',
+                amount: 'Di sɛdeɛ wɔakyerɛ wɔ toa/sache so ma sprayer (15L) baako.',
+                application: 'Pete gu aba no nyinaa ne nnua no ase fa so kosi sɛ ɛbɛsɔ yie.',
+                frequency: 'Nnawɔtwe 3–4 biara wɔ osutɔ berɛ mu, firi ɛberɛ a aba no sua.',
+              },
+            },
+            video_url: null,
+          },
+          {
+            id: 'cocoa_blackpod_sanitation',
+            name: 'Remove Diseased Pods (cultural control)',
+            price_range: 'Free',
+            technical_instruction: 'Harvest and destroy infected pods weekly (CPS — capsid/black pod sanitation); break shade to reduce humidity.',
+            farmer_instruction: {
+              en: {
+                mixing: 'No medicine needed for this step.',
+                amount: 'Cut off every black pod, even small ones, and bury or burn them away from the trees.',
+                application: 'Prune overhanging branches so more air and light reach the pods.',
+                frequency: 'Walk the farm and remove black pods every week during the rains.',
+              },
+              twi: {
+                mixing: 'Aduro nhia wɔ saa ɛkwan yi mu.',
+                amount: 'Twa aba tuntum biara, mpo nketewa, na sie anaa hye no akyiri firi nnua no.',
+                application: 'Twitwa mman a ɛkata so sɛdeɛ mframa ne hann bɛduru aba no so.',
+                frequency: 'Nantew afuom na yi aba tuntum nnawɔtwe biara wɔ osutɔ berɛ mu.',
+              },
+            },
+            video_url: null,
+          },
+          {
+            id: 'cocoa_blackpod_drainage',
+            name: 'Drainage + Spacing (prevention)',
+            price_range: 'Free',
+            technical_instruction: 'Improve field drainage and canopy spacing to reduce the humid conditions the fungus needs.',
+            farmer_instruction: {
+              en: {
+                mixing: 'No medicine needed. This is about farm conditions.',
+                amount: 'Clear small channels so rain water does not sit between the trees.',
+                application: 'Thin out very dense shade trees to let the farm dry faster after rain.',
+                frequency: 'Check drainage at the start of every rainy season.',
+              },
+              twi: {
+                mixing: 'Aduro nhia. Eyi fa afuom tebea ho.',
+                amount: 'Yi akwan nketewa ma osu nsuo nnyina nnua no ntam.',
+                application: 'Yi nnua a ɛkata kɛse no bi sɛdeɛ afuom no bɛwo ntɛm osu akyi.',
+                frequency: 'Hwɛ akwan no ɛberɛ biara a osutɔ berɛ rebɛfiri aseɛ.',
+              },
+            },
+            video_url: null,
+          },
+        ],
+      },
+      {
+        id: 'cocoa_swollen_shoot',
+        name: { en: 'Cocoa Swollen Shoot Virus (CSSV)', twi: 'Kokoɔ Mman Hono Virus' },
+        pathogen: 'Cacao swollen shoot virus (spread by mealybugs)',
+        description: {
+          en: 'A mealybug-spread virus causing red vein-banding on young leaves, swollen shoots/roots, and a slow decline that kills the tree within a few years.',
+          twi: 'Virus a mmoawa nketewa de trɛ a ɛma nhaban foforɔ kɔkɔɔ nsensaneɛ, mman/ntini hono, na ɛkum dua no nkakrankakra wɔ mfeɛ kakra mu.',
+        },
+        symptoms: [
+          { key: 'red_vein_banding', weight: 1.0 },
+          { key: 'leaves_bunched', weight: 0.5 },
+          { key: 'stunted_growth', weight: 0.6 },
+          { key: 'yellow_leaves', weight: 0.3 },
+        ],
+        regional_prevalence: {
+          ashanti: 'high', greater_accra: 'low', western: 'medium', volta: 'low', northern: 'low',
+        },
+        seasonal_months: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+        peak_month: 3,
+        sources: ['COCOBOD/CRIG CSSV Containment Programme', 'MOFA Crop Health Guidelines — Cocoa'],
+        treatments: [
+          {
+            id: 'cocoa_cssv_remove',
+            name: 'Remove & Replace Infected Trees (mandatory containment)',
+            price_range: 'Free (government cutting-out exercise)',
+            technical_instruction: 'No cure exists. Report to COCOBOD/CRIG; infected and ring of surrounding trees are cut out and replaced with resistant hybrids.',
+            farmer_instruction: {
+              en: {
+                mixing: 'There is no medicine for this virus. It cannot be sprayed away.',
+                amount: 'Report any tree with red vein-banding or swollen shoots to your COCOBOD extension officer.',
+                application: 'Allow the cutting-out team to remove the sick tree and the ones close to it.',
+                frequency: 'Walk your farm monthly looking for the red banding on young leaves.',
+              },
+              twi: {
+                mixing: 'Aduro biara nni hɔ ma saa virus yi. Wontumi mpete nkum no.',
+                amount: 'Ka dua biara a kɔkɔɔ nsensaneɛ anaa mman hono wɔ so kyerɛ wo COCOBOD extension officer.',
+                application: 'Ma wɔn a wɔbɛtwa no tu dua a ayare ne deɛ ɛbɛn no.',
+                frequency: 'Nantew wo afuom bosome biara hwɛ nhaban foforɔ no kɔkɔɔ nsensaneɛ.',
+              },
+            },
+            video_url: null,
+          },
+          {
+            id: 'cocoa_cssv_mealybug',
+            name: 'Mealybug Control (slows spread)',
+            price_range: 'GHc 60–100',
+            technical_instruction: 'Systemic insecticide on nursery/young trees can reduce mealybug vectors, though it does not cure infected trees.',
+            farmer_instruction: {
+              en: {
+                mixing: 'Follow the label measure for one knapsack sprayer.',
+                amount: 'Mix as directed on the insecticide label.',
+                application: 'Spray young trees and nursery seedlings where small white insects cluster on shoots.',
+                frequency: 'As advised by your extension officer, usually every few weeks in the nursery.',
+              },
+              twi: {
+                mixing: 'Di sɛdeɛ wɔakyerɛ wɔ label so ma sprayer baako.',
+                amount: 'Fra sɛdeɛ wɔakyerɛ wɔ aduro label so.',
+                application: 'Pete gu nnua nkumaa ne nursery aba so baabi a mmoawa fitaa nketewa hyia wɔ mman so.',
+                frequency: 'Sɛdeɛ wo extension officer akyerɛ, mpɛn pii nnawɔtwe kakra biara wɔ nursery mu.',
+              },
+            },
+            video_url: null,
+          },
+          {
+            id: 'cocoa_cssv_resistant',
+            name: 'Plant CRIG-Resistant Hybrid Seedlings',
+            price_range: 'Free – GHc 5 per seedling (COCOBOD subsidy)',
+            technical_instruction: 'Replant cut-out areas with CSSV-tolerant hybrid varieties from CRIG/COCOBOD nurseries.',
+            farmer_instruction: {
+              en: {
+                mixing: 'No medicine needed. This is about choosing the right seedlings.',
+                amount: 'Collect free or subsidised hybrid seedlings from your COCOBOD district office.',
+                application: 'Plant them in the cut-out areas once the land has been cleared.',
+                frequency: 'Whenever you replant after a cutting-out exercise.',
+              },
+              twi: {
+                mixing: 'Aduro nhia. Eyi fa aba pa a wobɛpaw ho.',
+                amount: 'Kɔfa hybrid aba a ɛyɛ free anaa subsidy firi wo COCOBOD district office.',
+                application: 'Dua wɔ baabi a wɔatwa no sɛ wɔate asaase no.',
+                frequency: 'Ɛberɛ biara a wobɛsan adua wɔ twa akyi.',
+              },
+            },
+            video_url: null,
+          },
+        ],
+      },
+      {
+        id: 'cocoa_capsid',
+        name: { en: 'Capsid (Mirid) Damage', twi: 'Kokoɔ Capsid Mmoawa' },
+        pathogen: 'Sahlbergella singularis / Distantiella theobroma',
+        description: {
+          en: 'Sap-sucking bugs that leave dark sunken lesions on pods and young stems; heavy attacks cause dieback and let fungi enter.',
+          twi: 'Mmoawa a wɔnom dua no nsuo a ɛgya akwammoeɛ tuntum a akɔ mu wɔ aba ne mman foforɔ so; sɛ ɛyɛ den a mman wuwu na ɛma ntotoeɛ kɔ mu.',
+        },
+        symptoms: [
+          { key: 'capsid_lesions', weight: 1.0 },
+          { key: 'shoot_dieback', weight: 0.6 },
+          { key: 'small_insects', weight: 0.4 },
+        ],
+        regional_prevalence: {
+          ashanti: 'high', greater_accra: 'low', western: 'high', volta: 'medium', northern: 'low',
+        },
+        seasonal_months: [11, 12, 1, 2, 3],
+        peak_month: 1,
+        sources: ['COCOBOD/CRIG Capsid Management Guide', 'MOFA Crop Health Guidelines — Cocoa'],
+        treatments: [
+          {
+            id: 'cocoa_capsid_spray',
+            name: 'COCOBOD-Approved Insecticide (e.g. Confidor, Actara)',
+            price_range: 'GHc 40–70',
+            technical_instruction: 'Apply approved capsid insecticide as part of the mass cocoa spraying programme, twice in the dry season.',
+            farmer_instruction: {
+              en: {
+                mixing: 'Mix as directed on the insecticide sachet/bottle label.',
+                amount: 'Follow the measure for one knapsack sprayer (15L).',
+                application: 'Spray the trunk, branches and pods, focusing where dark lesions appear.',
+                frequency: 'Twice during the dry season (November–February) as advised by your spraying gang.',
+              },
+              twi: {
+                mixing: 'Fra sɛdeɛ wɔakyerɛ wɔ sache/toa label so.',
+                amount: 'Di sɛdeɛ wɔakyerɛ ma sprayer (15L) baako.',
+                application: 'Pete gu dua no ho, mman ne aba so, titiriw baabi a akwammoeɛ tuntum wɔ.',
+                frequency: 'Mprenu wɔ ɔpɛ berɛ mu (November–February) sɛdeɛ wo spraying gang akyerɛ.',
+              },
+            },
+            video_url: null,
+          },
+          {
+            id: 'cocoa_capsid_shade',
+            name: 'Shade Management (cultural control)',
+            price_range: 'Free',
+            technical_instruction: 'Capsids prefer sunny, poorly-shaded farms; maintaining moderate shade reduces populations.',
+            farmer_instruction: {
+              en: {
+                mixing: 'No medicine needed. This changes the farm conditions capsids like.',
+                amount: 'Keep some shade trees rather than clearing the farm completely open.',
+                application: 'Avoid heavy pruning that lets too much direct sun onto the cocoa canopy.',
+                frequency: 'Manage shade levels every dry season.',
+              },
+              twi: {
+                mixing: 'Aduro nhia. Eyi sesa afuom tebea a capsid pɛ.',
+                amount: 'Gyaa nnua a ɛkata bi sɛn deɛ wobɛyi afuom no nyinaa fi hɔ koraa.',
+                application: 'Nyi mman pii sɛdeɛ owia bɛduru kokoɔ no so tẽẽ.',
+                frequency: 'Hwɛ shade tebea ɔpɛ berɛ biara.',
+              },
+            },
+            video_url: null,
+          },
+        ],
+      },
+      {
+        id: 'cocoa_stem_borer',
+        name: { en: 'Cocoa Stem Borer', twi: 'Kokoɔ Dua Mu Mmoawa' },
+        pathogen: 'Eulophonotus myrmeleon (and related borers)',
+        description: {
+          en: 'Larvae that tunnel inside trunks and branches, leaving holes with sawdust-like frass; weakens the tree and can kill branches.',
+          twi: 'Mmoawa mma a wotu akwan wɔ dua mu ne mman mu, na ɛgya ntokuro a dua mfutuma da ho; ɛma dua no ahoɔden tew na ɛtumi kum mman.',
+        },
+        symptoms: [
+          { key: 'stem_borer_holes', weight: 1.0 },
+          { key: 'shoot_dieback', weight: 0.6 },
+          { key: 'stunted_growth', weight: 0.3 },
+        ],
+        regional_prevalence: {
+          ashanti: 'medium', greater_accra: 'low', western: 'medium', volta: 'low', northern: 'low',
+        },
+        seasonal_months: [2, 3, 4, 5],
+        peak_month: 4,
+        sources: ['COCOBOD/CRIG Pest Management Guide', 'MOFA Crop Health Guidelines — Cocoa'],
+        treatments: [
+          {
+            id: 'cocoa_borer_prune',
+            name: 'Prune & Burn Infested Branches (cultural control)',
+            price_range: 'Free',
+            technical_instruction: 'Cut out and burn branches with borer holes before adults emerge to spread further.',
+            farmer_instruction: {
+              en: {
+                mixing: 'No medicine needed for this step.',
+                amount: 'Cut off any branch with a borer hole well below the damaged part.',
+                application: 'Burn the cut branches away from the farm so the larvae inside cannot survive.',
+                frequency: 'Check trees every 2 weeks during the borer season (February–May).',
+              },
+              twi: {
+                mixing: 'Aduro nhia wɔ saa ɛkwan yi mu.',
+                amount: 'Twa man biara a ntokuro wɔ so wɔ baabi a ɛkɔ aseɛ sen baabi a adam no wɔ.',
+                application: 'Hye mman a watwa no akyiri firi afuom sɛdeɛ mmoawa a ɛwɔ mu no renya nkwa.',
+                frequency: 'Hwɛ nnua no nnawɔtwe mmienu biara wɔ borer berɛ mu (February–May).',
+              },
+            },
+            video_url: null,
+          },
+          {
+            id: 'cocoa_borer_insecticide',
+            name: 'COCOBOD-Approved Insecticide Injection/Spray',
+            price_range: 'GHc 50–80',
+            technical_instruction: 'Apply approved systemic insecticide to trunk holes or as cover spray during heavy infestation.',
+            farmer_instruction: {
+              en: {
+                mixing: 'Mix as directed on the insecticide label.',
+                amount: 'Follow the measure for one knapsack sprayer, or inject directly into fresh holes if advised by your officer.',
+                application: 'Apply to the trunk and branches where holes and frass are visible.',
+                frequency: 'As advised by your extension officer when infestation is heavy.',
+              },
+              twi: {
+                mixing: 'Fra sɛdeɛ wɔakyerɛ wɔ aduro label so.',
+                amount: 'Di sɛdeɛ wɔakyerɛ ma sprayer baako, anaa hyɛ tẽẽ wɔ ntokuro foforɔ mu sɛ wo officer kyerɛ.',
+                application: 'Fa gu dua no ho ne mman so baabi a ntokuro ne mfutuma wɔ.',
+                frequency: 'Sɛdeɛ wo extension officer akyerɛ ɛberɛ a ɛyɛ den.',
               },
             },
             video_url: null,

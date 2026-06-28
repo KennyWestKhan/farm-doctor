@@ -100,6 +100,18 @@ const STRINGS = {
   home_tip_title: { en: 'Tip of the day', twi: 'Ɛnnɛ afotuo' },
   home_tip_body: { en: 'Spray in the cool morning or evening, never in hot midday sun.', twi: 'Pete anɔpa anaa anwummerɛ a ahuhuru nni hɔ, ɛnyɛ awia ketee mu.' },
 
+  // Regional alerts
+  alerts_title: { en: 'Active in your region', twi: 'Ɛrekɔ so wɔ wo mpɔtam' },
+  alerts_peaking: { en: 'Peaking now', twi: 'Ɛyɛ den seesei' },
+  alerts_active: { en: 'Active', twi: 'Ɛrekɔ so' },
+
+  // Storage tips
+  storage_title: { en: 'Protect your harvest', twi: 'Bɔ wo otwa ho ban' },
+  storage_drying: { en: 'Drying', twi: 'Sɛdeɛ wobɛwo' },
+  storage_storage: { en: 'Storage', twi: 'Sɛdeɛ wobɛkora' },
+  storage_signs: { en: 'Signs of spoilage', twi: 'Nsɛnkyerɛnne a ɛkyerɛ sɛ aporɔ' },
+  storage_duration: { en: 'How long it keeps', twi: 'Ne berɛ a ɛbɛkora' },
+
   // Shops
   shops_title: { en: 'Input shops', twi: 'Sotɔɔ' },
   shops_subtitle: { en: 'Agro-dealers near your region', twi: 'Sotɔɔ a ɛbɛn wo mpɔtam' },
