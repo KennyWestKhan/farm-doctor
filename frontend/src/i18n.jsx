@@ -105,6 +105,33 @@ const STRINGS = {
   alerts_peaking: { en: 'Peaking now', twi: 'Ɛyɛ den seesei' },
   alerts_active: { en: 'Active', twi: 'Ɛrekɔ so' },
 
+  // Pesticide registry check
+  pesticide_banned_title: { en: 'This product is banned or restricted', twi: 'Wɔabra aduro yi ho anaa wɔasi ho ban' },
+  pesticide_registered_title: { en: 'Active ingredient is commonly registered', twi: 'Aduro a ɛwɔ mu no wɔakyerɛw ho din' },
+  pesticide_unknown_title: { en: 'Could not verify this product', twi: 'Yɛantumi anhwɛ aduro yi mu' },
+  pesticide_unknown_body: {
+    en: 'We could not match this against our reference list. Ask your agro-dealer or PPRSD to confirm it is registered before you buy or use it.',
+    twi: 'Yɛantumi amfa eyi ntoto yɛn list ho. Bisa wo aduro tɔnfoɔ anaa PPRSD ma ɔnhwɛ sɛ wɔakyerɛw ho din ansa na wotɔ anaa wode di dwuma.',
+  },
+  pesticide_disclaimer: {
+    en: "This is a reference list, not the official EPA Ghana registry. When in doubt, confirm with PPRSD or your agro-dealer.",
+    twi: 'Yei yɛ list a yɛakora, ɛnyɛ EPA Ghana official registry. Sɛ wonnim a, bisa PPRSD anaa wo aduro tɔnfoɔ.',
+  },
+
+  // Spray timing
+  spray_title: { en: 'Best time to spray', twi: 'Berɛ pa a wobɛpete' },
+  spray_rain_soon: {
+    en: 'Rain is expected soon — wait until it clears, or the spray will wash off before it works.',
+    twi: 'Osu bɛtɔ seesei — twɛn kosi sɛ ɛbɛgyae, anaa nsuo bɛhohoro aduro no ansa na ɛyɛ adwuma.',
+  },
+  spray_hot_now: {
+    en: "It's hot right now — wait for the cool of evening so the spray doesn't burn the leaves.",
+    twi: 'Ahuhuru wɔ hɔ seesei — twɛn anwummerɛ a ɛyɛ nwunu sɛdeɛ aduro no renhye nhaban no.',
+  },
+  spray_good_now: { en: 'Good conditions — cool and no rain expected. You can spray now.', twi: 'Tebea no yɛ pa — ɛyɛ nwunu na osuo nni hɔ. Wobɛtumi apete seesei.' },
+  spray_ok_later: { en: 'No rain expected, but wait for cooler hours — early morning or evening.', twi: 'Osuo nni hɔ, nanso twɛn berɛ a ɛyɛ nwunu — anɔpa anaa anwummerɛ.' },
+  spray_offline: { en: 'No internet for a live forecast. As a rule: spray in the cool morning or evening, never just before rain.', twi: 'Intanɛt nni hɔ ma forecast. Mmara: pete anɔpa anaa anwummerɛ a ɛyɛ nwunu, na nnyɛ ansa na osuo retɔ.' },
+
   // Storage tips
   storage_title: { en: 'Protect your harvest', twi: 'Bɔ wo otwa ho ban' },
   storage_drying: { en: 'Drying', twi: 'Sɛdeɛ wobɛwo' },

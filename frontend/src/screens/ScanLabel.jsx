@@ -4,6 +4,7 @@ import { useLang } from '../i18n.jsx';
 import { Header } from '../components/Chrome.jsx';
 import { useOnline } from '../components/useOnline';
 import { CROPS } from '../data/diseaseDatabase';
+import { checkPesticideStatus } from '../data/pesticideRegistry.js';
 import { sanitizeText, LIMITS } from '../utils/sanitize';
 import { apiFetch } from '../utils/apiFetch.js';
 
@@ -130,6 +131,9 @@ export default function ScanLabel() {
   }
 
   // ---- result + refine ----
+  const pesticideCheck = result && !result.unreadable
+    ? checkPesticideStatus({ productName: result.product_name, activeIngredient: result.active_ingredient })
+    : null;
   const instr = result?.instructions?.[lang] || result?.instructions?.en;
   const rows = instr ? [
     { icon: '🥣', label: t('how_to_mix'), text: instr.mixing },
@@ -156,6 +160,27 @@ export default function ScanLabel() {
             <div style={{ background: 'var(--warn-tint)', color: 'var(--warn)', borderRadius: 'var(--radius)', padding: 14, fontWeight: 700 }}>
               ⚠️ {t('scan_unreadable')}
             </div>
+          )}
+
+          {pesticideCheck?.status === 'banned' && (
+            <div className="stack" style={{ background: 'var(--bad-tint)', color: 'var(--bad)', borderRadius: 'var(--radius)', padding: 14 }}>
+              <strong>🚫 {t('pesticide_banned_title')}</strong>
+              <span style={{ fontWeight: 400, fontSize: 14 }}>{pick(pesticideCheck.reason)}</span>
+            </div>
+          )}
+          {pesticideCheck?.status === 'registered' && (
+            <div className="row" style={{ background: 'var(--green-tint)', color: 'var(--green-deep)', borderRadius: 'var(--radius)', padding: 14, gap: 8, fontWeight: 700 }}>
+              ✅ {t('pesticide_registered_title')}
+            </div>
+          )}
+          {pesticideCheck?.status === 'unknown' && (
+            <div className="stack" style={{ background: 'var(--warn-tint)', color: 'var(--warn)', borderRadius: 'var(--radius)', padding: 14 }}>
+              <strong>❓ {t('pesticide_unknown_title')}</strong>
+              <span style={{ fontWeight: 400, fontSize: 14 }}>{t('pesticide_unknown_body')}</span>
+            </div>
+          )}
+          {pesticideCheck && (
+            <p className="muted" style={{ fontSize: 12, margin: 0 }}>{t('pesticide_disclaimer')}</p>
           )}
 
           {rows.map((r) => (

@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useLang } from '../i18n.jsx';
 import { getDisease } from '../data/diseaseDatabase';
 import DiagnosisDetail from '../components/DiagnosisDetail.jsx';
+import SprayWindow from '../components/SprayWindow.jsx';
 import ValidationForm from '../components/ValidationForm.jsx';
 import { Header } from '../components/Chrome.jsx';
 import ReviewPrompt from '../components/ReviewPrompt.jsx';
@@ -40,6 +41,7 @@ export default function Result({ session, onRestart, onHome }) {
           regionalNote={result.regionalNote}
           region={region}
         />
+        <SprayWindow region={region} />
         {/* Bought the chemical? Scan its label for plain-language directions. */}
         <button className="card" onClick={() => nav('/scan/label')} style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14 }}>
           <span style={{ fontSize: 30 }}>🧴</span>

@@ -41,26 +41,45 @@ AWS Textract extracts the text, then Claude (via function calling) translates it
 - Local measurement analogies (bottle caps, buckets, handfuls, tea colour)
 - Context-aware dosing based on farm size, crop, and growth stage
 
+### Counterfeit / banned pesticide check
+
+Unregistered and banned pesticides are common in West African markets, and many farmers can't read the label well enough to tell. After translating a label, Farm Doctor cross-references the extracted product name and active ingredient against a curated reference list — Stockholm Convention POPs (DDT, Endosulfan, Lindane, etc.) and known EPA-Ghana restricted actives (Paraquat, Carbofuran, Monocrotophos) — and flags a clear 🚫 warning, a ✅ for commonly-registered actives, or a ❓ "ask your agro-dealer" when it can't tell. Fully offline, no extra API call. **Not** an official EPA-Ghana registry lookup (no public API exists for that) — the UI says so explicitly.
+
 ### Treatment validation loop
 
 After applying a treatment, farmers report whether it worked. These validation reports sync to a Supabase database and feed into regional treatment success rates — creating a farmer-generated evidence base over time.
 
+### Regional pest & disease alerts
+
+The disease database already carries `seasonal_months`, `peak_month`, and `regional_prevalence` per disease. The Home screen filters this against the farmer's saved region and the current month to surface what's actively a risk right now — e.g. "Anthracnose peaks in Ashanti this month." Fully offline, zero extra data or API calls.
+
+### Best-time-to-spray advisory
+
+After a diagnosis, a "Best time to spray" card calls [Open-Meteo](https://open-meteo.com) — a free forecast API that needs no API key or account — for the farmer's region, and warns if rain is expected soon (spray will wash off) or it's currently too hot (spray can scorch leaves). If the device is offline or the request fails, it falls back to static general guidance (spray in the cool morning or evening, never just before rain).
+
+### Post-harvest storage tips
+
+Ghana loses 30–50% of harvested crops to poor drying and storage. After a confident diagnosis, a collapsible "Protect your harvest" card shows crop-specific drying, storage, spoilage-sign, and shelf-life guidance — bilingual, offline, sourced from CSIR/CRI post-harvest guidelines and PICS bag research.
+
 ## Features
 
-| Feature                                            | Route            | Needs internet?                   |
-| -------------------------------------------------- | ---------------- | --------------------------------- |
-| Symptom checklist diagnosis                        | `/diagnose`      | No                                |
-| Camera crop scan (Claude Vision)                   | `/scan/crop`     | Yes                               |
-| Agrochemical label translation (Textract + Claude) | `/scan/label`    | Yes                               |
-| Supplier map + WhatsApp/call links                 | `/shops`         | No (tiles cache after first load) |
-| Diagnosis history                                  | `/reports`       | No                                |
-| Treatment feedback ("did it work?")                | Result screen    | Syncs when online                 |
-| App review / rating                                | After first scan | Syncs when online                 |
-| Phone OTP sign-in (Ghana +233)                     | Welcome          | OTP needs Supabase                |
-| Guest mode (full offline, no account)              | Welcome          | No                                |
-| Bilingual UI (Twi / English)                       | All screens      | No                                |
-| Profile (region, crops, favourite shops)           | `/profile`       | No                                |
-| Impact dashboard                                   | `/dashboard`     | No (live data + demo toggle)      |
+| Feature                                            | Route             | Needs internet?                          |
+| -------------------------------------------------- | ----------------- | ----------------------------------------- |
+| Symptom checklist diagnosis                        | `/diagnose`       | No                                        |
+| Camera crop scan (Claude Vision)                   | `/scan/crop`      | Yes                                       |
+| Agrochemical label translation (Textract + Claude) | `/scan/label`     | Yes                                       |
+| Regional pest & disease alerts                     | Home              | No                                        |
+| Best-time-to-spray weather advisory                | Result screen     | No (falls back to static advice offline) |
+| Post-harvest storage tips                          | Diagnosis detail  | No                                        |
+| Supplier map + WhatsApp/call links                 | `/shops`          | No (tiles cache after first load)        |
+| Diagnosis history                                  | `/reports`        | No                                        |
+| Treatment feedback ("did it work?")                | Result screen     | Syncs when online                        |
+| App review / rating                                | After first scan  | Syncs when online                        |
+| Phone OTP sign-in (Ghana +233)                     | Welcome           | OTP needs Supabase                       |
+| Guest mode (full offline, no account)              | Welcome           | No                                        |
+| Bilingual UI (Twi / English)                       | All screens       | No                                        |
+| Profile (region, crops, favourite shops)           | `/profile`        | No                                        |
+| Impact dashboard                                   | `/dashboard`      | No (live data + demo toggle)             |
 
 ## Auth and onboarding
 
@@ -154,10 +173,11 @@ The frontend runs without the backend in demo/offline mode. Point it at the API 
 
 ## Content coverage (MVP)
 
-- **Crops (4):** chilli pepper, cassava, sweet potato, groundnut
-- **Diseases (15):** with symptoms, regional prevalence, seasonality, treatments
+- **Crops (6):** chilli pepper, cassava, sweet potato, groundnut, ginger, cocoa
+- **Diseases (23):** with symptoms, regional prevalence, seasonality, treatments
 - **Regions (5):** Ashanti, Greater Accra, Western, Volta, Northern
 - **Suppliers (13 seeded)** across all 5 regions with WhatsApp deep links
+- **Storage guidance** for all 4 original crops (drying, storage method, spoilage signs, shelf life)
 
 ## Data sources
 
@@ -169,6 +189,8 @@ The frontend runs without the backend in demo/offline mode. Point it at the API 
 | Supplier locations                                                         | Seeded demo data (placeholder)                                                                                                                            | In-app JSON (`frontend/src/data/suppliers.js`)       |
 | Treatment success rates                                                    | Live from Supabase `treatment_success_rates` view; seeded fallback for dashboard demo mode                                                                | Supabase view + cached in IndexedDB                  |
 | Map tiles                                                                  | OpenStreetMap (© contributors)                                                                                                                            | Runtime cache via service worker                     |
+| Spray-timing forecast                                                      | [Open-Meteo](https://open-meteo.com) (free, no API key)                                                                                                    | Live fetch per region, no caching                    |
+| Ginger & cocoa disease knowledge                                           | COCOBOD/CRIG management guides, CSIR-CRI root & tuber disease reports, MOFA crop health guidelines                                                         | In-app JSON (`frontend/src/data/diseaseDatabase.js`) |
 
 ## Security
 
@@ -232,11 +254,11 @@ The offline-first architecture keeps costs low: most diagnoses happen on-device 
 
 | Phase             | Scope                                                                                                | Timeline               |
 | ----------------- | ---------------------------------------------------------------------------------------------------- | ---------------------- |
-| **MVP** (current) | 4 crops, 15 diseases, 5 regions, Twi + English                                                       | Competition submission |
+| **MVP** (current) | 6 crops (incl. ginger, cocoa), 23 diseases, 5 regions, Twi + English, regional alerts, spray timing, storage tips | Competition submission |
 | **Phase 2**       | Add maize, rice, plantain, tomato (Ghana's top staples)                                              | Q3 2026                |
 | **Phase 3**       | Ewe, Dagbani, Ga language support; MOFA extension officer dashboard                                  | Q4 2026                |
 | **Phase 4**       | Real supplier directory (verified agro-dealers); SMS fallback for non-smartphone users               | Q1 2027                |
-| **Phase 5**       | Cocoa + export crops; integration with Complete Farmer platform; field-collected accuracy benchmarks | Q2 2027                |
+| **Phase 5**       | Counterfeit/banned pesticide checker; crowdsourced market price reference; integration with Complete Farmer platform; field-collected accuracy benchmarks | Q2 2027                |
 
 ## Known limitations
 
@@ -244,7 +266,8 @@ The offline-first architecture keeps costs low: most diagnoses happen on-device 
 - Supplier data is placeholder (seeded with demo WhatsApp numbers).
 - Dashboard defaults to live data (which may be zero initially). A demo toggle lets judges preview the dashboard at scale. Treatment success rates on diagnosis cards pull from the live `treatment_success_rates` Supabase view.
 - Offline matcher is rule-based (not ML) — a deliberate choice for reliability on low-end devices with no connectivity. Accuracy benchmarking against field-collected cases is in progress.
-- Currently covers 4 crops / 15 diseases. Expansion to additional Ghanaian staples (maize, rice, plantain, tomato) is planned.
+- Currently covers 6 crops / 23 diseases. Expansion to additional Ghanaian staples (maize, rice, plantain, tomato) is planned.
+- Spray-timing advisory uses a single representative coordinate per region (not farm-precise GPS) and a simplified rain/heat heuristic — good enough for go/no-go guidance, not a precision ag tool.
 
 ## License
 

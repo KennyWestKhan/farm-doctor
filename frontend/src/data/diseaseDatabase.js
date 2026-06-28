@@ -6,7 +6,7 @@
  * internet.
  *
  * STRUCTURE
- *  crops[]            — the 4 MVP crops (chilli, cassava, sweet potato, groundnut)
+ *  crops[]            — the 6 MVP crops (chilli, cassava, sweet potato, groundnut, ginger, cocoa)
  *    diseases[]       — diseases that affect that crop
  *      symptoms[]     — checklist questions the offline matcher scores against.
  *                       `weight` is how strongly a YES answer points at THIS disease

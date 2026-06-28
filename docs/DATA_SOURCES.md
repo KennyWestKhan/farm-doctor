@@ -11,8 +11,8 @@ All datasets used in Farm Doctor Ghana, their provenance, licensing, and how the
 **Ghanaian:** Yes
 
 A structured database of crop diseases affecting Ghanaian smallholder farms, covering:
-- 4 crops: chilli pepper, cassava, sweet potato, groundnut
-- 15 diseases with symptoms, diagnostic weights, treatments, and farmer-language instructions
+- 6 crops: chilli pepper, cassava, sweet potato, groundnut, ginger, cocoa
+- 23 diseases with symptoms, diagnostic weights, treatments, and farmer-language instructions
 - Regional prevalence across 5 Ghana regions (Ashanti, Greater Accra, Western, Volta, Northern)
 - Seasonal patterns (peak months for each disease in Ghana's climate zones)
 
@@ -24,6 +24,8 @@ A structured database of crop diseases affecting Ghanaian smallholder farms, cov
 | Chilli pepper diseases (anthracnose, bacterial wilt, leaf curl, Cercospora) | MOFA Directorate of Crop Services, Plant Protection and Regulatory Services Directorate (PPRSD) | MOFA Crop Health Guidelines; PPRSD Pest Alerts |
 | Sweet potato diseases (virus complex, Alternaria, Fusarium) | CRI (Crops Research Institute) root and tuber publications | CRI Technical Bulletins; CSIR root crop disease guides |
 | Groundnut diseases (rosette, leaf spot, Aspergillus, rust) | SARI groundnut improvement programme, ICRISAT West Africa | SARI Groundnut Research Reports; ICRISAT disease management guides |
+| Ginger diseases (bacterial soft rot, bacterial wilt, Fusarium rhizome rot, leaf spot) | CSIR-CRI root and tuber publications, MOFA crop health guidance | CSIR-CRI Root & Tuber Disease Reports; MOFA Crop Health Guidelines — Ginger |
+| Cocoa diseases (black pod, swollen shoot virus, capsid damage, stem borer) | COCOBOD/CRIG (Cocoa Research Institute of Ghana) management guides | COCOBOD/CRIG Black Pod, CSSV, Capsid & Pest Management Guides |
 | Regional prevalence data | MOFA regional crop health reports, extension officer field reports | MOFA Annual Reports by Region |
 | Treatment protocols and dosages | PPRSD approved pesticide list, extension officer field manuals | Ghana EPA registered products list; MOFA extension training materials |
 | Farmer-language treatment instructions | Extension officer interviews, MOFA farmer training materials | Adapted from field-level extension communication practices |
@@ -66,6 +68,13 @@ Each validation record contains:
 **License:** ODbL (Open Database License)
 **Usage:** Runtime map rendering via Leaflet; tiles cached by service worker for offline use
 **Attribution:** Displayed in map component per ODbL requirements
+
+### Open-Meteo Weather Forecast
+
+**Type:** Hourly temperature + precipitation probability for spray-timing advice
+**Source:** [Open-Meteo](https://open-meteo.com) (free, no API key or account required)
+**License:** CC BY 4.0
+**Usage:** Live fetch per region (one representative coordinate per region) on the Result screen; not cached, not stored. Falls back to static guidance when offline or the request fails.
 
 ### Supplier Location Data (Demo)
 

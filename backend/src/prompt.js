@@ -1,6 +1,6 @@
 /**
  * The Claude Vision system prompt, tuned for low-quality photos from old phones.
- * Constrains the model to the 4 MVP crops and forces a strict JSON contract.
+ * Constrains the model to the supported crops and forces a strict JSON contract.
  */
 export const VISION_SYSTEM_PROMPT = `You are diagnosing crop diseases on Ghanaian farms.
 
