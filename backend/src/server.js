@@ -189,7 +189,7 @@ app.post("/api/diagnose", scanLimiter, async (req, res) => {
   if (!anthropic) {
     return res
       .status(503)
-      .json({ error: "Vision not configured (missing ANTHROPIC_API_KEY)" });
+      .json({ error: "Vision feature not configured. Please contact admin" });
   }
   const { imageBase64, mediaType = "image/jpeg", note } = req.body || {};
   if (!imageBase64)
@@ -359,6 +359,37 @@ app.post("/api/reviews", writeLimiter, async (req, res) => {
   } catch (err) {
     console.error("review insert error", err);
     res.status(500).json({ error: "Could not store review" });
+  }
+});
+
+/**
+ * POST /api/shop-submissions
+ * Farmer suggests a new agro-input shop. Stored pending admin approval.
+ */
+app.post('/api/shop-submissions', writeLimiter, async (req, res) => {
+  if (!supabase) return res.status(503).json({ error: 'DB not configured' });
+
+  const { deviceId, name, region, town, whatsapp, phone, products, note } = req.body || {};
+  if (!deviceId || typeof deviceId !== 'string') return res.status(400).json({ error: 'deviceId required' });
+  if (!name || typeof name !== 'string' || name.trim().length < 2) return res.status(400).json({ error: 'name required (min 2 chars)' });
+  if (!region || typeof region !== 'string') return res.status(400).json({ error: 'region required' });
+
+  try {
+    const { error } = await supabase.from('shop_submissions').insert({
+      device_id: deviceId.slice(0, 128),
+      name: sanitizeText(name, 100),
+      region: sanitizeText(region, 32),
+      town: town ? sanitizeText(town, 60) : null,
+      whatsapp: whatsapp ? sanitizeText(whatsapp, 20) : null,
+      phone: phone ? sanitizeText(phone, 20) : null,
+      products: products ? sanitizeText(products, 200) : null,
+      note: note ? sanitizeText(note, 280) : null,
+    });
+    if (error) throw error;
+    res.json({ ok: true });
+  } catch (err) {
+    console.error('shop-submission insert error', err);
+    res.status(500).json({ error: 'Could not store submission' });
   }
 });
 

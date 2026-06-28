@@ -107,6 +107,21 @@ create table if not exists reviews (
   created_at timestamptz default now()
 );
 
+-- Shop submissions from farmers, pending admin approval.
+create table if not exists shop_submissions (
+  id uuid primary key default gen_random_uuid(),
+  device_id text not null,
+  name text not null,
+  region text not null,
+  town text,
+  whatsapp text,
+  phone text,
+  products text,
+  note text,
+  approved boolean default false,
+  created_at timestamptz default now()
+);
+
 -- Convenience view: success rate by treatment + region for the dashboard.
 create or replace view treatment_success_rates as
 select

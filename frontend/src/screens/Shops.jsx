@@ -3,10 +3,12 @@ import { useLang } from '../i18n.jsx';
 import { REGIONS } from '../data/diseaseDatabase';
 import SupplierList from '../components/SupplierList.jsx';
 import { getSavedRegion } from '../utils/prefs';
+import ShopSubmitForm from '../components/ShopSubmitForm.jsx';
 
 export default function Shops() {
   const { t, pick } = useLang();
   const [region, setRegion] = useState(getSavedRegion() || 'ashanti');
+  const [showForm, setShowForm] = useState(false);
 
   return (
     <div className="screen screen--flush page-enter">
@@ -16,7 +18,6 @@ export default function Shops() {
       </div>
 
       <div style={{ padding: '16px 18px 0' }}>
-        {/* Region filter chips */}
         <div className="scroll-x" style={{ marginBottom: 16 }}>
           {Object.entries(REGIONS).map(([id, name]) => (
             <button
@@ -39,7 +40,22 @@ export default function Shops() {
         <div className="stagger">
           <SupplierList region={region} />
         </div>
+
+        <button
+          className="btn btn--tint btn--block"
+          onClick={() => setShowForm(true)}
+          style={{ marginTop: 20, marginBottom: 24 }}
+        >
+          {t('shop_submit_cta')}
+        </button>
       </div>
+
+      {showForm && (
+        <ShopSubmitForm
+          defaultRegion={region}
+          onClose={() => setShowForm(false)}
+        />
+      )}
     </div>
   );
 }

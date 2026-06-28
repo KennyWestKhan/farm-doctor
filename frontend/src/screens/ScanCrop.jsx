@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLang } from '../i18n.jsx';
 import { Header } from '../components/Chrome.jsx';
@@ -10,6 +10,7 @@ import { buildRegionalNote } from '../engine/symptomMatcher';
 import { saveReport, updateReport } from '../db/storage';
 import { getSavedRegion } from '../utils/prefs';
 import { bumpScanCount } from '../utils/scanCount.js';
+import { sanitizeText, LIMITS } from '../utils/sanitize.js';
 import { apiFetch } from '../utils/apiFetch.js';
 import ReviewPrompt from '../components/ReviewPrompt.jsx';
 
@@ -24,41 +25,55 @@ function fileToBase64(file) {
   });
 }
 
-/**
- * Scan-my-crop: straight to the camera (no crop-picking step). Claude Vision
- * identifies BOTH the crop and the disease; the result shows the diagnosis with
- * a crop dropdown pre-filled with the detected crop, which the farmer can correct
- * (re-deriving the disease within the chosen crop).
- */
 export default function ScanCrop() {
   const { t, pick } = useLang();
   const nav = useNavigate();
   const online = useOnline();
   const inputRef = useRef(null);
 
-  const [step, setStep] = useState('capture'); // capture | loading | result | unclear
+  const [step, setStep] = useState('capture'); // capture | preview | loading | result | unclear
   const [vision, setVision] = useState(null);
   const [cropId, setCropId] = useState(null);
   const [reportId, setReportId] = useState(null);
   const [feedback, setFeedback] = useState('');
+  const [note, setNote] = useState('');
+  const [pendingFile, setPendingFile] = useState(null);
+  const [preview, setPreview] = useState(null);
 
   const region = getSavedRegion();
   const canScan = online && API;
 
-  // Derive the diagnosis for the currently-selected crop from the AI's disease text.
+  // Auto-open camera on mount. If offline, redirect to questionnaire.
+  useEffect(() => {
+    if (!canScan) {
+      nav('/diagnose', { replace: true });
+      return;
+    }
+    const t = setTimeout(() => inputRef.current?.click(), 120);
+    return () => clearTimeout(t);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   const matchedId = vision ? matchDiseaseByName(cropId, vision.disease) : null;
   const disease = matchedId ? getDisease(matchedId) : null;
   const conf = typeof vision?.confidence === 'number' ? vision.confidence : 0;
   const status = matchedId && conf >= 0.7 ? 'confident' : matchedId ? 'uncertain' : 'no_match';
 
-  async function onPhoto(file) {
+  function onFilePicked(file) {
     if (!file) return;
+    setPendingFile(file);
+    setPreview(URL.createObjectURL(file));
+    setStep('preview');
+  }
+
+  async function submitPhoto() {
+    if (!pendingFile) return;
     setStep('loading');
     try {
-      const imageBase64 = await fileToBase64(file);
+      const imageBase64 = await fileToBase64(pendingFile);
+      const cleanNote = sanitizeText(note, LIMITS.note);
       const res = await apiFetch('/api/diagnose', {
         method: 'POST',
-        body: JSON.stringify({ imageBase64, mediaType: file.type || 'image/jpeg' }),
+        body: JSON.stringify({ imageBase64, mediaType: pendingFile.type || 'image/jpeg', note: cleanNote || undefined }),
       });
       if (res.status === 429) {
         setFeedback(t('scan_limit_reached'));
@@ -87,7 +102,6 @@ export default function ScanCrop() {
     }
   }
 
-  // Farmer corrects the crop → re-derive disease and update the saved report.
   function changeCrop(newCropId) {
     setCropId(newCropId);
     if (reportId && vision) {
@@ -97,27 +111,74 @@ export default function ScanCrop() {
     }
   }
 
-  const restart = () => { setVision(null); setCropId(null); setReportId(null); setStep('capture'); };
+  function restart() {
+    setVision(null);
+    setCropId(null);
+    setReportId(null);
+    setNote('');
+    setPendingFile(null);
+    if (preview) URL.revokeObjectURL(preview);
+    setPreview(null);
+    setStep('capture');
+    setTimeout(() => inputRef.current?.click(), 120);
+  }
 
-  // ---- capture (entry) ----
+  // Hidden file input — shared across all steps
+  const fileInput = (
+    <input ref={inputRef} type="file" accept="image/*" capture="environment" hidden onChange={(e) => { onFilePicked(e.target.files?.[0]); e.target.value = ''; }} />
+  );
+
+  // ---- capture (camera opens automatically) ----
   if (step === 'capture') {
     return (
       <div className="screen page-enter" style={{ display: 'flex', flexDirection: 'column' }}>
-        <Header title={t('scan_crop_title')} onBack={() => nav('/scan')} />
+        <Header title={t('scan_crop_title')} onBack={() => nav(-1)} />
         <div className="stagger stack" style={{ marginTop: 6 }}>
           <div className="card center stack">
             <div style={{ fontSize: 52 }}>🌿📷</div>
             <p className="muted" style={{ margin: 0 }}>{t('scan_crop_desc')}</p>
           </div>
-          {!canScan && (
-            <div style={{ background: 'var(--warn-tint)', color: 'var(--warn)', borderRadius: 'var(--radius)', padding: 14, fontWeight: 700 }}>
-              📶 {t('scan_needs_internet')}
-            </div>
-          )}
         </div>
-        <input ref={inputRef} type="file" accept="image/*" capture="environment" hidden onChange={(e) => onPhoto(e.target.files?.[0])} />
+        {fileInput}
         <div className="sticky-cta">
-          <button className="btn btn--block" disabled={!canScan} onClick={() => inputRef.current?.click()}>📷 {t('scan_crop_cta')}</button>
+          <button className="btn btn--block" onClick={() => inputRef.current?.click()}>📷 {t('scan_crop_cta')}</button>
+        </div>
+      </div>
+    );
+  }
+
+  // ---- preview (photo taken, add optional note before sending) ----
+  if (step === 'preview') {
+    return (
+      <div className="screen page-enter" style={{ display: 'flex', flexDirection: 'column' }}>
+        <Header title={t('scan_crop_title')} onBack={restart} />
+        {fileInput}
+        <div className="stagger stack" style={{ marginTop: 6 }}>
+          <div className="card center">
+            <img
+              src={preview}
+              alt={t('scan_crop_title')}
+              style={{ width: '100%', maxHeight: 260, objectFit: 'cover', borderRadius: 'var(--radius)' }}
+            />
+          </div>
+          <div className="card stack" style={{ gap: 6 }}>
+            <label className="muted" style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+              {t('scan_note_label')}
+            </label>
+            <textarea
+              value={note}
+              onChange={(e) => setNote(sanitizeText(e.target.value, LIMITS.note))}
+              placeholder={t('scan_note_placeholder')}
+              rows={2}
+              maxLength={LIMITS.note}
+              style={{ width: '100%', padding: 12, fontSize: 15, fontFamily: 'var(--font-body)', border: '2px solid var(--line)', borderRadius: 'var(--radius)', background: '#fff', color: 'var(--ink)', resize: 'vertical' }}
+            />
+            <span className="muted" style={{ fontSize: 11, textAlign: 'right' }}>{note.length}/{LIMITS.note}</span>
+          </div>
+        </div>
+        <div className="sticky-cta" style={{ display: 'flex', gap: 10 }}>
+          <button className="btn btn--tint" onClick={() => inputRef.current?.click()} style={{ flex: 0 }}>📷</button>
+          <button className="btn btn--block" onClick={submitPhoto} style={{ flex: 1 }}>{t('scan_crop_send')}</button>
         </div>
       </div>
     );
@@ -127,6 +188,7 @@ export default function ScanCrop() {
     return (
       <div className="screen page-enter">
         <Header title={t('scan_crop_title')} onBack={restart} />
+        {fileInput}
         <div className="card center stack" style={{ marginTop: 40 }}>
           <div className="pop" style={{ fontSize: 48 }}>🔎</div>
           <strong style={{ fontFamily: 'var(--font-display)' }}>{t('scan_crop_reading')}</strong>
@@ -140,12 +202,13 @@ export default function ScanCrop() {
     return (
       <div className="screen page-enter">
         <Header title={t('scan_crop_title')} onBack={restart} />
+        {fileInput}
         <div className="stagger stack">
           <div className="card center stack" style={{ marginTop: 8 }}>
             <div style={{ fontSize: 48 }}>🤔</div>
             <p className="muted" style={{ margin: 0 }}>{feedback}</p>
           </div>
-          <button className="btn btn--block" onClick={() => setStep('capture')}>📷 {t('scan_crop_cta')}</button>
+          <button className="btn btn--block" onClick={restart}>📷 {t('scan_crop_cta')}</button>
           <button className="btn btn--tint btn--block" onClick={() => nav('/diagnose')}>📋 {t('scan_use_questions')}</button>
         </div>
       </div>
@@ -155,9 +218,9 @@ export default function ScanCrop() {
   // ---- result ----
   return (
     <div className="screen page-enter">
-      <Header title={t('diagnosis')} onBack={() => nav('/scan')} action={<AiTag vision={vision} />} />
+      <Header title={t('diagnosis')} onBack={() => nav('/')} action={<AiTag vision={vision} />} />
+      {fileInput}
       <div className="stagger">
-        {/* Editable crop — prefilled with what the AI detected */}
         <div className="card" style={{ marginBottom: 14 }}>
           <label className="muted" style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
             {t('scan_crop_label')}

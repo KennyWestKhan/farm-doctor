@@ -85,7 +85,7 @@ export default function ScanLabel() {
   if (step === 'intro' || step === 'error') {
     return (
       <div className="screen page-enter" style={{ display: 'flex', flexDirection: 'column' }}>
-        <Header title={t('scan_label_title')} onBack={() => nav('/scan')} />
+        <Header title={t('scan_label_title')} onBack={() => nav(-1)} />
         <div className="stagger stack" style={{ marginTop: 6 }}>
           <div className="card center stack">
             <div style={{ fontSize: 52 }}>🏷️📷</div>

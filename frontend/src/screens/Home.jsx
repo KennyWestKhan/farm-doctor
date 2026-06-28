@@ -136,12 +136,20 @@ export default function Home() {
           <span style={{ fontSize: 22, color: 'var(--green)' }}>→</span>
         </button>
 
-        {/* Scan hub (crop or label) */}
-        <button className="card" onClick={() => nav('/scan')} style={{ marginTop: 14, display: 'flex', alignItems: 'center', gap: 14 }}>
-          <span style={{ fontSize: 34 }}>📷</span>
+        {/* Scan actions — one tap to camera */}
+        <button className="card" onClick={() => nav('/scan/crop')} style={{ marginTop: 14, display: 'flex', alignItems: 'center', gap: 14 }}>
+          <span style={{ fontSize: 34 }}>🌿</span>
           <span style={{ flex: 1 }}>
-            <strong style={{ fontFamily: 'var(--font-display)', fontSize: 18, display: 'block' }}>{t('scan_home_cta')}</strong>
-            <span className="muted" style={{ fontSize: 13 }}>{t('scan_home_desc')}</span>
+            <strong style={{ fontFamily: 'var(--font-display)', fontSize: 18, display: 'block' }}>{t('scan_crop_title')}</strong>
+            <span className="muted" style={{ fontSize: 13 }}>{t('scan_crop_desc_short')}</span>
+          </span>
+          <span style={{ fontSize: 22, color: 'var(--green)' }}>→</span>
+        </button>
+        <button className="card" onClick={() => nav('/scan/label')} style={{ marginTop: 8, display: 'flex', alignItems: 'center', gap: 14 }}>
+          <span style={{ fontSize: 34 }}>🏷️</span>
+          <span style={{ flex: 1 }}>
+            <strong style={{ fontFamily: 'var(--font-display)', fontSize: 18, display: 'block' }}>{t('scan_label_title')}</strong>
+            <span className="muted" style={{ fontSize: 13 }}>{t('scan_label_desc_short')}</span>
           </span>
           <span style={{ fontSize: 22, color: 'var(--green)' }}>→</span>
         </button>
