@@ -6,6 +6,7 @@ import InstallPrompt from './components/InstallPrompt.jsx';
 import { useAuth } from './auth/useAuth.js';
 import Home from './screens/Home.jsx';
 import DiagnoseFlow from './screens/DiagnoseFlow.jsx';
+import DiseaseInfo from './screens/DiseaseInfo.jsx';
 import Shops from './screens/Shops.jsx';
 import Reports from './screens/Reports.jsx';
 import ReportDetail from './screens/ReportDetail.jsx';
@@ -46,6 +47,7 @@ export default function App() {
           <Route element={<AppShell />}>
             <Route path="/" element={<Home />} />
             <Route path="/diagnose" element={<DiagnoseFlow />} />
+            <Route path="/disease/:id" element={<DiseaseInfo />} />
             <Route path="/shops" element={<Shops />} />
             <Route path="/reports" element={<Reports />} />
             <Route path="/reports/:id" element={<ReportDetail />} />

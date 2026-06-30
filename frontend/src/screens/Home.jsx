@@ -59,9 +59,14 @@ export default function Home() {
     setResults(clean.length >= 2 ? searchKnowledge(clean) : []);
   };
 
-  // Selecting a result jumps into the diagnose flow with the crop preselected.
+  // A disease result opens its info page; a crop result jumps into the diagnose
+  // flow with that crop preselected.
   const openResult = (r) => {
-    nav('/diagnose', { state: { cropId: r.cropId, diseaseId: r.diseaseId || null } });
+    if (r.type === 'disease' && r.diseaseId) {
+      nav(`/disease/${r.diseaseId}`);
+    } else {
+      nav('/diagnose', { state: { cropId: r.cropId } });
+    }
   };
 
   return (

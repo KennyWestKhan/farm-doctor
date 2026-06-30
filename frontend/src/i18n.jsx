@@ -39,6 +39,10 @@ const STRINGS = {
   unsure: { en: 'Not sure', twi: 'Mennim' },
   see_result: { en: 'See result', twi: 'Hwɛ deɛ ɛyɛ' },
   diagnosis: { en: 'Diagnosis', twi: 'Yadeɛ no' },
+  disease_about: { en: 'About this disease', twi: 'Saa yadeɛ yi ho nsɛm' },
+  disease_signs: { en: 'Signs to look for', twi: 'Nsɛnkyerɛnneɛ a wobɛhwɛ' },
+  disease_verify_cta: { en: 'Scan your crop to verify', twi: 'Scan wo mfudeɛ na hwɛ' },
+  disease_verify_hint: { en: 'Not sure this is it? Take a photo and let us check.', twi: 'Wonnim sɛ ɛyɛ yei? Twa mfonin na ma yɛnhwɛ.' },
   confidence: { en: 'Confidence', twi: 'Ahotosoɔ' },
   uncertain_title: { en: 'Not fully sure', twi: 'Yɛnnim yie' },
   uncertain_body: {

@@ -17,7 +17,7 @@ import { FARM_SIZE_PRESETS } from '../data/farmSize.js';
  *  - cropId, disease (full disease object), confidencePct, uncertain,
  *    regionalNote ({en,twi}|null), region
  */
-export default function DiagnosisDetail({ cropId, disease, confidencePct, uncertain, regionalNote, region, uncertainNote }) {
+export default function DiagnosisDetail({ cropId, disease, confidencePct, uncertain, regionalNote, region, uncertainNote, infoMode = false }) {
   const { t, pick } = useLang();
   const [storageOpen, setStorageOpen] = useState(false);
   // Default to the "medium" preset so a total shows immediately without
@@ -39,17 +39,21 @@ export default function DiagnosisDetail({ cropId, disease, confidencePct, uncert
           display: 'flex', alignItems: 'flex-end', padding: 16,
         }}>
           <div>
-            <span className="pill" style={{ background: uncertain ? 'var(--warn)' : 'var(--green)', color: '#fff' }}>
-              {confidencePct}% {t('confidence')}
-            </span>
-            <h2 style={{ color: '#fff', marginTop: 8 }}>{pick(disease.name)}</h2>
+            {!infoMode && (
+              <span className="pill" style={{ background: uncertain ? 'var(--warn)' : 'var(--green)', color: '#fff' }}>
+                {confidencePct}% {t('confidence')}
+              </span>
+            )}
+            <h2 style={{ color: '#fff', marginTop: infoMode ? 0 : 8 }}>{pick(disease.name)}</h2>
           </div>
         </div>
       </div>
 
       {/* Detail card */}
       <div className="card stack" style={{ marginTop: 14 }}>
-        <div className="meter"><span style={{ '--to': `${confidencePct}%`, background: uncertain ? 'var(--warn)' : 'var(--green)' }} /></div>
+        {!infoMode && (
+          <div className="meter"><span style={{ '--to': `${confidencePct}%`, background: uncertain ? 'var(--warn)' : 'var(--green)' }} /></div>
+        )}
         <p style={{ margin: 0 }}>{pick(disease.description)}</p>
 
         {regionalNote && (
