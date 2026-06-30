@@ -1,13 +1,19 @@
 import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { dashboardStats } from '../data/successRates';
-import { getReports } from '../db/storage';
+import { getReports, fetchSuccessRates } from '../db/storage';
 import { REGIONS } from '../data/diseaseDatabase';
 
 function useCountUp(target, ms = 900) {
   const [n, setN] = useState(0);
   const raf = useRef(0);
+  // Non-numeric placeholders (e.g. the "—" shown when there's no success-rate
+  // data yet) must render as-is — stripping non-digits and coercing to a
+  // number would otherwise silently turn "—" into the number 0.
+  const isNumeric = /\d/.test(String(target));
+
   useEffect(() => {
+    if (!isNumeric) return undefined;
     const num = Number(String(target).replace(/[^0-9.]/g, '')) || 0;
     const start = performance.now();
     const tick = (now) => {
@@ -16,8 +22,15 @@ function useCountUp(target, ms = 900) {
       if (p < 1) raf.current = requestAnimationFrame(tick);
     };
     raf.current = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf.current);
-  }, [target, ms]);
+    // Backgrounded/hidden tabs throttle or fully pause requestAnimationFrame,
+    // which would otherwise leave the counter stuck at 0 indefinitely (seen
+    // when this dashboard is captured by an automated/headless tool). This
+    // forces the true final value once `ms` has elapsed regardless of rAF.
+    const fallback = setTimeout(() => setN(num), ms + 50);
+    return () => { cancelAnimationFrame(raf.current); clearTimeout(fallback); };
+  }, [target, ms, isNumeric]);
+
+  if (!isNumeric) return target;
   return String(target).includes('%') ? `${n}%` : n;
 }
 
@@ -37,7 +50,12 @@ const DEMO_BY_REGION = [
 ];
 
 async function computeLiveStats() {
-  const reports = await getReports();
+  // `reports` is this device's local IndexedDB only (diagnoses made here).
+  // `rateMap` comes from the Supabase `treatment_success_rates` view — real,
+  // cross-farmer validation data ("did it work?" feedback synced from every
+  // device) — already fetched elsewhere in the app (TreatmentCard success
+  // pills) but never previously wired into this dashboard.
+  const [reports, rateMap] = await Promise.all([getReports(), fetchSuccessRates()]);
   const diagnoses = reports.length;
 
   const regionCounts = {};
@@ -47,8 +65,25 @@ async function computeLiveStats() {
     if (r.topDiseaseId) diseaseCounts[r.topDiseaseId] = (diseaseCounts[r.topDiseaseId] || 0) + 1;
   }
 
+  // Aggregate validations + success rate across all treatments/regions, and
+  // per-region success, from the live rate map.
+  let validations = 0;
+  let successSum = 0;
+  const regionValidations = {};
+  for (const row of rateMap.values()) {
+    validations += row.total;
+    successSum += row.success;
+    const rv = regionValidations[row.region] || (regionValidations[row.region] = { total: 0, success: 0 });
+    rv.total += row.total;
+    rv.success += row.success;
+  }
+  const avgSuccess = validations > 0 ? Math.round((successSum / validations) * 100) : 0;
+
   const byRegion = Object.entries(regionCounts)
-    .map(([id, count]) => ({ id, count, success: 0 }))
+    .map(([id, count]) => {
+      const rv = regionValidations[id];
+      return { id, count, success: rv?.total ? Math.round((rv.success / rv.total) * 100) : 0 };
+    })
     .sort((a, b) => b.count - a.count);
 
   const topDiseases = Object.entries(diseaseCounts)
@@ -56,7 +91,9 @@ async function computeLiveStats() {
     .sort((a, b) => b.count - a.count)
     .slice(0, 4);
 
-  return { diagnoses, validations: 0, avgSuccess: 0, farmersTested: 0, byRegion, topDiseases };
+  // Farmer count has no backing query yet (would need a distinct-device-id
+  // count in Supabase) — left at 0 rather than faking a number.
+  return { diagnoses, validations, avgSuccess, farmersTested: 0, byRegion, topDiseases };
 }
 
 export default function Dashboard() {

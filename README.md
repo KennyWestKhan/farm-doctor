@@ -175,8 +175,8 @@ The frontend runs without the backend in demo/offline mode. Point it at the API 
 
 - **Crops (6):** chilli pepper, cassava, sweet potato, groundnut, ginger, cocoa
 - **Diseases (23):** with symptoms, regional prevalence, seasonality, treatments
-- **Regions (5):** Ashanti, Greater Accra, Western, Volta, Northern
-- **Suppliers (13 seeded)** across all 5 regions with WhatsApp deep links
+- **Regions (16):** all of Ghana's regions selectable app-wide (location, shops, reports, dashboard). Disease prevalence/seasonality data and the spray-timing advisory currently cover the original 5 MVP regions (Ashanti, Greater Accra, Western, Volta, Northern) in full; the other 11 work for diagnosis, shops and reports but don't yet show a regional risk note or home alert.
+- **Suppliers (13 seeded)** across the 5 MVP regions with WhatsApp deep links
 - **Storage guidance** for all 4 original crops (drying, storage method, spoilage signs, shelf life)
 
 ## Data sources
@@ -254,7 +254,7 @@ The offline-first architecture keeps costs low: most diagnoses happen on-device 
 
 | Phase             | Scope                                                                                                | Timeline               |
 | ----------------- | ---------------------------------------------------------------------------------------------------- | ---------------------- |
-| **MVP** (current) | 6 crops (incl. ginger, cocoa), 23 diseases, 5 regions, Twi + English, regional alerts, spray timing, storage tips | Competition submission |
+| **MVP** (current) | 6 crops (incl. ginger, cocoa), 23 diseases, all 16 regions selectable (5 with full disease/risk data), Twi + English, regional alerts, spray timing, storage tips | Competition submission |
 | **Phase 2**       | Add maize, rice, plantain, tomato (Ghana's top staples)                                              | Q3 2026                |
 | **Phase 3**       | Ewe, Dagbani, Ga language support; MOFA extension officer dashboard                                  | Q4 2026                |
 | **Phase 4**       | Real supplier directory (verified agro-dealers); SMS fallback for non-smartphone users               | Q1 2027                |
@@ -268,6 +268,7 @@ The offline-first architecture keeps costs low: most diagnoses happen on-device 
 - Offline matcher is rule-based (not ML) — a deliberate choice for reliability on low-end devices with no connectivity. Accuracy benchmarking against field-collected cases is in progress.
 - Currently covers 6 crops / 23 diseases. Expansion to additional Ghanaian staples (maize, rice, plantain, tomato) is planned.
 - Spray-timing advisory uses a single representative coordinate per region (not farm-precise GPS) and a simplified rain/heat heuristic — good enough for go/no-go guidance, not a precision ag tool.
+- All 16 Ghana regions are selectable, but disease prevalence/seasonality data (and therefore regional risk notes + home alerts) only exists for the 5 original MVP regions. The other 11 still get full diagnosis, supplier, and report functionality.
 
 ## License
 

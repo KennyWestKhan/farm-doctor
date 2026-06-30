@@ -13,7 +13,7 @@ All datasets used in Farm Doctor Ghana, their provenance, licensing, and how the
 A structured database of crop diseases affecting Ghanaian smallholder farms, covering:
 - 6 crops: chilli pepper, cassava, sweet potato, groundnut, ginger, cocoa
 - 23 diseases with symptoms, diagnostic weights, treatments, and farmer-language instructions
-- Regional prevalence across 5 Ghana regions (Ashanti, Greater Accra, Western, Volta, Northern)
+- Regional prevalence across the 5 MVP-covered Ghana regions (Ashanti, Greater Accra, Western, Volta, Northern). All 16 regions are selectable elsewhere in the app, but disease prevalence/seasonality data only exists for these 5.
 - Seasonal patterns (peak months for each disease in Ghana's climate zones)
 
 **Sources:**
