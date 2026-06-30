@@ -157,12 +157,29 @@ export const SYMPTOM_QUESTIONS = {
   },
 };
 
+// All 16 of Ghana's regions (post-2018 split). Disease content (symptoms,
+// regional_prevalence, treatments) currently only covers the original 5 MVP
+// regions — the rest are selectable so farmers everywhere can use diagnosis,
+// shops and reports, but won't see a regional risk note or alert banner
+// until that data is added. Degrades gracefully (lookups just return
+// undefined), same pattern as everywhere else region data is optional.
 export const REGIONS = {
   ashanti: { en: 'Ashanti', twi: 'Asante' },
   greater_accra: { en: 'Greater Accra', twi: 'Greater Accra' },
   western: { en: 'Western', twi: 'Atɔeɛ' },
+  western_north: { en: 'Western North', twi: 'Western North' },
+  central: { en: 'Central', twi: 'Central' },
+  eastern: { en: 'Eastern', twi: 'Eastern' },
   volta: { en: 'Volta', twi: 'Volta' },
+  oti: { en: 'Oti', twi: 'Oti' },
   northern: { en: 'Northern', twi: 'Atifi' },
+  north_east: { en: 'North East', twi: 'North East' },
+  savannah: { en: 'Savannah', twi: 'Savannah' },
+  upper_east: { en: 'Upper East', twi: 'Upper East' },
+  upper_west: { en: 'Upper West', twi: 'Upper West' },
+  bono: { en: 'Bono', twi: 'Bono' },
+  bono_east: { en: 'Bono East', twi: 'Bono East' },
+  ahafo: { en: 'Ahafo', twi: 'Ahafo' },
 };
 
 export const CROPS = [

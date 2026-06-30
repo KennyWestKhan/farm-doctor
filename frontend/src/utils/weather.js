@@ -9,8 +9,19 @@ const REGION_COORDS = {
   ashanti: { lat: 6.6885, lon: -1.6244 }, // Kumasi
   greater_accra: { lat: 5.6037, lon: -0.187 }, // Accra
   western: { lat: 4.9047, lon: -1.7956 }, // Sekondi-Takoradi
+  western_north: { lat: 6.2065, lon: -2.4855 }, // Sefwi Wiawso
+  central: { lat: 5.1053, lon: -1.2466 }, // Cape Coast
+  eastern: { lat: 6.0941, lon: -0.2591 }, // Koforidua
   volta: { lat: 6.6017, lon: 0.4714 }, // Ho
+  oti: { lat: 8.0667, lon: 0.1833 }, // Dambai
   northern: { lat: 9.4035, lon: -0.8393 }, // Tamale
+  north_east: { lat: 10.5167, lon: -0.3667 }, // Nalerigu
+  savannah: { lat: 9.0833, lon: -1.8167 }, // Damongo
+  upper_east: { lat: 10.7856, lon: -0.8514 }, // Bolgatanga
+  upper_west: { lat: 10.0601, lon: -2.5099 }, // Wa
+  bono: { lat: 7.3349, lon: -2.3123 }, // Sunyani
+  bono_east: { lat: 7.5833, lon: -1.9333 }, // Techiman
+  ahafo: { lat: 6.8024, lon: -2.517 }, // Goaso
 };
 
 const HOT_THRESHOLD_C = 32;

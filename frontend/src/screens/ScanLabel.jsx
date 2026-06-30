@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLang } from '../i18n.jsx';
 import { Header } from '../components/Chrome.jsx';
+import ScanLoading from '../components/ScanLoading.jsx';
 import { useOnline } from '../components/useOnline';
 import { CROPS } from '../data/diseaseDatabase';
 import { checkPesticideStatus } from '../data/pesticideRegistry.js';
@@ -33,6 +34,8 @@ export default function ScanLabel() {
   const [step, setStep] = useState('intro'); // intro | loading | result | error
   const [result, setResult] = useState(null);
   const [errorMsg, setErrorMsg] = useState('');
+  const [canRetry, setCanRetry] = useState(false);
+  const [lastFile, setLastFile] = useState(null);
   const [refining, setRefining] = useState(false);
   const [ctx, setCtx] = useState({ farmSize: '', crop: '', growthStage: '', note: '' });
 
@@ -54,17 +57,38 @@ export default function ScanLabel() {
 
   async function onPhoto(file) {
     if (!file) return;
+    setLastFile(file);
     setStep('loading');
+    setCanRetry(false);
     try {
       const imageBase64 = await fileToBase64(file);
       const data = await callTranslate({ imageBase64, mediaType: file.type || 'image/jpeg' });
       setResult(data);
       setStep('result');
     } catch (err) {
-      setErrorMsg(err?.isLimit ? t('scan_limit_reached') : t('scan_failed'));
+      // Distinguish *why* it failed so the farmer isn't just stuck on a spinner
+      // with no explanation, and offer a one-tap retry without retaking the photo.
+      if (err?.isLimit) {
+        setErrorMsg(t('scan_limit_reached'));
+        setCanRetry(false);
+      } else if (err?.name === 'TimeoutError' || err?.name === 'AbortError') {
+        setErrorMsg(t('scan_timeout'));
+        setCanRetry(true);
+      } else if (!navigator.onLine) {
+        setErrorMsg(t('scan_needs_internet'));
+        setCanRetry(true);
+      } else if (/^status 5/.test(err?.message || '')) {
+        setErrorMsg(t('scan_server_error'));
+        setCanRetry(true);
+      } else {
+        setErrorMsg(t('scan_network_error'));
+        setCanRetry(true);
+      }
       setStep('error');
     }
   }
+
+  const retry = () => { if (lastFile) onPhoto(lastFile); };
 
   // Refine reuses the already-extracted rawText — no second OCR call.
   async function refine() {
@@ -80,7 +104,7 @@ export default function ScanLabel() {
     }
   }
 
-  const reset = () => { setResult(null); setCtx({ farmSize: '', crop: '', growthStage: '', note: '' }); setStep('intro'); };
+  const reset = () => { setResult(null); setCtx({ farmSize: '', crop: '', growthStage: '', note: '' }); setLastFile(null); setCanRetry(false); setStep('intro'); };
 
   // ---- intro / capture ----
   if (step === 'intro' || step === 'error') {
@@ -107,8 +131,11 @@ export default function ScanLabel() {
         <input ref={inputRef} type="file" accept="image/*" capture="environment" hidden
           onChange={(e) => onPhoto(e.target.files?.[0])} />
 
-        <div className="sticky-cta">
-          <button className="btn btn--block" disabled={!canScan} onClick={() => inputRef.current?.click()}>
+        <div className="sticky-cta" style={{ display: 'flex', gap: 10 }}>
+          {step === 'error' && canRetry && (
+            <button className="btn btn--tint" style={{ flex: 1 }} onClick={retry}>↻ {t('try_again')}</button>
+          )}
+          <button className="btn btn--block" style={{ flex: 1 }} disabled={!canScan} onClick={() => inputRef.current?.click()}>
             📷 {t('scan_cta')}
           </button>
         </div>
@@ -121,11 +148,15 @@ export default function ScanLabel() {
     return (
       <div className="screen page-enter">
         <Header title={t('scan_label_title')} onBack={reset} />
-        <div className="card center stack" style={{ marginTop: 40 }}>
-          <div className="pop" style={{ fontSize: 48 }}>🔎</div>
-          <strong style={{ fontFamily: 'var(--font-display)' }}>{t('scan_reading')}</strong>
-          <div className="meter" style={{ width: '100%' }}><span style={{ '--to': '92%' }} /></div>
-        </div>
+        <ScanLoading
+          icon="🔎"
+          steps={[
+            t('scan_step_uploading'),
+            t('scan_label_step_ocr'),
+            t('scan_label_step_translating'),
+            t('scan_step_finalizing'),
+          ]}
+        />
       </div>
     );
   }

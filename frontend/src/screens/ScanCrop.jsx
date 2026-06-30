@@ -5,6 +5,7 @@ import { Header } from '../components/Chrome.jsx';
 import { useOnline } from '../components/useOnline';
 import DiagnosisDetail from '../components/DiagnosisDetail.jsx';
 import AiTag from '../components/AiTag.jsx';
+import ScanLoading from '../components/ScanLoading.jsx';
 import { CROPS, getDisease, matchCropByName, matchDiseaseByName } from '../data/diseaseDatabase';
 import { buildRegionalNote } from '../engine/symptomMatcher';
 import { saveReport, updateReport } from '../db/storage';
@@ -36,6 +37,7 @@ export default function ScanCrop() {
   const [cropId, setCropId] = useState(null);
   const [reportId, setReportId] = useState(null);
   const [feedback, setFeedback] = useState('');
+  const [canRetry, setCanRetry] = useState(false);
   const [note, setNote] = useState('');
   const [pendingFile, setPendingFile] = useState(null);
   const [preview, setPreview] = useState(null);
@@ -68,6 +70,7 @@ export default function ScanCrop() {
   async function submitPhoto() {
     if (!pendingFile) return;
     setStep('loading');
+    setCanRetry(false);
     try {
       const imageBase64 = await fileToBase64(pendingFile);
       const cleanNote = sanitizeText(note, LIMITS.note);
@@ -80,7 +83,14 @@ export default function ScanCrop() {
         setStep('unclear');
         return;
       }
-      if (!res.ok) throw new Error('vision failed');
+      if (!res.ok) {
+        // 5xx is the server's fault and worth a one-tap retry; other non-OK
+        // statuses (4xx besides 429) are unlikely here but treated the same way.
+        setFeedback(t('scan_server_error'));
+        setCanRetry(true);
+        setStep('unclear');
+        return;
+      }
       const v = await res.json();
       const detectedCrop = matchCropByName(v.crop) || CROPS[0].id;
       const did = matchDiseaseByName(detectedCrop, v.disease);
@@ -96,8 +106,19 @@ export default function ScanCrop() {
 
       if (did) setStep('result');
       else { setFeedback(v.feedback_if_unclear || t('scan_crop_unclear')); setStep('unclear'); }
-    } catch {
-      setFeedback(t('scan_failed'));
+    } catch (err) {
+      // Distinguish *why* the request failed so the farmer knows what to do —
+      // a stuck "Looking at your crop…" with no explanation was the bug report.
+      if (err?.name === 'TimeoutError') {
+        setFeedback(t('scan_timeout'));
+      } else if (err?.name === 'AbortError') {
+        setFeedback(t('scan_timeout'));
+      } else if (!navigator.onLine) {
+        setFeedback(t('scan_needs_internet'));
+      } else {
+        setFeedback(t('scan_network_error'));
+      }
+      setCanRetry(true);
       setStep('unclear');
     }
   }
@@ -189,11 +210,15 @@ export default function ScanCrop() {
       <div className="screen page-enter">
         <Header title={t('scan_crop_title')} onBack={restart} />
         {fileInput}
-        <div className="card center stack" style={{ marginTop: 40 }}>
-          <div className="pop" style={{ fontSize: 48 }}>🔎</div>
-          <strong style={{ fontFamily: 'var(--font-display)' }}>{t('scan_crop_reading')}</strong>
-          <div className="meter" style={{ width: '100%' }}><span style={{ '--to': '92%' }} /></div>
-        </div>
+        <ScanLoading
+          icon="🔎"
+          steps={[
+            t('scan_step_uploading'),
+            t('scan_crop_reading'),
+            t('scan_step_matching'),
+            t('scan_step_finalizing'),
+          ]}
+        />
       </div>
     );
   }
@@ -205,10 +230,13 @@ export default function ScanCrop() {
         {fileInput}
         <div className="stagger stack">
           <div className="card center stack" style={{ marginTop: 8 }}>
-            <div style={{ fontSize: 48 }}>🤔</div>
+            <div style={{ fontSize: 48 }}>{canRetry ? '⚠️' : '🤔'}</div>
             <p className="muted" style={{ margin: 0 }}>{feedback}</p>
           </div>
-          <button className="btn btn--block" onClick={restart}>📷 {t('scan_crop_cta')}</button>
+          {canRetry && (
+            <button className="btn btn--block" onClick={submitPhoto}>↻ {t('try_again')}</button>
+          )}
+          <button className={canRetry ? 'btn btn--tint btn--block' : 'btn btn--block'} onClick={restart}>📷 {t('scan_crop_cta')}</button>
           <button className="btn btn--tint btn--block" onClick={() => nav('/diagnose')}>📋 {t('scan_use_questions')}</button>
         </div>
       </div>
