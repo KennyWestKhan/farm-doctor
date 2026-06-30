@@ -92,6 +92,15 @@ Each validation record contains:
 - We will obtain written informed consent before any formal field study
 - Data handling follows Ghana Data Protection Act (Act 843) principles
 
+## Bias & Fairness Mitigation
+
+- **Uneven regional coverage.** Disease prevalence and seasonality data currently exists for only 5 of Ghana's 16 regions (Ashanti, Greater Accra, Western, Volta, Northern). Farmers in the other 11 regions still get full diagnosis, supplier, and report functionality, but won't see a regional risk note or home-screen alert — the app does not claim regional confidence it doesn't have, and this gap is documented in the README's Known Limitations rather than silently masked.
+- **Crop coverage skew.** 6 crops are covered in depth (23 diseases); major staples like maize, rice, plantain, and tomato are not yet included. The offline matcher and Claude Vision prompt both explicitly reject crops outside this list rather than guessing, to avoid confidently misdiagnosing an unsupported crop.
+- **Translation quality bias.** All Twi strings are first-draft machine/human-assisted translations pending native-speaker review (tracked in `TWI_REVIEW_QUEUE` in `diseaseDatabase.js`). Until reviewed, Twi-speaking farmers may receive lower-quality guidance than English-speaking farmers — this is flagged in-repo as a pre-launch blocker, not treated as production-ready.
+- **Photo-quality bias.** The Claude Vision prompt is explicitly tuned for low-resolution, badly-lit, angled photos from older budget Android phones (common across rural Ghana) rather than assuming high-end camera hardware, to avoid the system underperforming for farmers with older devices.
+- **Confidence thresholding.** Both the offline matcher and Claude Vision diagnoses surface a confidence score and explicitly label low-confidence results as "not fully sure" rather than presenting a guess as certain — this is a deliberate design choice to avoid false confidence driving an incorrect (and potentially costly or unsafe) chemical treatment decision.
+- **No demographic data collected.** The app does not collect age, gender, education level, or income data from farmers, so it cannot — and does not attempt to — personalize or restrict recommendations based on those attributes.
+
 ## Reproducibility
 
 The disease knowledge base ships as part of the frontend bundle. The complete dataset, including all symptom weights, treatment protocols, regional prevalence maps, and seasonal patterns, is inspectable at:

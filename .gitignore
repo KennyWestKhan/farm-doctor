@@ -6,3 +6,7 @@ dist/
 *.log
 .vite/
 dev-dist/
+
+# Personal pitch/presentation prep — not for the public repo
+docs/PITCH_SCRIPT.md
+docs/POSTER_CONTENT.md

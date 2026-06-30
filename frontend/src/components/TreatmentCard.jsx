@@ -2,9 +2,10 @@ import { useState } from 'react';
 import { useLang } from '../i18n.jsx';
 import useSuccessRates from './useSuccessRates';
 import SupplierSheet from './SupplierSheet.jsx';
+import { totalSprayNote, isSprayBased, detectVessel } from '../data/farmSize.js';
 
-export default function TreatmentCard({ treatment, region }) {
-  const { t, lang } = useLang();
+export default function TreatmentCard({ treatment, region, loads }) {
+  const { t, pick, lang } = useLang();
   const [showShops, setShowShops] = useState(false);
   const instr = treatment.farmer_instruction[lang] || treatment.farmer_instruction.en;
   const { loading, getRate } = useSuccessRates();
@@ -16,6 +17,14 @@ export default function TreatmentCard({ treatment, region }) {
     { icon: '💨', label: t('how_to_apply'), text: instr.application },
     { icon: '🔁', label: t('how_often'), text: instr.frequency },
   ];
+
+  // Cultural-control treatments (crop rotation, removing infected plants,
+  // mulching, relying on natural predators, etc.) aren't mixed in any vessel,
+  // so a quantity total would be meaningless. Checked against the always-
+  // English mixing text rather than the active-language one, so the check is
+  // stable regardless of UI language.
+  const showTotal = loads && isSprayBased(treatment);
+  const vessel = showTotal ? detectVessel(treatment) : null;
 
   return (
     <div className="card stack">
@@ -49,6 +58,18 @@ export default function TreatmentCard({ treatment, region }) {
           </div>
         ))}
       </div>
+
+      {showTotal && (
+        <div className="row" style={{ gap: 12, alignItems: 'flex-start', background: 'var(--green-tint)', borderRadius: 'var(--radius-sm)', padding: 10 }}>
+          <span style={{ fontSize: 24 }}>🪣</span>
+          <div>
+            <div className="muted" style={{ fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.04em', fontWeight: 700, color: 'var(--green-deep)' }}>
+              {t('farmsize_total_label')}
+            </div>
+            <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--green-deep)' }}>{pick(totalSprayNote(loads, vessel))}</div>
+          </div>
+        </div>
+      )}
 
       <button className="btn btn--block" onClick={() => setShowShops(true)}>🏪 {t('find_suppliers')}</button>
 

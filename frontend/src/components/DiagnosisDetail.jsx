@@ -3,7 +3,9 @@ import { useLang } from '../i18n.jsx';
 import CropPhoto from './CropPhoto.jsx';
 import TreatmentCard from './TreatmentCard.jsx';
 import DiseaseVideos from './DiseaseVideos.jsx';
+import FarmSizePicker from './FarmSizePicker.jsx';
 import { STORAGE_TIPS } from '../data/storageTips.js';
+import { FARM_SIZE_PRESETS } from '../data/farmSize.js';
 
 /**
  * Presentational view of a single diagnosis: photo hero with the disease +
@@ -18,6 +20,9 @@ import { STORAGE_TIPS } from '../data/storageTips.js';
 export default function DiagnosisDetail({ cropId, disease, confidencePct, uncertain, regionalNote, region, uncertainNote }) {
   const { t, pick } = useLang();
   const [storageOpen, setStorageOpen] = useState(false);
+  // Default to the "medium" preset so a total shows immediately without
+  // requiring the farmer to interact — adjustable via the picker below.
+  const [loads, setLoads] = useState(FARM_SIZE_PRESETS[1].loads);
   // The "not fully sure" copy depends on the source: an offline guess promises an
   // AI recheck when online; an AI result (scan / rechecked) does not.
   const note = uncertainNote ?? t('uncertain_body');
@@ -61,9 +66,12 @@ export default function DiagnosisDetail({ cropId, disease, confidencePct, uncert
       </div>
 
       <h3 style={{ margin: '22px 4px 10px' }}>💊 {t('treatments')}</h3>
+      <div style={{ marginBottom: 14 }}>
+        <FarmSizePicker loads={loads} onChange={setLoads} />
+      </div>
       {disease.treatments.map((tr) => (
         <div key={tr.id} style={{ marginBottom: 14 }}>
-          <TreatmentCard treatment={tr} region={region} />
+          <TreatmentCard treatment={tr} region={region} loads={loads} />
         </div>
       ))}
 

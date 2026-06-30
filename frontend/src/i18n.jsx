@@ -132,6 +132,15 @@ const STRINGS = {
   spray_ok_later: { en: 'No rain expected, but wait for cooler hours — early morning or evening.', twi: 'Osuo nni hɔ, nanso twɛn berɛ a ɛyɛ nwunu — anɔpa anaa anwummerɛ.' },
   spray_offline: { en: 'No internet for a live forecast. As a rule: spray in the cool morning or evening, never just before rain.', twi: 'Intanɛt nni hɔ ma forecast. Mmara: pete anɔpa anaa anwummerɛ a ɛyɛ nwunu, na nnyɛ ansa na osuo retɔ.' },
 
+  // Farm size / spray quantity
+  farmsize_title: { en: 'How many loads to spray your whole farm?', twi: 'Mpɛn dodow na wobɛhyɛ pete wo afuo nyinaa so?' },
+  farmsize_subtitle: {
+    en: 'Count the same bucket or sprayer you always mix one batch in — tap to match, or use − / + to adjust',
+    twi: 'Kan bokiti anaa sprayer korɔ a wode fra aduro berɛ biara — mia deɛ ɛfata, anaa fa − / + sesa',
+  },
+  farmsize_buckets_unit: { en: 'loads', twi: 'mpɛn' },
+  farmsize_total_label: { en: 'For your whole farm', twi: 'Ma wo afuo nyinaa' },
+
   // Storage tips
   storage_title: { en: 'Protect your harvest', twi: 'Bɔ wo otwa ho ban' },
   storage_drying: { en: 'Drying', twi: 'Sɛdeɛ wobɛwo' },

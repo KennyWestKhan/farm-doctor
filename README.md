@@ -7,6 +7,8 @@ Farmers answer a visual symptom checklist or snap a photo. The app returns a dia
 **Repository:** [github.com/KennyWestKhan/farm-doctor](https://github.com/KennyWestKhan/farm-doctor)
 
 > Built for the [Ghana AI Innovation Challenge 2026](https://ghanaaisummit.com/research) — Agriculture track.
+>
+> Submission deliverables: [Technical Abstract](docs/TECHNICAL_ABSTRACT.md) · [Data Sources & Ethics](docs/DATA_SOURCES.md)
 
 <p align="center">
   <img src="docs/screenshots/welcome.png" alt="Welcome screen" width="200" />
