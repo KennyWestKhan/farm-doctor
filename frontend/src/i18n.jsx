@@ -136,13 +136,17 @@ const STRINGS = {
   spray_ok_later: { en: 'No rain expected, but wait for cooler hours — early morning or evening.', twi: 'Osuo nni hɔ, nanso twɛn berɛ a ɛyɛ nwunu — anɔpa anaa anwummerɛ.' },
   spray_offline: { en: 'No internet for a live forecast. As a rule: spray in the cool morning or evening, never just before rain.', twi: 'Intanɛt nni hɔ ma forecast. Mmara: pete anɔpa anaa anwummerɛ a ɛyɛ nwunu, na nnyɛ ansa na osuo retɔ.' },
 
-  // Farm size / spray quantity
-  farmsize_title: { en: 'How many loads to spray your whole farm?', twi: 'Mpɛn dodow na wobɛhyɛ pete wo afuo nyinaa so?' },
+  // Farm size / spray quantity (hybrid: size in → suggested loads out)
+  farmsize_title: { en: 'How big is your farm?', twi: 'Wo afuo yɛ kɛseɛ sɛn?' },
   farmsize_subtitle: {
-    en: 'Count the same bucket or sprayer you always mix one batch in — tap to match, or use − / + to adjust',
-    twi: 'Kan bokiti anaa sprayer korɔ a wode fra aduro berɛ biara — mia deɛ ɛfata, anaa fa − / + sesa',
+    en: 'Tap your farm size — we suggest how many loads to mix for this crop',
+    twi: 'Mia wo afuo kɛseɛ — yɛbɛkyerɛ mpɛn dodow a wobɛfra ama saa afifideɛ yi',
   },
-  farmsize_buckets_unit: { en: 'loads', twi: 'mpɛn' },
+  farmsize_buckets_unit: { en: 'loads to mix', twi: 'mpɛn a wobɛfra' },
+  farmsize_estimate_hint: {
+    en: 'Estimate for a 15 L sprayer load — use − / + if you know your own number.',
+    twi: 'Yɛgyina 15 L sprayer so na abu yi — fa − / + sesa sɛ wonim wo dodow.',
+  },
   farmsize_total_label: { en: 'For your whole farm', twi: 'Ma wo afuo nyinaa' },
 
   // Storage tips

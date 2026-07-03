@@ -5,7 +5,7 @@ import TreatmentCard from './TreatmentCard.jsx';
 import DiseaseVideos from './DiseaseVideos.jsx';
 import FarmSizePicker from './FarmSizePicker.jsx';
 import { STORAGE_TIPS } from '../data/storageTips.js';
-import { FARM_SIZE_PRESETS } from '../data/farmSize.js';
+import { initialLoadsForCrop } from '../utils/prefs.js';
 
 /**
  * Presentational view of a single diagnosis: photo hero with the disease +
@@ -20,9 +20,10 @@ import { FARM_SIZE_PRESETS } from '../data/farmSize.js';
 export default function DiagnosisDetail({ cropId, disease, confidencePct, uncertain, regionalNote, region, uncertainNote, infoMode = false }) {
   const { t, pick } = useLang();
   const [storageOpen, setStorageOpen] = useState(false);
-  // Default to the "medium" preset so a total shows immediately without
-  // requiring the farmer to interact — adjustable via the picker below.
-  const [loads, setLoads] = useState(FARM_SIZE_PRESETS[1].loads);
+  // Pre-filled from the farmer's saved farm size (or a medium-farm suggestion
+  // for this crop) so a total shows immediately — adjustable via the picker.
+  // Info mode is a read-only knowledge page: no farm-size prompt, no totals.
+  const [loads, setLoads] = useState(() => (infoMode ? null : initialLoadsForCrop(cropId)));
   // The "not fully sure" copy depends on the source: an offline guess promises an
   // AI recheck when online; an AI result (scan / rechecked) does not.
   const note = uncertainNote ?? t('uncertain_body');
@@ -70,9 +71,11 @@ export default function DiagnosisDetail({ cropId, disease, confidencePct, uncert
       </div>
 
       <h3 style={{ margin: '22px 4px 10px' }}>💊 {t('treatments')}</h3>
-      <div style={{ marginBottom: 14 }}>
-        <FarmSizePicker loads={loads} onChange={setLoads} />
-      </div>
+      {!infoMode && (
+        <div style={{ marginBottom: 14 }}>
+          <FarmSizePicker cropId={cropId} loads={loads} onChange={setLoads} />
+        </div>
+      )}
       {disease.treatments.map((tr) => (
         <div key={tr.id} style={{ marginBottom: 14 }}>
           <TreatmentCard treatment={tr} region={region} loads={loads} />

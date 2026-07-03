@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useLang } from '../i18n.jsx';
 import useSuccessRates from './useSuccessRates';
 import SupplierSheet from './SupplierSheet.jsx';
-import { totalSprayNote, isSprayBased, detectVessel } from '../data/farmSize.js';
+import { totalSprayNote, isSprayBased, detectVessel, purchaseNote } from '../data/farmSize.js';
 
 export default function TreatmentCard({ treatment, region, loads }) {
   const { t, pick, lang } = useLang();
@@ -25,6 +25,9 @@ export default function TreatmentCard({ treatment, region, loads }) {
   // stable regardless of UI language.
   const showTotal = loads && isSprayBased(treatment);
   const vessel = showTotal ? detectVessel(treatment) : null;
+  // "How much to buy" only shows when the dose text parsed cleanly — a wrong
+  // purchase number is worse than none.
+  const buy = showTotal ? purchaseNote(loads, treatment) : null;
 
   return (
     <div className="card stack">
@@ -67,6 +70,9 @@ export default function TreatmentCard({ treatment, region, loads }) {
               {t('farmsize_total_label')}
             </div>
             <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--green-deep)' }}>{pick(totalSprayNote(loads, vessel))}</div>
+            {buy && (
+              <div style={{ fontSize: 14, marginTop: 4, color: 'var(--green-deep)' }}>🛒 {pick(buy)}</div>
+            )}
           </div>
         </div>
       )}

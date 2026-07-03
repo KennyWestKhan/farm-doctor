@@ -1,39 +1,44 @@
+import { useState } from 'react';
 import { useLang } from '../i18n.jsx';
-import { FARM_SIZE_PRESETS, MIN_LOADS, MAX_LOADS } from '../data/farmSize.js';
+import { FARM_SIZE_PRESETS, MIN_LOADS, MAX_LOADS, DEFAULT_ACRES, suggestLoads } from '../data/farmSize.js';
+import { getSavedFarm, setSavedFarm } from '../utils/prefs.js';
 
 /**
- * "How many loads to spray your whole farm?" picker.
+ * Hybrid farm-size picker: the farmer taps their farm size (acre-range
+ * presets, icon-counted so nothing requires reading), the app SUGGESTS how
+ * many sprayer loads that means for this crop, and the +/- stepper lets an
+ * experienced farmer override the suggestion with their own known number.
  *
- * Deliberately doesn't assume a standard bucket size — it asks for a count of
- * however many times the farmer fills and empties THE SAME container they
- * already mix one batch in, which is self-consistent regardless of whether
- * that container is a small bucket, a Veronica bucket, or a 15L knapsack
- * sprayer tank. Designed to need zero reading: the preset buttons show the
- * answer as a literal count of bucket emoji (more buckets drawn = bigger
- * farm), and the +/- stepper is icon-only. The number itself is still shown
- * for farmers who do read, but nothing here requires it.
+ * The chosen size + confirmed load count persist to prefs, so the picker
+ * comes pre-filled on the next diagnosis — but it stays visible on every
+ * result, because the next diagnosis may be for a different plot.
  */
-export default function FarmSizePicker({ loads, onChange }) {
+export default function FarmSizePicker({ cropId, loads, onChange }) {
   const { t, pick } = useLang();
-  const dec = () => onChange(Math.max(MIN_LOADS, loads - 1));
-  const inc = () => onChange(Math.min(MAX_LOADS, loads + 1));
+  const [acres, setAcres] = useState(() => getSavedFarm()?.acres ?? DEFAULT_ACRES);
+
+  const commit = (nextAcres, nextLoads) => {
+    setAcres(nextAcres);
+    onChange(nextLoads);
+    setSavedFarm({ acres: nextAcres, loads: nextLoads, cropId });
+  };
+  const pickSize = (p) => commit(p.acres, suggestLoads(p.acres, cropId));
+  const dec = () => commit(acres, Math.max(MIN_LOADS, loads - 1));
+  const inc = () => commit(acres, Math.min(MAX_LOADS, loads + 1));
 
   return (
     <div className="card stack">
-      <strong style={{ fontFamily: 'var(--font-display)', fontSize: 16 }}>🪣 {t('farmsize_title')}</strong>
+      <strong style={{ fontFamily: 'var(--font-display)', fontSize: 16 }}>🌾 {t('farmsize_title')}</strong>
       <p className="muted" style={{ margin: 0, fontSize: 13 }}>{t('farmsize_subtitle')}</p>
 
       <div className="row" style={{ gap: 8 }}>
-        {FARM_SIZE_PRESETS.map((p) => {
-          const active = loads === p.loads;
-          // Cap the drawn icons so "large" doesn't overflow a narrow screen —
-          // the count still grows visually (1 → 3 → 4+), just not 1:1 past 4.
-          const shown = Math.min(p.loads, 4);
+        {FARM_SIZE_PRESETS.map((p, i) => {
+          const active = acres === p.acres;
           return (
             <button
               key={p.id}
-              onClick={() => onChange(p.loads)}
-              aria-label={`${p.loads} loads, ${pick(p.acres)}`}
+              onClick={() => pickSize(p)}
+              aria-label={`${pick(p.label)}, suggests ${suggestLoads(p.acres, cropId)} loads`}
               style={{
                 flex: 1, minHeight: 'var(--tap-min)', border: 'none', borderRadius: 'var(--radius)',
                 background: active ? 'var(--green)' : 'var(--green-tint)',
@@ -41,11 +46,10 @@ export default function FarmSizePicker({ loads, onChange }) {
                 display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, padding: '8px 4px',
               }}
             >
-              <span style={{ fontSize: 18, letterSpacing: -2 }}>{'🪣'.repeat(shown)}{p.loads > 4 ? '+' : ''}</span>
-              {/* Secondary, non-required hint for farmers who do think in
-                  acres — the bucket-icon count above is the real, tappable
-                  answer. Never the only way to understand the option. */}
-              <span style={{ fontSize: 10, opacity: 0.85, fontWeight: 600 }}>{pick(p.acres)}</span>
+              {/* Farm size drawn as a literal count of field icons — bigger
+                  farm, more fields — so the choice needs zero reading. */}
+              <span style={{ fontSize: 18, letterSpacing: -1 }}>{'🌾'.repeat(i + 1)}</span>
+              <span style={{ fontSize: 10, opacity: 0.85, fontWeight: 600 }}>{pick(p.label)}</span>
             </button>
           );
         })}
@@ -75,6 +79,10 @@ export default function FarmSizePicker({ loads, onChange }) {
           +
         </button>
       </div>
+
+      {/* The suggestion is an estimate with a stated assumption, never a
+          silent claim — and the stepper is the farmer's override. */}
+      <p className="muted center" style={{ margin: 0, fontSize: 12 }}>{t('farmsize_estimate_hint')}</p>
     </div>
   );
 }
