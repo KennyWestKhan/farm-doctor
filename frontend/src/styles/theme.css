@@ -138,6 +138,9 @@ button { font-family: var(--font-body); cursor: pointer; }
 .card--tint { background: var(--green-tint); box-shadow: none; }
 button.card { text-align: left; border: none; transition: transform .12s ease, box-shadow .12s ease; }
 button.card:active { transform: scale(0.98); box-shadow: var(--shadow-lift); }
+/* Anchors are display:inline by default, which fragments a card's background
+   and padding into per-line boxes — force link-cards back to block. */
+a.card { display: block; text-decoration: none; }
 
 /* ---- Buttons ---- */
 .btn {

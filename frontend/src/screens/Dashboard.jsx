@@ -87,7 +87,12 @@ async function computeLiveStats() {
     .sort((a, b) => b.count - a.count);
 
   const topDiseases = Object.entries(diseaseCounts)
-    .map(([id, count]) => ({ id, label: id.replace(/_/g, ' '), count, success: 0 }))
+    .map(([id, count]) => ({
+      id,
+      label: id.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()),
+      count,
+      success: 0,
+    }))
     .sort((a, b) => b.count - a.count)
     .slice(0, 4);
 
@@ -142,7 +147,7 @@ export default function Dashboard() {
                 {demo
                   ? 'Illustrative numbers showing what the dashboard looks like at scale'
                   : hasLiveData
-                    ? `${live.diagnoses} real diagnoses from the app`
+                    ? `${live.diagnoses} real ${live.diagnoses === 1 ? 'diagnosis' : 'diagnoses'} from the app`
                     : 'No farmer data collected yet. Toggle to see a demo preview.'}
               </div>
             </div>
