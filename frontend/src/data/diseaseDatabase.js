@@ -2189,5 +2189,6 @@ export const TWI_REVIEW_QUEUE = {
     'This file: "(bɛyɛ 5 g)"-style metric brackets inserted into reviewed dose strings 2026-07-04 — check "bɛyɛ" reads naturally in each',
     'i18n.jsx: notify_cta / notify_sub / notify_on (diagnosis-ready notification, new 2026-07-04)',
     'utils/notify.js: COPY.title / COPY.body (notification text shown outside the app, new 2026-07-04)',
+    'i18n.jsx: camera_hint / camera_use_phone / camera_denied / camera_unavailable (in-app camera, new 2026-07-04)',
   ],
 };

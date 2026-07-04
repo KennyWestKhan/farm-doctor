@@ -1,7 +1,8 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useLang } from '../i18n.jsx';
 import { Header } from '../components/Chrome.jsx';
 import YouTubeButton from '../components/YouTubeButton.jsx';
+import CameraCapture from '../components/CameraCapture.jsx';
 
 const TIPS = [
   { icon: '☀️', key: 'photo_tip_daylight' },
@@ -13,11 +14,24 @@ const TIPS = [
 export default function PhotoGuide({ onPhoto, onSkip, onBack }) {
   const { t } = useLang();
   const inputRef = useRef(null);
+  // The in-app camera (framing reticle) is the default; it falls back to the
+  // OS camera (the file input) on any error or on the user's request.
+  const [showCamera, setShowCamera] = useState(false);
 
   const handleFile = (e) => {
     const file = e.target.files?.[0];
     if (file) onPhoto(file);
   };
+
+  if (showCamera) {
+    return (
+      <CameraCapture
+        onCapture={(blob) => { setShowCamera(false); onPhoto(blob); }}
+        onCancel={() => setShowCamera(false)}
+        onFallback={() => { setShowCamera(false); inputRef.current?.click(); }}
+      />
+    );
+  }
 
   return (
     <div className="screen page-enter" style={{ display: 'flex', flexDirection: 'column' }}>
@@ -44,7 +58,7 @@ export default function PhotoGuide({ onPhoto, onSkip, onBack }) {
       <input ref={inputRef} type="file" accept="image/*" capture="environment" onChange={handleFile} hidden />
 
       <div className="sticky-cta stack" style={{ marginTop: 'auto' }}>
-        <button className="btn btn--block" onClick={() => inputRef.current?.click()}>📷 {t('ready_take')}</button>
+        <button className="btn btn--block" onClick={() => setShowCamera(true)}>📷 {t('ready_take')}</button>
         <button className="btn btn--tint btn--block" onClick={onSkip}>{t('skip_photo')}</button>
       </div>
     </div>

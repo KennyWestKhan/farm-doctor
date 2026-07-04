@@ -32,6 +32,12 @@ const STRINGS = {
   take_photo: { en: 'Take photo', twi: 'Twa mfonin' },
   ready_take: { en: "I'm ready — take photo", twi: 'Masiesie — twa mfonin' },
   skip_photo: { en: 'Skip photo for now', twi: 'Gyae mfonin no seesei' },
+
+  // In-app camera with framing reticle (Twi pending native review 2026-07-04)
+  camera_hint: { en: 'Put the sick leaf in the box — fill the frame', twi: 'Fa nhaban a ayare no to adaka no mu — hyɛ no ma' },
+  camera_use_phone: { en: 'Use my phone camera instead', twi: 'Fa me fon camera no mmom' },
+  camera_denied: { en: 'The camera is blocked. Allow it in your settings, or use your phone camera.', twi: 'Wɔasi camera no kwan. Ma ho kwan wɔ settings mu, anaa fa wo fon camera no.' },
+  camera_unavailable: { en: "Can't open the in-app camera here. Use your phone camera instead.", twi: 'Yɛntumi mmue app camera no ha. Fa wo fon camera no mmom.' },
   symptoms_title: { en: 'What do you see?', twi: 'Ɛdeɛn na wohunu?' },
   symptoms_help: { en: 'Tap Yes, No, or Not sure for each', twi: 'Mia Aane, Daabi, anaa Mennim wɔ biara so' },
   yes: { en: 'Yes', twi: 'Aane' },
