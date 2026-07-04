@@ -8,15 +8,38 @@ import logoSrc from "/icons/icon-192.png";
 
 const STEPS = { choice: 0, phone: 1, otp: 2 };
 
+/** Google's 4-colour "G" mark, inlined so the button needs no asset. */
+function GoogleIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 48 48" aria-hidden="true">
+      <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
+      <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z" />
+      <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z" />
+      <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" />
+    </svg>
+  );
+}
+
 export default function Welcome() {
   const { t } = useLang();
-  const { continueAsGuest, sendOtp, verifyOtp } = useAuth();
+  const { getStarted, signInWithGoogle, authConfigured, sendOtp, verifyOtp } = useAuth();
   const navigate = useNavigate();
   const [step, setStep] = useState(STEPS.choice);
   const [phone, setPhone] = useState("+233");
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
+
+  const handleGoogle = async () => {
+    setError("");
+    setBusy(true);
+    // On success this redirects away, so we won't return here; only reset on error.
+    const { error: err } = await signInWithGoogle();
+    if (err) {
+      setError(err.message);
+      setBusy(false);
+    }
+  };
 
   const handleSendOtp = async () => {
     setError("");
@@ -102,19 +125,34 @@ export default function Welcome() {
             gap: 14
           }}
         >
-          <button className="btn" onClick={() => setStep(STEPS.phone)}>
-            📱 {t("welcome_sign_in")}
+          <button className="btn" onClick={getStarted}>
+            {t("welcome_get_started")}
           </button>
-          <button className="btn btn--ghost" onClick={continueAsGuest}>
-            {t("welcome_guest")}
-          </button>
+          {authConfigured && (
+            <button className="btn btn--ghost" onClick={handleGoogle} disabled={busy} style={{ gap: 10 }}>
+              <GoogleIcon />
+              {t("welcome_google")}
+            </button>
+          )}
+          {error && (
+            <p style={{ color: "var(--bad)", fontSize: 14, margin: 0 }}>{error}</p>
+          )}
         </div>
+
+        {authConfigured && (
+          <button
+            onClick={() => { setStep(STEPS.phone); setError(""); }}
+            style={{ background: "none", border: "none", color: "var(--ink-soft)", fontSize: 15, marginTop: 22, textDecoration: "underline" }}
+          >
+            📱 {t("welcome_use_phone")}
+          </button>
+        )}
 
         <p
           className="muted"
-          style={{ fontSize: 13, marginTop: 28, maxWidth: 300 }}
+          style={{ fontSize: 13, marginTop: 22, maxWidth: 300 }}
         >
-          {t("welcome_guest_note")}
+          {t("welcome_start_note")}
         </p>
         <p className="muted" style={{ fontSize: 11, marginTop: 12, maxWidth: 300, opacity: 0.7 }}>
           {t('welcome_privacy')}
@@ -216,9 +254,7 @@ export default function Welcome() {
         </div>
 
         <button
-          onClick={() => {
-            continueAsGuest();
-          }}
+          onClick={getStarted}
           style={{
             background: "none",
             border: "none",

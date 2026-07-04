@@ -43,7 +43,18 @@ export function AuthProvider({ children }) {
       ? supabase.auth.onAuthStateChange((_event, session) => {
           const u = session?.user ?? null;
           setUser(u);
-          if (u) migrateGuestData(u.id);
+          if (u) {
+            migrateGuestData(u.id);
+            // Any real session (anonymous, Google, or phone) leaves guest-only
+            // mode and passes the welcome gate.
+            try {
+              localStorage.removeItem(GUEST_KEY);
+              localStorage.setItem(WELCOME_KEY, "1");
+            } catch {
+              /* private browsing */
+            }
+            setWelcomed(true);
+          }
         })
       : { data: null };
 
@@ -109,6 +120,28 @@ export function AuthProvider({ children }) {
     return { data, error };
   }, []);
 
+  // Frictionless entry: mark them in immediately (offline-safe guest state)
+  // and, when online, upgrade to a real anonymous backend identity. The
+  // auth-change listener migrates the just-created guest data onto that id.
+  const getStarted = useCallback(() => {
+    continueAsGuest();
+    if (supabase && navigator.onLine) {
+      supabase.auth.signInAnonymously().catch(() => {
+        /* offline / not enabled — stays guest, still fully usable */
+      });
+    }
+  }, [continueAsGuest]);
+
+  // Google OAuth: free, cross-device identity. Full-page redirect back to the
+  // app; the session is picked up on return and the listener welcomes + migrates.
+  const signInWithGoogle = useCallback(async () => {
+    if (!supabase) return { error: { message: authError } };
+    return await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: window.location.origin },
+    });
+  }, []);
+
   const signOut = useCallback(async () => {
     if (supabase) await supabase.auth.signOut();
     setUser(null);
@@ -125,7 +158,10 @@ export function AuthProvider({ children }) {
       loading,
       isGuest,
       welcomed,
+      authConfigured: !!supabase,
       continueAsGuest,
+      getStarted,
+      signInWithGoogle,
       markWelcomed,
       sendOtp,
       verifyOtp,
@@ -137,6 +173,8 @@ export function AuthProvider({ children }) {
       isGuest,
       welcomed,
       continueAsGuest,
+      getStarted,
+      signInWithGoogle,
       markWelcomed,
       sendOtp,
       verifyOtp,

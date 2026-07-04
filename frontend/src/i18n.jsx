@@ -315,6 +315,11 @@ const STRINGS = {
   welcome_sign_in: { en: 'Sign in with phone', twi: 'De wo fon nɔma bra mu' },
   welcome_guest: { en: 'Continue as guest', twi: 'Kɔ so sɛ ahɔho' },
   welcome_guest_note: { en: 'Guest mode works fully offline. Sign in later to save your data across devices.', twi: 'Ahɔho kwan yɛ adwuma a intanɛt nni hɔ. Bra mu akyire na wo data bɛtra wɔ fon biara so.' },
+  // Anonymous + Google auth (Twi pending native review 2026-07-04)
+  welcome_get_started: { en: 'Get started', twi: 'Fi ase' },
+  welcome_google: { en: 'Continue with Google', twi: 'Fa Google toa so' },
+  welcome_use_phone: { en: 'Use phone number instead', twi: 'Fa fon nɔma mmom' },
+  welcome_start_note: { en: 'Start free, no account needed. Sign in with Google to keep your data across phones.', twi: 'Fi ase kwa, ɛnhia akawnt. Fa Google bra mu na wo data ntena wo fon nyinaa so.' },
   welcome_privacy: { en: 'Your data stays on your device. We collect anonymous treatment feedback only with your consent.', twi: 'Wo data tra wo fon so. Yɛfa treatment nsɛm a wɔnnim onipa gye kwan a wopene so nko.' },
   welcome_phone_title: { en: 'Your phone number', twi: 'Wo fon nɔma' },
   welcome_phone_desc: { en: "We'll send a code to verify it's you.", twi: 'Yɛbɛde kɔɔd abrɛ wo de ahwɛ sɛ ɛyɛ wo.' },
