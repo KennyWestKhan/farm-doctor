@@ -6,6 +6,7 @@ import SprayWindow from '../components/SprayWindow.jsx';
 import ValidationForm from '../components/ValidationForm.jsx';
 import { Header } from '../components/Chrome.jsx';
 import ReviewPrompt from '../components/ReviewPrompt.jsx';
+import NotifyPrompt from '../components/NotifyPrompt.jsx';
 
 export default function Result({ session, onRestart, onHome }) {
   const { t } = useLang();
@@ -14,6 +15,9 @@ export default function Result({ session, onRestart, onHome }) {
   const top = result?.top;
   const disease = top ? getDisease(top.disease.id) : null;
   const confidencePct = top ? Math.round(top.confidence * 100) : 0;
+  // A photo was queued for a Claude Vision recheck that may finish after the
+  // farmer leaves this screen — offer to notify them when the answer lands.
+  const pendingRecheck = !!(result?.needsVision && session.photoBlob);
 
   if (!disease) {
     return (
@@ -41,6 +45,7 @@ export default function Result({ session, onRestart, onHome }) {
           regionalNote={result.regionalNote}
           region={region}
         />
+        <NotifyPrompt show={pendingRecheck} />
         <SprayWindow region={region} />
         {/* Bought the chemical? Scan its label for plain-language directions. */}
         <button className="card" onClick={() => nav('/scan/label')} style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14 }}>

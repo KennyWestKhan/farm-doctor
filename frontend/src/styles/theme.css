@@ -159,6 +159,10 @@ a.card { display: block; text-decoration: none; }
   box-shadow: var(--shadow-card); font-weight: 700;
 }
 .btn--tint { background: var(--green-tint); color: var(--green-deep); box-shadow: none; }
+/* The single YouTube treatment — solid YouTube red, used app-wide via
+   YouTubeButton so the "watch on YouTube" cue never drifts between screens. */
+.btn--youtube { background: #FF0000; color: #fff; box-shadow: 0 4px 0 #c30000; text-decoration: none; }
+.btn--youtube:active { transform: translateY(2px); box-shadow: 0 2px 0 #c30000; }
 .btn[disabled] { opacity: 0.45; pointer-events: none; box-shadow: none; }
 
 /* Contact buttons (Call / WhatsApp) — sized for older, low-vision farmers:

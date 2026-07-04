@@ -21,6 +21,7 @@ import {
   updateReport,
 } from './storage';
 import { matchDiseaseByName } from '../data/diseaseDatabase';
+import { notifyDiagnosisReady } from '../utils/notify.js';
 
 const API = import.meta.env.VITE_API_URL || '';
 const BATCH_SIZE = 4;
@@ -77,6 +78,9 @@ async function flushVision() {
       const vision = await res.json();
       await updateReport(item.reportId, visionPatch(item.cropId, vision));
       await removePendingVision(item.id);
+      // Tell the farmer their earlier "unsure" check now has an AI answer —
+      // this flush can complete after they've left the result screen.
+      notifyDiagnosisReady();
     }
   });
 }

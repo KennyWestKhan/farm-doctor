@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { useLang } from '../i18n.jsx';
 import { Header } from '../components/Chrome.jsx';
+import YouTubeButton from '../components/YouTubeButton.jsx';
 
 const TIPS = [
   { icon: '☀️', key: 'photo_tip_daylight' },
@@ -32,18 +33,12 @@ export default function PhotoGuide({ onPhoto, onSkip, onBack }) {
 
         {/* A working YouTube search, same fallback pattern as DiseaseVideos —
             no curated video exists for "how to photograph a sick plant" so we
-            never claim one is coming, just link straight to a real search. */}
-        <a
-          className="card center"
+            never claim one is coming, just link straight to a real search. Same
+            YouTube button as everywhere else, so the cue stays consistent. */}
+        <YouTubeButton
           href={`https://www.youtube.com/results?search_query=${encodeURIComponent('how to photograph a sick crop for diagnosis')}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ background: 'var(--grad-green)', color: '#fff', textDecoration: 'none' }}
-        >
-          <div style={{ fontSize: 36 }}>▶️</div>
-          <strong style={{ fontFamily: 'var(--font-display)' }}>{t('watch_video')}</strong>
-          <div style={{ color: 'rgba(255,255,255,0.75)', fontSize: 13 }}>{t('videos_search')}</div>
-        </a>
+          label={t('watch_video')}
+        />
       </div>
 
       <input ref={inputRef} type="file" accept="image/*" capture="environment" onChange={handleFile} hidden />

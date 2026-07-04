@@ -149,6 +149,14 @@ const STRINGS = {
   },
   farmsize_total_label: { en: 'For your whole farm', twi: 'Ma wo afuo nyinaa' },
 
+  // Diagnosis-ready notification opt-in (Twi pending native review 2026-07-04)
+  notify_cta: { en: 'Tell me when the AI check is done', twi: 'Ka kyerɛ me sɛ AI no awie' },
+  notify_sub: {
+    en: "We'll send a message when your result is ready — even if you close the app.",
+    twi: 'Yɛbɛfa nkra abrɛ wo sɛ wo mmuae aba — sɛ woto app no mu mpo a.',
+  },
+  notify_on: { en: "Done — we'll message you when it's ready.", twi: 'Yɛawie — yɛbɛbɔ wo nkra sɛ aba a.' },
+
   // Storage tips
   storage_title: { en: 'Protect your harvest', twi: 'Bɔ wo otwa ho ban' },
   storage_drying: { en: 'Drying', twi: 'Sɛdeɛ wobɛwo' },

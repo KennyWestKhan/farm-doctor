@@ -2187,5 +2187,7 @@ export const TWI_REVIEW_QUEUE = {
     'i18n.jsx: farmsize_title / farmsize_subtitle / farmsize_buckets_unit / farmsize_estimate_hint (rewritten 2026-07-02 for the hybrid farm-size picker)',
     'farmSize.js: purchaseNote() "Deɛ wobɛtɔ…" totals and MATERIAL_TWI words (new 2026-07-02)',
     'This file: "(bɛyɛ 5 g)"-style metric brackets inserted into reviewed dose strings 2026-07-04 — check "bɛyɛ" reads naturally in each',
+    'i18n.jsx: notify_cta / notify_sub / notify_on (diagnosis-ready notification, new 2026-07-04)',
+    'utils/notify.js: COPY.title / COPY.body (notification text shown outside the app, new 2026-07-04)',
   ],
 };

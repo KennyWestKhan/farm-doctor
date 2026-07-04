@@ -1,4 +1,5 @@
 import { useLang } from '../i18n.jsx';
+import YouTubeButton from './YouTubeButton.jsx';
 
 /**
  * "Watch & learn" videos for a disease.
@@ -38,16 +39,7 @@ export default function DiseaseVideos({ disease }) {
         </div>
       ))}
 
-      {/* YouTube identity lives in the red play icon, not the whole button —
-          a full #FF0000 fill read as a danger action in this green UI. */}
-      <a className="btn btn--block" href={searchUrl} target="_blank" rel="noopener noreferrer"
-        style={{ textDecoration: 'none', background: '#fdecea', color: '#b3261e', boxShadow: 'none' }}>
-        <svg width="26" height="18" viewBox="0 0 26 18" aria-hidden="true">
-          <rect width="26" height="18" rx="4.5" fill="#FF0000" />
-          <path d="M10.4 4.9v8.2l7.2-4.1z" fill="#fff" />
-        </svg>
-        {t('videos_search')}
-      </a>
+      <YouTubeButton href={searchUrl} label={t('videos_search')} />
     </div>
   );
 }
