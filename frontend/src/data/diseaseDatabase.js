@@ -14,11 +14,9 @@
  *                       question can score several diseases at once.
  *      treatments[]   — what to buy and how to use it, in farmer language.
  *
- * ⚠️ TWI REVIEW NEEDED
- *  All `*_twi` strings are first-draft translations. They MUST be reviewed by a
- *  native Twi speaker (the user's brother / a Complete Farmer extension officer)
- *  before this is shown to judges or farmers. Any string still needing review is
- *  also listed in TWI_REVIEW_QUEUE at the bottom of this file.
+ * ✅ TWI REVIEW: completed by a native Twi speaker in July 2026 (most strings
+ *  confirmed). Strings written AFTER that review are listed in
+ *  TWI_REVIEW_QUEUE.pending at the bottom of this file until signed off.
  *
  * Regions used in MVP: ashanti, greater_accra, western, volta, northern
  */
@@ -2178,11 +2176,15 @@ export function getQuestionsForCrop(cropId) {
 }
 
 /**
- * Strings still pending native-Twi verification. Used by a future review screen
- * and as a checklist for the user's reviewer. Every `*_twi` value above should be
- * treated as draft until signed off.
+ * Twi review tracker. The July 2026 native-speaker review covered the disease
+ * database and app UI strings that existed at the time; anything added after
+ * that review goes in `pending` until it's signed off too.
  */
 export const TWI_REVIEW_QUEUE = {
-  status: 'DRAFT — needs native Twi speaker review before demo/launch',
+  status: 'REVIEWED — native Twi speaker review completed July 2026 (most strings confirmed)',
   scope: 'All twi/*_twi fields in SYMPTOM_QUESTIONS, CROPS[].diseases[].name/description, and treatments[].farmer_instruction.twi',
+  pending: [
+    'i18n.jsx: farmsize_title / farmsize_subtitle / farmsize_buckets_unit / farmsize_estimate_hint (rewritten 2026-07-02 for the hybrid farm-size picker)',
+    'farmSize.js: purchaseNote() "Deɛ wobɛtɔ…" totals and MATERIAL_TWI words (new 2026-07-02)',
+  ],
 };

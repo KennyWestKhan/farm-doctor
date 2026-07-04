@@ -37,4 +37,4 @@ Farm Doctor is, to our knowledge, the only tool in this space that combines offl
 
 ## Status
 
-Functional MVP, security-reviewed (rate limiting, input sanitization on client and server, structural prompt-injection defense, CORS lockdown). Known limitations: Twi translations are first-draft pending native-speaker review; supplier directory and treatment success-rate seed data are demo placeholders pending real partnerships; offline rule-based matcher accuracy benchmarking against field-confirmed cases is in progress.
+Functional MVP, security-reviewed (rate limiting, input sanitization on client and server, structural prompt-injection defense, CORS lockdown). Twi translations reviewed by a native Twi speaker (July 2026). Known limitations: supplier directory and treatment success-rate seed data are demo placeholders pending real partnerships; offline rule-based matcher accuracy benchmarking against field-confirmed cases is in progress.

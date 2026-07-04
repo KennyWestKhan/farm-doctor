@@ -63,6 +63,10 @@ After a diagnosis, a "Best time to spray" card calls [Open-Meteo](https://open-m
 
 Ghana loses 30–50% of harvested crops to poor drying and storage. After a confident diagnosis, a collapsible "Protect your harvest" card shows crop-specific drying, storage, spoilage-sign, and shelf-life guidance — bilingual, offline, sourced from CSIR/CRI post-harvest guidelines and PICS bag research.
 
+### Farm-size dose scaling
+
+Treatment recipes are written as concentrations ("one bottle cap per bucket of water"), which tells a farmer how to mix one batch but not how much to prepare or buy. On the diagnosis screen the farmer taps their farm size (acre-range presets, drawn as a count of field icons — no reading required); the app suggests how many sprayer loads that means for the diagnosed crop (stated assumption: a ~15 L knapsack load, crop-specific coverage rates) and computes the totals — "mix this recipe 8 times" and "buy about 8 bottle caps of powder in total." Experienced farmers can override the suggestion with a −/+ stepper; the confirmed size persists to the profile and comes pre-filled on the next diagnosis. The purchase total only appears when the recipe's dose parses unambiguously — the app never shows a guessed quantity.
+
 ## Features
 
 | Feature                                            | Route             | Needs internet?                          |
@@ -73,6 +77,7 @@ Ghana loses 30–50% of harvested crops to poor drying and storage. After a conf
 | Regional pest & disease alerts                     | Home              | No                                        |
 | Best-time-to-spray weather advisory                | Result screen     | No (falls back to static advice offline) |
 | Post-harvest storage tips                          | Diagnosis detail  | No                                        |
+| Farm-size dose scaling (suggested loads + total to buy) | Diagnosis detail  | No                                   |
 | Supplier map + WhatsApp/call links                 | `/shops`          | No (tiles cache after first load)        |
 | Diagnosis history                                  | `/reports`        | No                                        |
 | Treatment feedback ("did it work?")                | Result screen     | Syncs when online                        |
@@ -264,7 +269,7 @@ The offline-first architecture keeps costs low: most diagnoses happen on-device 
 
 ## Known limitations
 
-- Twi translations are first-draft and need native speaker review. See `TWI_REVIEW_QUEUE` in `diseaseDatabase.js`.
+- Twi translations have been reviewed by a native Twi speaker (July 2026). Strings added after that review are flagged in `TWI_REVIEW_QUEUE` in `diseaseDatabase.js` until they're signed off too.
 - Supplier data is placeholder (seeded with demo WhatsApp numbers).
 - Dashboard defaults to live data (which may be zero initially). A demo toggle lets judges preview the dashboard at scale. Treatment success rates on diagnosis cards pull from the live `treatment_success_rates` Supabase view.
 - Offline matcher is rule-based (not ML) — a deliberate choice for reliability on low-end devices with no connectivity. Accuracy benchmarking against field-collected cases is in progress.
