@@ -67,11 +67,20 @@ Ghana loses 30–50% of harvested crops to poor drying and storage. After a conf
 
 Treatment recipes are written as concentrations ("one bottle cap per bucket of water"), which tells a farmer how to mix one batch but not how much to prepare or buy. On the diagnosis screen the farmer taps their farm size (acre-range presets, drawn as a count of field icons — no reading required); the app suggests how many sprayer loads that means for the diagnosed crop (stated assumption: a ~15 L knapsack load, crop-specific coverage rates) and computes the totals — "mix this recipe 8 times" and "buy about 8 bottle caps of powder in total (about 40 g)." Experienced farmers can override the suggestion with a −/+ stepper; the confirmed size persists to the profile and comes pre-filled on the next diagnosis. The purchase total only appears when the recipe's dose parses unambiguously — the app never shows a guessed quantity.
 
+### In-app camera with framing guide (prototype)
+
+When the farmer taps "take photo," Farm Doctor opens its own camera with a framing box on the live view — "put the sick leaf in the box, fill the frame" — so the shot is close and centred, which is what the diagnosis actually needs, and grabs that frame directly. If the in-app camera can't run (permission denied, no camera, an old WebView, or a non-HTTPS context) it falls back automatically to the phone's native camera, and a "use my phone camera instead" option is always available. Prototype under evaluation against native-camera photo quality on low-end Android hardware.
+
+### Diagnosis-ready notifications
+
+When the offline matcher is unsure, the photo is queued and re-checked by Claude Vision once the network returns — which can finish after the farmer has put the phone down. From the result screen they can opt in, and Farm Doctor tells them when the AI answer is ready. These are local notifications shown through the service worker (no server push infrastructure); permission is only ever requested on a tap, never on page load.
+
 ## Features
 
 | Feature                                            | Route             | Needs internet?                          |
 | -------------------------------------------------- | ----------------- | ----------------------------------------- |
 | Symptom checklist diagnosis                        | `/diagnose`       | No                                        |
+| In-app camera with framing guide (prototype)       | `/diagnose` photo | No (capture is on-device)                |
 | Camera crop scan (Claude Vision)                   | `/scan/crop`      | Yes                                       |
 | Agrochemical label translation (Textract + Claude) | `/scan/label`     | Yes                                       |
 | Regional pest & disease alerts                     | Home              | No                                        |
@@ -81,6 +90,7 @@ Treatment recipes are written as concentrations ("one bottle cap per bucket of w
 | Supplier map + WhatsApp/call links                 | `/shops`          | No (tiles cache after first load)        |
 | Diagnosis history                                  | `/reports`        | No                                        |
 | Treatment feedback ("did it work?")                | Result screen     | Syncs when online                        |
+| Diagnosis-ready notification (opt-in)              | Result screen     | Fires when the queued AI recheck lands   |
 | App review / rating                                | After first scan  | Syncs when online                        |
 | Phone OTP sign-in (Ghana +233)                     | Welcome           | OTP needs Supabase                       |
 | Guest mode (full offline, no account)              | Welcome           | No                                        |
@@ -102,6 +112,7 @@ Frontend    React 19 + Vite 8 PWA
             IndexedDB (idb) for offline persistence
             React Leaflet for supplier maps
             Workbox service worker (precache + runtime tile cache)
+            getUserMedia in-app camera + Notifications API (local alerts)
             Supabase JS SDK for auth + sync
             Bilingual context (Twi / English, auto-detect)
 
@@ -127,7 +138,7 @@ frontend/
 │   ├── engine/         Offline symptom matcher (rule-based scoring)
 │   ├── auth/           AuthContext, OTP, guest migration
 │   ├── utils/          Input sanitization, search, preferences
-│   ├── styles/         Theme CSS (Rich Ghanaian Earth design system)
+│   ├── styles/         Theme CSS (Fresh Emerald Agri-tech design system)
 │   └── i18n.jsx        Twi/English bilingual context
 └── vite.config.js      PWA + Workbox config
 
@@ -177,6 +188,23 @@ The frontend runs without the backend in demo/offline mode. Point it at the API 
 | `VITE_API_URL`           | Backend base URL. Blank = offline-only. |
 | `VITE_SUPABASE_URL`      | Supabase project URL (phone OTP auth)   |
 | `VITE_SUPABASE_ANON_KEY` | Supabase anon key (safe for client)     |
+
+Vite inlines `VITE_*` vars at **build time**, so set them in the host's
+environment before building — changing them later needs a rebuild.
+
+## Deployment
+
+- **Frontend → Vercel.** `frontend/vercel.json` sets the Vite build and the
+  SPA rewrite (so React Router deep links and the PWA don't 404). Set the
+  `VITE_*` env vars in the Vercel project. The camera and full offline flow
+  work without a backend; `VITE_API_URL` only enables the online AI features.
+- **Backend → Render.** `render.yaml` is the deploy blueprint; set the
+  `backend/.env` variables (above) in the Render service. CORS auto-allows
+  `*.vercel.app`; for a custom domain, set `ALLOWED_ORIGINS`.
+- **HTTPS is required** for the service worker, install prompt, in-app camera
+  (`getUserMedia`), and notifications. Vercel/Render provide it; for local
+  testing on a phone use an HTTPS tunnel (e.g. ngrok) — `localhost` counts as
+  secure on the dev machine but a phone reaching it over LAN does not.
 
 ## Content coverage (MVP)
 
@@ -276,6 +304,8 @@ The offline-first architecture keeps costs low: most diagnoses happen on-device 
 - Currently covers 6 crops / 23 diseases. Expansion to additional Ghanaian staples (maize, rice, plantain, tomato) is planned.
 - Spray-timing advisory uses a single representative coordinate per region (not farm-precise GPS) and a simplified rain/heat heuristic — good enough for go/no-go guidance, not a precision ag tool.
 - All 16 Ghana regions are selectable, but disease prevalence/seasonality data (and therefore regional risk notes + home alerts) only exists for the 5 original MVP regions. The other 11 still get full diagnosis, supplier, and report functionality.
+- The in-app framing camera is a prototype pending an A/B against native-camera photo quality on low-end Android hardware; it falls back to the native camera on any failure.
+- Diagnosis-ready notifications are local (service-worker `showNotification`), shown while the app/its service worker is alive — not true server-sent Web Push delivered when the app is fully closed.
 
 ## License
 
