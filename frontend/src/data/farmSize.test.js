@@ -49,8 +49,22 @@ describe('parseDose', () => {
       .toEqual({ qty: 2, unit: 'cap', material: 'powder' });
   });
 
+  it('reads doses that carry a metric bracket after the analogy', () => {
+    expect(parseDose(treatment('Two bottle caps (about 10 g) of powder per bucket of water.')))
+      .toEqual({ qty: 2, unit: 'cap', material: 'powder' });
+    expect(parseDose(treatment('One handful (about 30 g) of crushed neem seeds per bucket of water.')))
+      .toEqual({ qty: 1, unit: 'handful', material: 'neem' });
+  });
+
+  it('reads sulfur powder as powder', () => {
+    expect(parseDose(treatment('Two bottle caps (about 10 g) of sulfur powder per bucket of water.')))
+      .toEqual({ qty: 2, unit: 'cap', material: 'powder' });
+  });
+
   it('reads half-cap liquid doses', () => {
     expect(parseDose(treatment('Half a bottle cap of liquid per bucket of water.')))
+      .toEqual({ qty: 0.5, unit: 'cap', material: 'liquid' });
+    expect(parseDose(treatment('Half a bottle cap (about 2.5 ml) of liquid per bucket of water.')))
       .toEqual({ qty: 0.5, unit: 'cap', material: 'liquid' });
   });
 
@@ -79,20 +93,23 @@ describe('formatQty', () => {
 });
 
 describe('purchaseNote', () => {
-  it('multiplies the per-load dose by loads', () => {
-    const note = purchaseNote(3, treatment('Two bottle caps of powder per bucket of water.'));
+  it('multiplies the per-load dose by loads and brackets the metric total', () => {
+    const note = purchaseNote(3, treatment('Two bottle caps (about 10 g) of powder per bucket of water.'));
     expect(note.en).toContain('6 bottle caps of powder');
-    expect(note.twi).toContain('6');
+    expect(note.en).toContain('(about 30 g)');
+    expect(note.twi).toContain('(bɛyɛ 30 g)');
   });
 
-  it('handles half-cap totals', () => {
-    const note = purchaseNote(3, treatment('Half a bottle cap of liquid per bucket of water.'));
+  it('handles half-cap totals in ml for liquids', () => {
+    const note = purchaseNote(3, treatment('Half a bottle cap (about 2.5 ml) of liquid per bucket of water.'));
     expect(note.en).toContain('1½ bottle caps of liquid');
+    expect(note.en).toContain('(about 7.5 ml)');
   });
 
-  it('handles handfuls', () => {
-    const note = purchaseNote(4, treatment('One handful of crushed neem seeds per bucket of water.'));
+  it('handles handfuls with a gram total', () => {
+    const note = purchaseNote(4, treatment('One handful (about 30 g) of crushed neem seeds per bucket of water.'));
     expect(note.en).toContain('4 handfuls of crushed neem seeds');
+    expect(note.en).toContain('(about 120 g)');
   });
 
   it('returns null when the dose is unparseable, so no wrong number ever shows', () => {

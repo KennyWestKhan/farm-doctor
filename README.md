@@ -40,7 +40,7 @@ Most agro-apps stop at diagnosis. Farm Doctor goes further: farmers photograph t
 AWS Textract extracts the text, then Claude (via function calling) translates it into:
 
 - Plain-language instructions in English and Twi
-- Local measurement analogies (bottle caps, buckets, handfuls, tea colour)
+- Everyday Ghanaian measurement analogies (bottle caps, milk tins, matchboxes, pure-water sachets, tea colour), each dose carrying the real measure in brackets — e.g. "two bottle caps (10 ml)" — so it stays verifiable against the label
 - Context-aware dosing based on farm size, crop, and growth stage
 
 ### Counterfeit / banned pesticide check
@@ -65,7 +65,7 @@ Ghana loses 30–50% of harvested crops to poor drying and storage. After a conf
 
 ### Farm-size dose scaling
 
-Treatment recipes are written as concentrations ("one bottle cap per bucket of water"), which tells a farmer how to mix one batch but not how much to prepare or buy. On the diagnosis screen the farmer taps their farm size (acre-range presets, drawn as a count of field icons — no reading required); the app suggests how many sprayer loads that means for the diagnosed crop (stated assumption: a ~15 L knapsack load, crop-specific coverage rates) and computes the totals — "mix this recipe 8 times" and "buy about 8 bottle caps of powder in total." Experienced farmers can override the suggestion with a −/+ stepper; the confirmed size persists to the profile and comes pre-filled on the next diagnosis. The purchase total only appears when the recipe's dose parses unambiguously — the app never shows a guessed quantity.
+Treatment recipes are written as concentrations ("one bottle cap per bucket of water"), which tells a farmer how to mix one batch but not how much to prepare or buy. On the diagnosis screen the farmer taps their farm size (acre-range presets, drawn as a count of field icons — no reading required); the app suggests how many sprayer loads that means for the diagnosed crop (stated assumption: a ~15 L knapsack load, crop-specific coverage rates) and computes the totals — "mix this recipe 8 times" and "buy about 8 bottle caps of powder in total (about 40 g)." Experienced farmers can override the suggestion with a −/+ stepper; the confirmed size persists to the profile and comes pre-filled on the next diagnosis. The purchase total only appears when the recipe's dose parses unambiguously — the app never shows a guessed quantity.
 
 ## Features
 

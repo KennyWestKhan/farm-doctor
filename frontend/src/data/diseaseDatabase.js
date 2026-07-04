@@ -215,13 +215,13 @@ export const CROPS = [
             farmer_instruction: {
               en: {
                 mixing: 'Mix the powder into water until it looks like weak tea — not clear, not dark.',
-                amount: 'Use one bottle cap of powder for one bucket of water.',
+                amount: 'Use one bottle cap (about 5 g) of powder for one bucket of water.',
                 application: 'Spray the fruit and leaves until water just begins to drip off them.',
                 frequency: 'Spray once every week, and again after heavy rain.',
               },
               twi: {
                 mixing: 'Fra mfutuma no ​nsuo mu kosi sɛ ɛbɛyɛ sɛ tii a ɛnyɛ den — ɛnyɛ kann, ɛnyɛ tuntum.',
-                amount: 'Fa toa ano ​mfutuma baako gu bokiti nsuo baako mu.',
+                amount: 'Fa toa ano ​mfutuma baako (bɛyɛ 5 g) gu bokiti nsuo baako mu.',
                 application: 'Pete gu aba ne nhaban no so kosi sɛ nsuo no bɛfiri so atɔ fam.',
                 frequency: 'Pete pɛnkoro dapɛn biara, na sane yɛ bio osutɔ akyi.',
               },
@@ -236,13 +236,13 @@ export const CROPS = [
             farmer_instruction: {
               en: {
                 mixing: 'Mix until the water looks like weak tea.',
-                amount: 'Two bottle caps of powder per bucket of water.',
+                amount: 'Two bottle caps (about 10 g) of powder per bucket of water.',
                 application: 'Spray all over the plant, especially the fruit, until leaves drip.',
                 frequency: 'Every week. Stop 2 weeks before you harvest.',
               },
               twi: {
                 mixing: 'Fra no kosi sɛ nsuo no bɛyɛ sɛ tii a ɛnyɛ den.',
-                amount: 'Toa ano mfutuma mmienu wɔ bokiti nsuo baako mu.',
+                amount: 'Toa ano mfutuma mmienu (bɛyɛ 10 g) wɔ bokiti nsuo baako mu.',
                 application: 'Pete gu afifideɛ no nyinaa so, titiriw aba no, kosi sɛ nhaban no bɛsɔ.',
                 frequency: 'Dapɛn biara. Gyae nnawɔtwe mmienu ansa na woatwa.',
               },
@@ -280,13 +280,13 @@ export const CROPS = [
             farmer_instruction: {
               en: {
                 mixing: 'Mix powder into water until it looks like weak tea.',
-                amount: 'One bottle cap of powder per bucket of water.',
+                amount: 'One bottle cap (about 5 g) of powder per bucket of water.',
                 application: 'Spray both the top and underside of leaves until they drip.',
                 frequency: 'Once a week, starting as soon as you see the first spots.',
               },
               twi: {
                 mixing: 'Fra mfutuma no nsuo mu kosi sɛ ɛbɛyɛ sɛ tii a ɛnyɛ den.',
-                amount: 'Toa ano mfutuma baako wɔ bokiti nsuo baako mu.',
+                amount: 'Toa ano mfutuma baako (bɛyɛ 5 g) wɔ bokiti nsuo baako mu.',
                 application: 'Pete gu nhaban no atifi ne aseɛ nyinaa kosi sɛ ɛbɛsɔ.',
                 frequency: 'Pɛnkoro dapɛn biara, firi ɛberɛ a wohunu nsisii a ɛdi kan no.',
               },
@@ -300,14 +300,14 @@ export const CROPS = [
             technical_instruction: 'Combine Mancozeb and Copper Hydroxide for broader protection.',
             farmer_instruction: {
               en: {
-                mixing: 'Mix one bottle cap of Mancozeb and one bottle cap of Copper powder together into a bucket of water.',
-                amount: 'One bottle cap of each powder for one bucket of water.',
+                mixing: 'Mix one bottle cap (about 5 g) of Mancozeb and one bottle cap (about 5 g) of Copper powder together into a bucket of water.',
+                amount: 'One bottle cap (about 5 g) of each powder for one bucket of water.',
                 application: 'Spray the whole plant, both sides of leaves, until they drip.',
                 frequency: 'Every week. Best to start before the disease shows, when the rains begin.',
               },
               twi: {
-                mixing: 'Fra toa ano mfutuma baako Mancozeb ne toa ano baako Copper bom gu bokiti nsuo mu.',
-                amount: 'Toa ano mfutuma baako wɔ biara mu wɔ bokiti nsuo baako mu.',
+                mixing: 'Fra toa ano mfutuma baako (bɛyɛ 5 g) Mancozeb ne toa ano baako (bɛyɛ 5 g) Copper bom gu bokiti nsuo mu.',
+                amount: 'Toa ano mfutuma baako (bɛyɛ 5 g) wɔ biara mu wɔ bokiti nsuo baako mu.',
                 application: 'Pete gu afifideɛ no nyinaa so, nhaban no afa mmienu, kosi sɛ ɛbɛsɔ.',
                 frequency: 'Dapɛn biara. Eye sɛ wofiri ansa na yadeɛ no bɛba, ɛberɛ a osu bɛfiri aseɛ.',
               },
@@ -365,13 +365,13 @@ export const CROPS = [
             farmer_instruction: {
               en: {
                 mixing: 'Mix until the water looks like weak tea.',
-                amount: 'Two bottle caps of powder per bucket of water.',
+                amount: 'Two bottle caps (about 10 g) of powder per bucket of water.',
                 application: 'Spray under the leaves where the rusty bumps are, until they drip.',
                 frequency: 'Every week while you still see the rusty bumps.',
               },
               twi: {
                 mixing: 'Fra no kosi sɛ nsuo no bɛyɛ sɛ tii a ɛnyɛ den.',
-                amount: 'Toa ano mfutuma mmienu wɔ bokiti nsuo baako mu.',
+                amount: 'Toa ano mfutuma mmienu (bɛyɛ 10 g) wɔ bokiti nsuo baako mu.',
                 application: 'Pete gu nhaban no ase baabi a mpɔmpɔ no wɔ no kosi sɛ ɛbɛsɔ.',
                 frequency: 'Dapɛn biara mmerɛ a woda so hunu mpɔmpɔ no.',
               },
@@ -386,13 +386,13 @@ export const CROPS = [
             farmer_instruction: {
               en: {
                 mixing: 'Shake the bottle well. Mix until water is a very light tea colour.',
-                amount: 'Half a bottle cap of liquid per bucket of water.',
+                amount: 'Half a bottle cap (about 2.5 ml) of liquid per bucket of water.',
                 application: 'Spray the whole plant, top and bottom of leaves, until dripping.',
                 frequency: 'Every 10 days. Stop 3 weeks before harvest.',
               },
               twi: {
                 mixing: 'Woso toa no yie. Fra no kosi sɛ nsuo no bɛyɛ sɛ tii a emu hare paa.',
-                amount: 'Toa ano nsuo fa wɔ bokiti nsuo baako mu.',
+                amount: 'Toa ano nsuo fa (bɛyɛ 2.5 ml) wɔ bokiti nsuo baako mu.',
                 application: 'Pete gu afifideɛ no nyinaa so, nhaban atifi ne ase, kosi sɛ ɛbɛsɔ.',
                 frequency: 'Nnafua 10 biara. Gyae nnawɔtwe 3 ansa na woatwa.',
               },
@@ -407,13 +407,13 @@ export const CROPS = [
             farmer_instruction: {
               en: {
                 mixing: 'Mix until the water looks like weak tea.',
-                amount: 'Two bottle caps of powder per bucket of water.',
+                amount: 'Two bottle caps (about 10 g) of powder per bucket of water.',
                 application: 'Spray the whole plant before rust appears, or at very first sign.',
                 frequency: 'Every week during the rust season (September–December).',
               },
               twi: {
                 mixing: 'Fra no kosi sɛ nsuo no bɛyɛ sɛ tii a ɛnyɛ den.',
-                amount: 'Toa ano mfutuma mmienu wɔ bokiti nsuo baako mu.',
+                amount: 'Toa ano mfutuma mmienu (bɛyɛ 10 g) wɔ bokiti nsuo baako mu.',
                 application: 'Pete gu afifideɛ no nyinaa so ansa na nkannare aba, anaa sɛ wofiri aseɛ hunu bi.',
                 frequency: 'Dapɛn biara wɔ nkannare berɛ mu (September–December).',
               },
@@ -450,13 +450,13 @@ export const CROPS = [
             farmer_instruction: {
               en: {
                 mixing: 'Mix until the water looks like weak tea.',
-                amount: 'Two bottle caps of powder per bucket of water.',
+                amount: 'Two bottle caps (about 10 g) of powder per bucket of water.',
                 application: 'Spray the whole plant, especially older leaves, until they drip.',
                 frequency: 'Every week while new spots keep appearing.',
               },
               twi: {
                 mixing: 'Fra no kosi sɛ nsuo no bɛyɛ sɛ tii a ɛnyɛ den.',
-                amount: 'Toa ano mfutuma mmienu wɔ bokiti nsuo baako mu.',
+                amount: 'Toa ano mfutuma mmienu (bɛyɛ 10 g) wɔ bokiti nsuo baako mu.',
                 application: 'Pete gu afifideɛ no nyinaa so, titiriw nhaban dada no, kosi sɛ ɛbɛsɔ.',
                 frequency: 'Dapɛn biara mmerɛ a nsisii foforɔ da so pue.',
               },
@@ -471,13 +471,13 @@ export const CROPS = [
             farmer_instruction: {
               en: {
                 mixing: 'Mix powder into water until it looks like weak tea.',
-                amount: 'One bottle cap of powder per bucket of water.',
+                amount: 'One bottle cap (about 5 g) of powder per bucket of water.',
                 application: 'Spray all the leaves, top and bottom, until dripping.',
                 frequency: 'Once a week. Works best when you start early, before spots spread.',
               },
               twi: {
                 mixing: 'Fra mfutuma no nsuo mu kosi sɛ ɛbɛyɛ sɛ tii a ɛnyɛ den.',
-                amount: 'Toa ano mfutuma baako wɔ bokiti nsuo baako mu.',
+                amount: 'Toa ano mfutuma baako (bɛyɛ 5 g) wɔ bokiti nsuo baako mu.',
                 application: 'Pete gu nhaban no nyinaa so, atifi ne ase, kosi sɛ ɛbɛsɔ.',
                 frequency: 'Pɛnkoro dapɛn biara. Eye sɛ wofiri aseɛ ntɛm, ansa na nsisii atrɛw.',
               },
@@ -567,13 +567,13 @@ export const CROPS = [
             farmer_instruction: {
               en: {
                 mixing: 'Crush a handful of neem seeds and soak in a bucket of water overnight.',
-                amount: 'One handful of crushed neem seeds per bucket of water.',
+                amount: 'One handful (about 30 g) of crushed neem seeds per bucket of water.',
                 application: 'Strain the water through cloth and spray on both sides of leaves to chase away whiteflies.',
                 frequency: 'Every 5 days during the season when whiteflies are many.',
               },
               twi: {
                 mixing: 'Dwira neem aba nsatea biako na fa to bokiti nsuo mu nnera.',
-                amount: 'Nsatea biako neem aba a adwira wɔ bokiti nsuo baako mu.',
+                amount: 'Nsatea biako (bɛyɛ 30 g) neem aba a adwira wɔ bokiti nsuo baako mu.',
                 application: 'Sene nsuo no fa ntama mu na pete gu nhaban afa mmienu so na ɛbɛpam nwansena fitaa.',
                 frequency: 'Nnafua 5 biara wɔ ɛberɛ a nwansena fitaa dɔɔso.',
               },
@@ -654,13 +654,13 @@ export const CROPS = [
             farmer_instruction: {
               en: {
                 mixing: 'Crush a handful of neem seeds, soak in a bucket of water overnight, then strain.',
-                amount: 'One handful of crushed neem seeds per bucket of water.',
+                amount: 'One handful (about 30 g) of crushed neem seeds per bucket of water.',
                 application: 'Spray on the underside of leaves where whiteflies gather.',
                 frequency: 'Every 5 days when you see many whiteflies.',
               },
               twi: {
                 mixing: 'Dwira neem aba nsatea biako, fa to bokiti nsuo mu nnera, na sene no.',
-                amount: 'Nsatea biako neem aba a adwira wɔ bokiti nsuo baako mu.',
+                amount: 'Nsatea biako (bɛyɛ 30 g) neem aba a adwira wɔ bokiti nsuo baako mu.',
                 application: 'Pete gu nhaban no ase baabi a nwansena fitaa hyia.',
                 frequency: 'Nnafua 5 biara sɛ wohunu nwansena fitaa pii a.',
               },
@@ -740,13 +740,13 @@ export const CROPS = [
             farmer_instruction: {
               en: {
                 mixing: 'Mix powder into water until it looks like weak tea.',
-                amount: 'One bottle cap of powder per bucket of water.',
+                amount: 'One bottle cap (about 5 g) of powder per bucket of water.',
                 application: 'Spray the healthy plants around the sick ones to protect them.',
                 frequency: 'Every week during the rainy season when the disease is spreading.',
               },
               twi: {
                 mixing: 'Fra mfutuma no nsuo mu kosi sɛ ɛbɛyɛ sɛ tii a ɛnyɛ den.',
-                amount: 'Toa ano mfutuma baako wɔ bokiti nsuo baako mu.',
+                amount: 'Toa ano mfutuma baako (bɛyɛ 5 g) wɔ bokiti nsuo baako mu.',
                 application: 'Pete gu afifideɛ a ɛho yɛ den a ɛbɛn deɛ ayare no ho na wobɛbɔ ho ban.',
                 frequency: 'Dapɛn biara wɔ osutɔ berɛ mu ɛberɛ a yadeɛ no retrɛw.',
               },
@@ -826,13 +826,13 @@ export const CROPS = [
             farmer_instruction: {
               en: {
                 mixing: 'Crush a handful of neem seeds and soak overnight in a bucket of water. Strain through cloth.',
-                amount: 'One handful of crushed neem seeds per bucket of water.',
+                amount: 'One handful (about 30 g) of crushed neem seeds per bucket of water.',
                 application: 'Spray the underside of leaves early in the morning when mites are active.',
                 frequency: 'Every 5 days during the dry season when mites are worst.',
               },
               twi: {
                 mixing: 'Dwira neem aba nsatea biako na fa to bokiti nsuo mu nnera. Sene no fa ntama mu.',
-                amount: 'Nsatea biako neem aba a adwira wɔ bokiti nsuo baako mu.',
+                amount: 'Nsatea biako (bɛyɛ 30 g) neem aba a adwira wɔ bokiti nsuo baako mu.',
                 application: 'Pete gu nhaban no ase anɔpa tutuutu ɛberɛ a mmoawa no yɛ adwuma.',
                 frequency: 'Nnafua 5 biara wɔ ɔpɛ berɛ mu ɛberɛ a mmoawa no yɛ den.',
               },
@@ -847,13 +847,13 @@ export const CROPS = [
             farmer_instruction: {
               en: {
                 mixing: 'Mix until the water looks like weak tea.',
-                amount: 'Two bottle caps of sulfur powder per bucket of water.',
+                amount: 'Two bottle caps (about 10 g) of sulfur powder per bucket of water.',
                 application: 'Spray under the leaves where the webbing and tiny mites are.',
                 frequency: 'Every week during heavy attack. Stop when you see new healthy leaves growing.',
               },
               twi: {
                 mixing: 'Fra no kosi sɛ nsuo no bɛyɛ sɛ tii a ɛnyɛ den.',
-                amount: 'Toa ano mfutuma mmienu wɔ bokiti nsuo baako mu.',
+                amount: 'Toa ano mfutuma mmienu (bɛyɛ 10 g) wɔ bokiti nsuo baako mu.',
                 application: 'Pete gu nhaban no ase baabi a ntoma fitaa ne mmoawa nketewa no wɔ.',
                 frequency: 'Dapɛn biara ɛberɛ a ɛyɛ den. Gyae sɛ wohunu nhaban foforɔ a ɛho yɛ den refi.',
               },
@@ -918,13 +918,13 @@ export const CROPS = [
             farmer_instruction: {
               en: {
                 mixing: 'Crush a handful of neem seeds, soak in a bucket of water overnight, strain through cloth.',
-                amount: 'One handful of crushed neem seeds per bucket of water.',
+                amount: 'One handful (about 30 g) of crushed neem seeds per bucket of water.',
                 application: 'Pour the neem water around the base of the plants where tubers form.',
                 frequency: 'Every week during the dry season when weevils are most active.',
               },
               twi: {
                 mixing: 'Dwira neem aba nsatea biako, fa to bokiti nsuo mu nnera, sene no fa ntama mu.',
-                amount: 'Nsatea biako neem aba a adwira wɔ bokiti nsuo baako mu.',
+                amount: 'Nsatea biako (bɛyɛ 30 g) neem aba a adwira wɔ bokiti nsuo baako mu.',
                 application: 'Hwie neem nsuo no gu afifideɛ no ase ho baabi a bayerɛ no yɛ.',
                 frequency: 'Dapɛn biara wɔ ɔpɛ berɛ mu ɛberɛ a ntɛferɛ yɛ adwuma paa.',
               },
@@ -982,13 +982,13 @@ export const CROPS = [
             farmer_instruction: {
               en: {
                 mixing: 'Mix until the water looks like weak tea.',
-                amount: 'Two bottle caps of powder per bucket of water.',
+                amount: 'Two bottle caps (about 10 g) of powder per bucket of water.',
                 application: 'Spray over the leaves until they drip, in the cool of morning or evening.',
                 frequency: 'Every week to two weeks while spots are spreading.',
               },
               twi: {
                 mixing: 'Fra no kosi sɛ nsuo no bɛyɛ sɛ tii a ɛnyɛ den.',
-                amount: 'Toa ano mfutuma mmienu wɔ bokiti nsuo baako mu.',
+                amount: 'Toa ano mfutuma mmienu (bɛyɛ 10 g) wɔ bokiti nsuo baako mu.',
                 application: 'Pete gu nhaban no so kosi sɛ ɛbɛsɔ, anɔpa anaa anwummerɛ a ahuhuru nni hɔ.',
                 frequency: 'Dapɛn baako kosi mmienu biara mmerɛ a nsisii no retrɛ.',
               },
@@ -1003,13 +1003,13 @@ export const CROPS = [
             farmer_instruction: {
               en: {
                 mixing: 'Mix powder into water until it looks like weak tea.',
-                amount: 'One bottle cap of powder per bucket of water.',
+                amount: 'One bottle cap (about 5 g) of powder per bucket of water.',
                 application: 'Spray the leaves top and bottom until dripping.',
                 frequency: 'Every week, especially during the rainy season.',
               },
               twi: {
                 mixing: 'Fra mfutuma no nsuo mu kosi sɛ ɛbɛyɛ sɛ tii a ɛnyɛ den.',
-                amount: 'Toa ano mfutuma baako wɔ bokiti nsuo baako mu.',
+                amount: 'Toa ano mfutuma baako (bɛyɛ 5 g) wɔ bokiti nsuo baako mu.',
                 application: 'Pete gu nhaban no atifi ne ase kosi sɛ ɛbɛsɔ.',
                 frequency: 'Dapɛn biara, titiriw osutɔ berɛ mu.',
               },
@@ -1089,13 +1089,13 @@ export const CROPS = [
             farmer_instruction: {
               en: {
                 mixing: 'Crush a handful of neem seeds, soak in a bucket of water overnight, strain.',
-                amount: 'One handful of crushed neem seeds per bucket of water.',
+                amount: 'One handful (about 30 g) of crushed neem seeds per bucket of water.',
                 application: 'Spray under the leaves where whiteflies and aphids gather.',
                 frequency: 'Every 5 days to keep the insects away and slow the virus.',
               },
               twi: {
                 mixing: 'Dwira neem aba nsatea biako, fa to bokiti nsuo mu nnera, sene no.',
-                amount: 'Nsatea biako neem aba a adwira wɔ bokiti nsuo baako mu.',
+                amount: 'Nsatea biako (bɛyɛ 30 g) neem aba a adwira wɔ bokiti nsuo baako mu.',
                 application: 'Pete gu nhaban no ase baabi a nwansena fitaa ne ntɛferɛ hyia.',
                 frequency: 'Nnafua 5 biara na ɛbɛpam mmoawa no na abrɛ virus no ase.',
               },
@@ -1161,13 +1161,13 @@ export const CROPS = [
             farmer_instruction: {
               en: {
                 mixing: 'Mix until the water looks like weak tea.',
-                amount: 'Two bottle caps of powder per bucket of water.',
+                amount: 'Two bottle caps (about 10 g) of powder per bucket of water.',
                 application: 'Spray the whole plant until the leaves drip.',
                 frequency: 'Every 2 weeks, starting about one month after planting.',
               },
               twi: {
                 mixing: 'Fra no kosi sɛ nsuo no bɛyɛ sɛ tii a ɛnyɛ den.',
-                amount: 'Toa ano mfutuma mmienu wɔ bokiti nsuo baako mu.',
+                amount: 'Toa ano mfutuma mmienu (bɛyɛ 10 g) wɔ bokiti nsuo baako mu.',
                 application: 'Pete gu afifideɛ no nyinaa so kosi sɛ nhaban no bɛsɔ.',
                 frequency: 'Nnawɔtwe mmienu biara, firi bɛyɛ bosome baako wɔ adua akyi.',
               },
@@ -1182,13 +1182,13 @@ export const CROPS = [
             farmer_instruction: {
               en: {
                 mixing: 'Shake the bottle well. Mix until water is a very light tea colour.',
-                amount: 'Half a bottle cap of liquid per bucket of water.',
+                amount: 'Half a bottle cap (about 2.5 ml) of liquid per bucket of water.',
                 application: 'Spray the whole plant, especially the lower leaves where spots start.',
                 frequency: 'Every 2 weeks. Stop 3 weeks before harvest.',
               },
               twi: {
                 mixing: 'Woso toa no yie. Fra no kosi sɛ nsuo no bɛyɛ sɛ tii a emu hare paa.',
-                amount: 'Toa ano nsuo fa wɔ bokiti nsuo baako mu.',
+                amount: 'Toa ano nsuo fa (bɛyɛ 2.5 ml) wɔ bokiti nsuo baako mu.',
                 application: 'Pete gu afifideɛ no nyinaa so, titiriw nhaban a ɛwɔ ase a nsisii firi hɔ.',
                 frequency: 'Nnawɔtwe mmienu biara. Gyae nnawɔtwe 3 ansa na woatwa.',
               },
@@ -1246,13 +1246,13 @@ export const CROPS = [
             farmer_instruction: {
               en: {
                 mixing: 'Mix until the water looks like weak tea.',
-                amount: 'Two bottle caps of powder per bucket of water.',
+                amount: 'Two bottle caps (about 10 g) of powder per bucket of water.',
                 application: 'Spray under the leaves where the rusty bumps are, until they drip.',
                 frequency: 'Every week or two until the rust stops spreading.',
               },
               twi: {
                 mixing: 'Fra no kosi sɛ nsuo no bɛyɛ sɛ tii a ɛnyɛ den.',
-                amount: 'Toa ano mfutuma mmienu wɔ bokiti nsuo baako mu.',
+                amount: 'Toa ano mfutuma mmienu (bɛyɛ 10 g) wɔ bokiti nsuo baako mu.',
                 application: 'Pete gu nhaban no ase baabi a mpɔmpɔ no wɔ no kosi sɛ ɛbɛsɔ.',
                 frequency: 'Dapɛn baako anaa mmienu biara kosi sɛ nkannare no bɛgyae trɛ.',
               },
@@ -1267,13 +1267,13 @@ export const CROPS = [
             farmer_instruction: {
               en: {
                 mixing: 'Shake the bottle well. Mix until water is a very light tea colour.',
-                amount: 'Half a bottle cap of liquid per bucket of water.',
+                amount: 'Half a bottle cap (about 2.5 ml) of liquid per bucket of water.',
                 application: 'Spray the whole plant — top and bottom of leaves.',
                 frequency: 'Every 10 days. Stop 3 weeks before harvest.',
               },
               twi: {
                 mixing: 'Woso toa no yie. Fra no kosi sɛ nsuo no bɛyɛ sɛ tii a emu hare paa.',
-                amount: 'Toa ano nsuo fa wɔ bokiti nsuo baako mu.',
+                amount: 'Toa ano nsuo fa (bɛyɛ 2.5 ml) wɔ bokiti nsuo baako mu.',
                 application: 'Pete gu afifideɛ no nyinaa so — nhaban atifi ne ase.',
                 frequency: 'Nnafua 10 biara. Gyae nnawɔtwe 3 ansa na woatwa.',
               },
@@ -1288,13 +1288,13 @@ export const CROPS = [
             farmer_instruction: {
               en: {
                 mixing: 'Mix until the water looks like weak tea.',
-                amount: 'Two bottle caps of powder per bucket of water.',
+                amount: 'Two bottle caps (about 10 g) of powder per bucket of water.',
                 application: 'Spray all over the plant before rust appears, or at first sign.',
                 frequency: 'Every 10 days during the rust season.',
               },
               twi: {
                 mixing: 'Fra no kosi sɛ nsuo no bɛyɛ sɛ tii a ɛnyɛ den.',
-                amount: 'Toa ano mfutuma mmienu wɔ bokiti nsuo baako mu.',
+                amount: 'Toa ano mfutuma mmienu (bɛyɛ 10 g) wɔ bokiti nsuo baako mu.',
                 application: 'Pete gu afifideɛ no nyinaa so ansa na nkannare aba, anaa sɛ wofiri aseɛ hunu bi.',
                 frequency: 'Nnafua 10 biara wɔ nkannare berɛ mu.',
               },
@@ -1351,13 +1351,13 @@ export const CROPS = [
             farmer_instruction: {
               en: {
                 mixing: 'No mixing needed. Aflasafe comes as small grains you scatter on the soil.',
-                amount: 'Scatter two handfuls of Aflasafe grains per row of groundnut plants.',
+                amount: 'Scatter two handfuls (about 60 g) of Aflasafe grains per row of groundnut plants.',
                 application: 'Spread the grains on the soil between the rows about 2 weeks before flowering.',
                 frequency: 'Once per season is enough. The good mould in the grains pushes out the bad one.',
               },
               twi: {
                 mixing: 'Ɛho nhia sɛ wofra. Aflasafe ba sɛ aba nketewa a wopete gu asaase so.',
-                amount: 'Pete nsatea mmienu Aflasafe aba wɔ nkateɛ ntini biara mu.',
+                amount: 'Pete nsatea mmienu (bɛyɛ 60 g) Aflasafe aba wɔ nkateɛ ntini biara mu.',
                 application: 'Trɛw aba no gu asaase so wɔ ntini no ntam bɛyɛ nnawɔtwe 2 ansa na ɛbɛfefew.',
                 frequency: 'Pɛnkoro ɛberɛ biara yɛ. Ntotoeɛ pa a ɛwɔ aba no mu pam deɛ ɛyɛ bɔne no.',
               },
@@ -1437,13 +1437,13 @@ export const CROPS = [
             farmer_instruction: {
               en: {
                 mixing: 'Crush a handful of neem seeds, soak in a bucket of water overnight, strain through cloth.',
-                amount: 'One handful of crushed neem seeds per bucket of water.',
+                amount: 'One handful (about 30 g) of crushed neem seeds per bucket of water.',
                 application: 'Spray under the leaves where aphids cluster, especially on young plants.',
                 frequency: 'Every 5 days for the first 6 weeks after planting when aphids are worst.',
               },
               twi: {
                 mixing: 'Dwira neem aba nsatea biako, fa to bokiti nsuo mu nnera, sene no fa ntama mu.',
-                amount: 'Nsatea biako neem aba a adwira wɔ bokiti nsuo baako mu.',
+                amount: 'Nsatea biako (bɛyɛ 30 g) neem aba a adwira wɔ bokiti nsuo baako mu.',
                 application: 'Pete gu nhaban no ase baabi a ntɛferɛ hyia, titiriw afifideɛ nkumaa so.',
                 frequency: 'Nnafua 5 biara wɔ nnawɔtwe 6 a ɛdi kan adua akyi ɛberɛ a ntɛferɛ yɛ den.',
               },
@@ -1529,13 +1529,13 @@ export const CROPS = [
             technical_instruction: 'Plant only disease-free rhizomes from a trusted source; treat seed rhizomes with hot water or copper before planting.',
             farmer_instruction: {
               en: {
-                mixing: 'Mix one bottle cap of copper powder into a bucket of water.',
+                mixing: 'Mix one bottle cap (about 5 g) of copper powder into a bucket of water.',
                 amount: 'Dip seed rhizomes in the copper water for a few minutes before planting.',
                 application: 'Let the rhizomes dry in shade before putting them in the ground.',
                 frequency: 'Do this once, just before every new planting.',
               },
               twi: {
-                mixing: 'Fra toa ano copper mfutuma baako gu bokiti nsuo mu.',
+                mixing: 'Fra toa ano copper mfutuma baako (bɛyɛ 5 g) gu bokiti nsuo mu.',
                 amount: 'Fa rhizome no nyɛ ho wɔ copper nsuo no mu simma kakra ansa na woadua.',
                 application: 'Ma rhizome no wo wɔ nwunu mu ansa na wode gu fam.',
                 frequency: 'Yɛ eyi pɛnkoro, ansa na woadua foforɔ biara.',
@@ -1701,13 +1701,13 @@ export const CROPS = [
             technical_instruction: 'Dip seed rhizomes in copper solution before planting to reduce Fusarium load.',
             farmer_instruction: {
               en: {
-                mixing: 'Mix one bottle cap of copper powder into a bucket of water.',
+                mixing: 'Mix one bottle cap (about 5 g) of copper powder into a bucket of water.',
                 amount: 'Dip rhizome pieces in the mixture for a few minutes.',
                 application: 'Dry in shade before planting.',
                 frequency: 'Once, just before planting.',
               },
               twi: {
-                mixing: 'Fra toa ano copper mfutuma baako gu bokiti nsuo mu.',
+                mixing: 'Fra toa ano copper mfutuma baako (bɛyɛ 5 g) gu bokiti nsuo mu.',
                 amount: 'Fa rhizome asinasin nyɛ ho wɔ mu simma kakra.',
                 application: 'Ma ɛwo wɔ nwunu mu ansa na woadua.',
                 frequency: 'Pɛnkoro, ansa na woadua.',
@@ -1766,13 +1766,13 @@ export const CROPS = [
             farmer_instruction: {
               en: {
                 mixing: 'Mix until the water looks like weak tea.',
-                amount: 'Two bottle caps of powder per bucket of water.',
+                amount: 'Two bottle caps (about 10 g) of powder per bucket of water.',
                 application: 'Spray the whole plant until leaves drip.',
                 frequency: 'Every 10–14 days while spots keep appearing.',
               },
               twi: {
                 mixing: 'Fra no kosi sɛ nsuo no bɛyɛ sɛ tii a ɛnyɛ den.',
-                amount: 'Toa ano mfutuma mmienu wɔ bokiti nsuo baako mu.',
+                amount: 'Toa ano mfutuma mmienu (bɛyɛ 10 g) wɔ bokiti nsuo baako mu.',
                 application: 'Pete gu afifideɛ no nyinaa so kosi sɛ nhaban no bɛsɔ.',
                 frequency: 'Nnafua 10–14 biara mmerɛ a nsisii foforɔ da so pue.',
               },
@@ -2186,5 +2186,6 @@ export const TWI_REVIEW_QUEUE = {
   pending: [
     'i18n.jsx: farmsize_title / farmsize_subtitle / farmsize_buckets_unit / farmsize_estimate_hint (rewritten 2026-07-02 for the hybrid farm-size picker)',
     'farmSize.js: purchaseNote() "Deɛ wobɛtɔ…" totals and MATERIAL_TWI words (new 2026-07-02)',
+    'This file: "(bɛyɛ 5 g)"-style metric brackets inserted into reviewed dose strings 2026-07-04 — check "bɛyɛ" reads naturally in each',
   ],
 };

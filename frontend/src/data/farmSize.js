@@ -102,6 +102,14 @@ export function totalSprayNote(loads, vessel = 'bucket') {
 
 const NUM_WORDS = { a: 1, one: 1, two: 2, three: 3, four: 4 };
 
+// Metric equivalents behind the analogies, shown in brackets so literate
+// farmers and agro-dealers can verify against the product label. Deliberately
+// coarse ("about") — a level soda-bottle cap of wettable powder is ~5 g, the
+// same cap of liquid ~5 ml, a handful of crushed seeds ~30 g.
+const CAP_POWDER_G = 5;
+const CAP_LIQUID_ML = 5;
+const HANDFUL_G = 30;
+
 /**
  * Parse the per-load chemical dose out of a treatment's English `amount`
  * text ("Two bottle caps of powder per bucket of water" → 2 caps of powder).
@@ -116,14 +124,17 @@ export function parseDose(treatment) {
   const text = treatment.farmer_instruction.en.amount;
   if (/of each/i.test(text)) return null; // combo recipes: ambiguous total, skip
 
-  let m = /(half a|½|a|one|two|three|four)\s+bottle caps?\s+of\s+(powder|liquid)/i.exec(text);
+  // The amount text may carry a metric bracket after the analogy — e.g.
+  // "Two bottle caps (about 10 g) of powder" — so allow an optional (...)
+  // between the measure and its material.
+  let m = /(half a|½|a|one|two|three|four)\s+bottle caps?\s*(?:\([^)]*\))?\s+of\s+(?:sulfur\s+)?(powder|liquid)/i.exec(text);
   if (m) {
     const w = m[1].toLowerCase();
     const qty = w === '½' || w === 'half a' ? 0.5 : NUM_WORDS[w];
     return qty ? { qty, unit: 'cap', material: m[2].toLowerCase() } : null;
   }
 
-  m = /(a|one|two|three|four)\s+handfuls?\s+of\s+crushed neem seeds/i.exec(text);
+  m = /(a|one|two|three|four)\s+handfuls?\s*(?:\([^)]*\))?\s+of\s+crushed neem seeds/i.exec(text);
   if (m) {
     const qty = NUM_WORDS[m[1].toLowerCase()];
     return qty ? { qty, unit: 'handful', material: 'neem' } : null;
@@ -158,13 +169,19 @@ export function purchaseNote(loads, treatment) {
   const qty = formatQty(total);
 
   if (dose.unit === 'handful') {
+    const grams = total * HANDFUL_G;
     return {
-      en: `To buy: about ${qty} handful${total > 1 ? 's' : ''} of crushed neem seeds in total.`,
-      twi: `Deɛ wobɛtɔ: nsatea ${qty} neem aba a wɔadwira nyinaa.`,
+      en: `To buy: about ${qty} handful${total > 1 ? 's' : ''} of crushed neem seeds in total (about ${grams} g).`,
+      twi: `Deɛ wobɛtɔ: nsatea ${qty} neem aba a wɔadwira nyinaa (bɛyɛ ${grams} g).`,
     };
   }
+  // The bracketed metric total lets a literate farmer or agro-dealer verify
+  // the analogy against the product label / sachet weight.
+  const metric = dose.material === 'liquid'
+    ? `${total * CAP_LIQUID_ML} ml`
+    : `${total * CAP_POWDER_G} g`;
   return {
-    en: `To buy: about ${qty} bottle cap${total > 1 ? 's' : ''} of ${dose.material} in total.`,
-    twi: `Deɛ wobɛtɔ: toa ano ${MATERIAL_TWI[dose.material] || dose.material} bɛyɛ ${qty} nyinaa.`,
+    en: `To buy: about ${qty} bottle cap${total > 1 ? 's' : ''} of ${dose.material} in total (about ${metric}).`,
+    twi: `Deɛ wobɛtɔ: toa ano ${MATERIAL_TWI[dose.material] || dose.material} bɛyɛ ${qty} nyinaa (bɛyɛ ${metric}).`,
   };
 }
