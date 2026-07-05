@@ -13,6 +13,9 @@ const WELCOME_KEY = "fd_welcomed";
 // Rural connections stall; a hard cap turns an infinite hang into a clear,
 // retryable error. Generous enough not to trip a slow-but-working network.
 const AUTH_TIMEOUT_MS = 15_000;
+// Startup session read is shorter — the app is blank until it resolves, so we
+// fall through to the offline-capable Welcome screen quickly if it stalls.
+const SESSION_INIT_TIMEOUT_MS = 8_000;
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
@@ -30,16 +33,25 @@ export function AuthProvider({ children }) {
     let cancelled = false;
 
     async function init() {
-      if (supabase) {
-        const {
-          data: { session }
-        } = await supabase.auth.getSession();
-        if (!cancelled) {
-          setUser(session?.user ?? null);
-          setLoading(false);
-        }
-      } else {
+      if (!supabase) {
         setLoading(false);
+        return;
+      }
+      // Never let a slow/unreachable Supabase (paused project, no network)
+      // hang startup: WelcomeGate renders nothing while `loading` is true, so
+      // a stuck getSession would look like a dead app. Time it out and fall
+      // through to the (offline-capable) Welcome screen regardless.
+      try {
+        const { data } = await withTimeout(
+          supabase.auth.getSession(),
+          SESSION_INIT_TIMEOUT_MS,
+          "get session"
+        );
+        if (!cancelled) setUser(data?.session?.user ?? null);
+      } catch (err) {
+        if (!cancelled) console.warn("Session init failed:", err?.message || err);
+      } finally {
+        if (!cancelled) setLoading(false);
       }
     }
 
