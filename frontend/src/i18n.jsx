@@ -320,6 +320,11 @@ const STRINGS = {
   welcome_google: { en: 'Continue with Google', twi: 'Fa Google toa so' },
   welcome_use_phone: { en: 'Use phone number instead', twi: 'Fa fon nɔma mmom' },
   welcome_start_note: { en: 'Start free, no account needed. Sign in with Google to keep your data across phones.', twi: 'Fi ase kwa, ɛnhia akawnt. Fa Google bra mu na wo data ntena wo fon nyinaa so.' },
+  // Auth error messages (Twi pending native review 2026-07-04)
+  auth_err_offline: { en: 'No internet. Connect and try again.', twi: 'Intanɛt nni hɔ. Sa na san bɔ mmɔden.' },
+  auth_err_timeout: { en: 'This is taking too long. Check your connection and try again.', twi: 'Ɛregye berɛ tenten. Hwɛ wo intanɛt na san bɔ mmɔden.' },
+  auth_err_invalid: { en: "That didn't work. Check it and try again.", twi: 'Anyɛ yie. Hwɛ na san bɔ mmɔden.' },
+  auth_err_generic: { en: 'Something went wrong. Please try again.', twi: 'Biribi ankɔ yie. Yɛsrɛ wo, san bɔ mmɔden.' },
   welcome_privacy: { en: 'Your data stays on your device. We collect anonymous treatment feedback only with your consent.', twi: 'Wo data tra wo fon so. Yɛfa treatment nsɛm a wɔnnim onipa gye kwan a wopene so nko.' },
   welcome_phone_title: { en: 'Your phone number', twi: 'Wo fon nɔma' },
   welcome_phone_desc: { en: "We'll send a code to verify it's you.", twi: 'Yɛbɛde kɔɔd abrɛ wo de ahwɛ sɛ ɛyɛ wo.' },

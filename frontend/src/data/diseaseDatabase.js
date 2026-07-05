@@ -2191,5 +2191,6 @@ export const TWI_REVIEW_QUEUE = {
     'utils/notify.js: COPY.title / COPY.body (notification text shown outside the app, new 2026-07-04)',
     'i18n.jsx: camera_hint / camera_use_phone / camera_denied / camera_unavailable (in-app camera, new 2026-07-04)',
     'i18n.jsx: welcome_get_started / welcome_google / welcome_use_phone / welcome_start_note (anonymous+Google auth, new 2026-07-04)',
+    'i18n.jsx: auth_err_offline / auth_err_timeout / auth_err_invalid / auth_err_generic (auth error messages, new 2026-07-04)',
   ],
 };

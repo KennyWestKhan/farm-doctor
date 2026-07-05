@@ -1,12 +1,18 @@
 import { useEffect, useMemo, useState, useCallback } from "react";
 import { supabase } from "../db/supabase";
 import { migrateGuestData } from "./migrate";
+import { withTimeout } from "../utils/withTimeout.js";
+import { classifyAuthError } from "./authErrors.js";
 
 import { AuthCtx } from "./useAuth.js";
 const Ctx = AuthCtx;
 
 const GUEST_KEY = "fd_guest";
 const WELCOME_KEY = "fd_welcomed";
+
+// Rural connections stall; a hard cap turns an infinite hang into a clear,
+// retryable error. Generous enough not to trip a slow-but-working network.
+const AUTH_TIMEOUT_MS = 15_000;
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
@@ -93,31 +99,47 @@ export function AuthProvider({ children }) {
     setWelcomed(true);
   }, []);
 
-  const authError = "Auth not configured";
+  // Auth methods return a normalized { error: { kind } | null } (plus data
+  // where relevant), so every caller shows a consistent, translatable message.
 
   const sendOtp = useCallback(async (phone) => {
-    if (!supabase) return { error: { message: authError } };
-    const { error } = await supabase.auth.signInWithOtp({ phone });
-    return { error };
+    if (!supabase) return { error: { kind: "config" } };
+    if (!navigator.onLine) return { error: { kind: "offline" } };
+    try {
+      const { error } = await withTimeout(
+        supabase.auth.signInWithOtp({ phone }),
+        AUTH_TIMEOUT_MS,
+        "send code"
+      );
+      return error ? { error: { kind: classifyAuthError(error) } } : { error: null };
+    } catch (err) {
+      return { error: { kind: classifyAuthError(err) } };
+    }
   }, []);
 
   const verifyOtp = useCallback(async (phone, token) => {
-    if (!supabase) return { error: { message: authError } };
-    const { data, error } = await supabase.auth.verifyOtp({
-      phone,
-      token,
-      type: "sms"
-    });
-    if (!error && data?.user) {
-      try {
-        localStorage.removeItem(GUEST_KEY);
-        localStorage.setItem(WELCOME_KEY, "1");
-      } catch {
-        /* private browsing */
+    if (!supabase) return { error: { kind: "config" } };
+    if (!navigator.onLine) return { error: { kind: "offline" } };
+    try {
+      const { data, error } = await withTimeout(
+        supabase.auth.verifyOtp({ phone, token, type: "sms" }),
+        AUTH_TIMEOUT_MS,
+        "verify code"
+      );
+      if (error) return { error: { kind: classifyAuthError(error) } };
+      if (data?.user) {
+        try {
+          localStorage.removeItem(GUEST_KEY);
+          localStorage.setItem(WELCOME_KEY, "1");
+        } catch {
+          /* private browsing */
+        }
+        setWelcomed(true);
       }
-      setWelcomed(true);
+      return { data, error: null };
+    } catch (err) {
+      return { error: { kind: classifyAuthError(err) } };
     }
-    return { data, error };
   }, []);
 
   // Frictionless entry: mark them in immediately (offline-safe guest state)
@@ -125,21 +147,38 @@ export function AuthProvider({ children }) {
   // auth-change listener migrates the just-created guest data onto that id.
   const getStarted = useCallback(() => {
     continueAsGuest();
+    // Best-effort upgrade to a real anonymous identity. Fire-and-forget — the
+    // farmer is already in as a guest, so this never blocks the UI — but a
+    // timeout stops a stalled request from lingering, and any failure is
+    // swallowed (they simply stay a guest, still fully usable).
     if (supabase && navigator.onLine) {
-      supabase.auth.signInAnonymously().catch(() => {
-        /* offline / not enabled — stays guest, still fully usable */
-      });
+      withTimeout(supabase.auth.signInAnonymously(), AUTH_TIMEOUT_MS, "anonymous sign-in")
+        .then((res) => {
+          if (res?.error) console.warn("Anonymous sign-in error:", res.error.message);
+        })
+        .catch((err) => console.warn("Anonymous sign-in failed:", err?.message || err));
     }
   }, [continueAsGuest]);
 
-  // Google OAuth: free, cross-device identity. Full-page redirect back to the
-  // app; the session is picked up on return and the listener welcomes + migrates.
+  // Google OAuth: free, cross-device identity. On success the browser redirects
+  // away (the listener welcomes + migrates on return); we only return here on a
+  // pre-redirect failure, normalized to a translatable kind.
   const signInWithGoogle = useCallback(async () => {
-    if (!supabase) return { error: { message: authError } };
-    return await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: { redirectTo: window.location.origin },
-    });
+    if (!supabase) return { error: { kind: "config" } };
+    if (!navigator.onLine) return { error: { kind: "offline" } };
+    try {
+      const { error } = await withTimeout(
+        supabase.auth.signInWithOAuth({
+          provider: "google",
+          options: { redirectTo: window.location.origin },
+        }),
+        AUTH_TIMEOUT_MS,
+        "Google sign-in"
+      );
+      return error ? { error: { kind: classifyAuthError(error) } } : { error: null };
+    } catch (err) {
+      return { error: { kind: classifyAuthError(err) } };
+    }
   }, []);
 
   const signOut = useCallback(async () => {

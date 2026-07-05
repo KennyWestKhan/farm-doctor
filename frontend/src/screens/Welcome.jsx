@@ -30,13 +30,26 @@ export default function Welcome() {
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
 
+  // Map a normalized auth-error kind to a farmer-friendly, translated message.
+  const authErrText = (kind) => {
+    switch (kind) {
+      case "offline": return t("auth_err_offline");
+      case "timeout": return t("auth_err_timeout");
+      case "invalid": return t("auth_err_invalid");
+      default: return t("auth_err_generic");
+    }
+  };
+
   const handleGoogle = async () => {
     setError("");
     setBusy(true);
-    // On success this redirects away, so we won't return here; only reset on error.
-    const { error: err } = await signInWithGoogle();
-    if (err) {
-      setError(err.message);
+    try {
+      // On success the browser redirects away; we only land here on failure.
+      const { error: err } = await signInWithGoogle();
+      if (err) setError(authErrText(err.kind));
+    } catch {
+      setError(authErrText("generic"));
+    } finally {
       setBusy(false);
     }
   };
@@ -49,12 +62,12 @@ export default function Welcome() {
       return;
     }
     setBusy(true);
-    const { error: err } = await sendOtp(cleaned);
-    setBusy(false);
-    if (err) {
-      setError(err.message);
-    } else {
-      setStep(STEPS.otp);
+    try {
+      const { error: err } = await sendOtp(cleaned);
+      if (err) setError(authErrText(err.kind));
+      else setStep(STEPS.otp);
+    } finally {
+      setBusy(false);
     }
   };
 
@@ -65,13 +78,13 @@ export default function Welcome() {
       return;
     }
     setBusy(true);
-    const cleaned = phone.replace(/[^0-9+]/g, "");
-    const { error: err } = await verifyOtp(cleaned, code);
-    setBusy(false);
-    if (err) {
-      setError(err.message);
-    } else {
-      navigate("/", { replace: true });
+    try {
+      const cleaned = phone.replace(/[^0-9+]/g, "");
+      const { error: err } = await verifyOtp(cleaned, code);
+      if (err) setError(authErrText(err.kind));
+      else navigate("/", { replace: true });
+    } finally {
+      setBusy(false);
     }
   };
 
