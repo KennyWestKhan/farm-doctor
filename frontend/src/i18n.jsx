@@ -171,10 +171,36 @@ const STRINGS = {
   storage_duration: { en: 'How long it keeps', twi: 'Ne berɛ a ɛbɛkora' },
 
   // Shops
-  shops_title: { en: 'Input shops', twi: 'Sotɔɔ' },
-  shops_subtitle: { en: 'Agro-dealers near your region', twi: 'Sotɔɔ a ɛbɛn wo mpɔtam' },
+  shops_title: { en: 'Suppliers', twi: 'Adetɔnfoɔ' },
+  shops_subtitle: { en: 'Verified agro-suppliers across Ghana', twi: 'Adetɔnfoɔ a wɔwɔ Ghana' },
   shops_filter_all: { en: 'All regions', twi: 'Mpɔtam nyinaa' },
+  shops_all_categories: { en: 'All types', twi: 'Nyinaa' },
   shops_sells: { en: 'Sells', twi: 'Tɔn' },
+  shops_provides: { en: 'Provides', twi: 'Ma' },
+  shops_seeds_for: { en: 'Seeds for', twi: 'Aba ma' },
+  shops_loading: { en: 'Loading suppliers…', twi: 'Ɛreba…' },
+  shops_none: { en: 'No suppliers listed here yet.', twi: 'Adetɔnfoɔ biara nni hɔ seesei.' },
+  shops_region_fallback: { en: 'None in your region — showing all regions.', twi: "Ebiara nni wo mpɔtam — yɛrekyerɛ mpɔtam nyinaa." },
+  shops_show_more: { en: 'Show more', twi: 'Kyerɛ pii' },
+  shops_showing: { en: 'Showing', twi: 'Yɛrekyerɛ' },
+  shops_details: { en: 'Details', twi: 'Nsɛm ho' },
+  shops_contact: { en: 'Contact person', twi: 'Onipa a wobɛfrɛ' },
+  shops_phone: { en: 'Phone', twi: 'Telefon' },
+  shops_email: { en: 'Email', twi: 'Email' },
+  shops_offers: { en: 'Offers', twi: 'Deɛ wɔwɔ' },
+  scroll_top: { en: 'Back to top', twi: 'Sane kɔ soro' },
+
+  // Vendor categories (the 10 sheets from the supplier database)
+  cat_agrochemicals: { en: 'Agrochemicals', twi: 'Nnuru' },
+  cat_fertilizer: { en: 'Fertilizer', twi: 'Sumina' },
+  cat_seeds: { en: 'Seeds', twi: 'Aba' },
+  cat_irrigation: { en: 'Irrigation', twi: 'Nsuo' },
+  cat_mechanization: { en: 'Tractor services', twi: 'Tɛntɛn adwuma' },
+  cat_tools: { en: 'Tools & gear', twi: 'Nnwuma nnaadeɛ' },
+  cat_drone_spraying: { en: 'Drone spraying', twi: 'Drone petepete' },
+  cat_motor_vehicle: { en: 'Vehicles', twi: 'Kaa' },
+  cat_logistics: { en: 'Logistics', twi: 'Akwantuo' },
+  cat_labour: { en: 'Labour', twi: 'Adwumayɛfoɔ' },
 
   // Shop submission
   shop_submit_cta: { en: 'Know a shop? Add it here', twi: 'Wunim sotɔɔ bi? Fa ka ho' },

@@ -10,3 +10,8 @@ dev-dist/
 # Personal pitch/presentation prep — not for the public repo
 docs/PITCH_SCRIPT.md
 docs/POSTER_CONTENT.md
+
+# Vendor directory — contains third-party contact PII (names, phones, emails).
+# Keep the raw source spreadsheet and the DB seed dump out of version control.
+scripts/source/*.xlsx
+supabase/vendors.sql

@@ -7,7 +7,7 @@ import SupplierList from './SupplierList.jsx';
  * position:fixed is viewport-relative even when an animated/transformed ancestor
  * would otherwise become its containing block.
  */
-export default function SupplierSheet({ region, productName, onClose }) {
+export default function SupplierSheet({ region, productName, category, onClose }) {
   const { t } = useLang();
   return createPortal(
     <>
@@ -19,7 +19,7 @@ export default function SupplierSheet({ region, productName, onClose }) {
           <button className="icon-btn" onClick={onClose} aria-label="Close">✕</button>
         </div>
         <p className="muted" style={{ marginTop: 0, fontSize: 14 }}>{productName}</p>
-        <SupplierList region={region} productName={productName} />
+        <SupplierList region={region} category={category} keyword={productName} />
       </div>
     </>,
     document.body

@@ -1,0 +1,1856 @@
+[
+  {
+    "id": "adama-agricultural-solutions",
+    "name": "Adama Agricultural Solutions",
+    "contactPerson": null,
+    "phones": [
+      "+233302775030"
+    ],
+    "whatsapp": [],
+    "emails": [],
+    "categories": [
+      "agrochemicals"
+    ],
+    "subcategories": [],
+    "crops": [],
+    "services": [],
+    "addressText": "No. 7 Adembra Road, East Cantoments",
+    "area": "cantoment",
+    "region": "greater_accra",
+    "lat": 5.5842,
+    "lng": -0.16064,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "agri-evo",
+    "name": "Agri Evo",
+    "contactPerson": null,
+    "phones": [
+      "+233208117616"
+    ],
+    "whatsapp": [
+      "+233208117616"
+    ],
+    "emails": [],
+    "categories": [
+      "agrochemicals"
+    ],
+    "subcategories": [],
+    "crops": [],
+    "services": [],
+    "addressText": "21 Lanma Street , Accra",
+    "area": "accra",
+    "region": "greater_accra",
+    "lat": 5.55711,
+    "lng": -0.20124,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "agri-mat-limited",
+    "name": "Agri-mat Limited",
+    "contactPerson": null,
+    "phones": [
+      "+233302506883",
+      "+233302515266",
+      "+233208122867",
+      "+233302504832",
+      "+233302515255"
+    ],
+    "whatsapp": [
+      "+233208122867"
+    ],
+    "emails": [],
+    "categories": [
+      "agrochemicals",
+      "fertilizer",
+      "seeds",
+      "tools",
+      "irrigation"
+    ],
+    "subcategories": [
+      "tools",
+      "protective equipment"
+    ],
+    "crops": [
+      "chilli"
+    ],
+    "services": [],
+    "addressText": "Firestone, Legon-Madina High Road",
+    "area": "madina",
+    "region": "greater_accra",
+    "lat": 5.6865,
+    "lng": -0.16771,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "agromonti-company-limited",
+    "name": "Agromonti Company limited",
+    "contactPerson": null,
+    "phones": [
+      "+233248947306"
+    ],
+    "whatsapp": [
+      "+233248947306"
+    ],
+    "emails": [],
+    "categories": [
+      "agrochemicals"
+    ],
+    "subcategories": [],
+    "crops": [],
+    "services": [],
+    "addressText": "Madina Zongo Junction, Opposite Aide Chemist, Lybia quarters lane",
+    "area": "madina",
+    "region": "greater_accra",
+    "lat": 5.6865,
+    "lng": -0.16771,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "altimate-agro-chemical-company-limited",
+    "name": "Altimate Agro chemical Company Limited",
+    "contactPerson": null,
+    "phones": [
+      "+233244809335",
+      "+233244880665"
+    ],
+    "whatsapp": [
+      "+233244809335",
+      "+233244880665"
+    ],
+    "emails": [],
+    "categories": [
+      "agrochemicals",
+      "fertilizer",
+      "seeds"
+    ],
+    "subcategories": [],
+    "crops": [
+      "chilli"
+    ],
+    "services": [],
+    "addressText": "Agbogba-Ashonmang Road",
+    "area": "agbogba",
+    "region": "greater_accra",
+    "lat": 5.69186,
+    "lng": -0.19845,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "b-kaakyire-agro-chemicals-limited",
+    "name": "B.Kaakyire Agro Chemicals Limited",
+    "contactPerson": null,
+    "phones": [
+      "+233322027829"
+    ],
+    "whatsapp": [],
+    "emails": [],
+    "categories": [
+      "agrochemicals"
+    ],
+    "subcategories": [],
+    "crops": [],
+    "services": [],
+    "addressText": "33 Mampong Road, Kumasi",
+    "area": "kumasi",
+    "region": "ashanti",
+    "lat": 6.70471,
+    "lng": -1.62423,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "bayer-africa",
+    "name": "Bayer Africa",
+    "contactPerson": null,
+    "phones": [
+      "+233544341913"
+    ],
+    "whatsapp": [
+      "+233544341913"
+    ],
+    "emails": [],
+    "categories": [
+      "agrochemicals",
+      "fertilizer",
+      "seeds"
+    ],
+    "subcategories": [],
+    "crops": [
+      "soybean",
+      "maize"
+    ],
+    "services": [],
+    "addressText": "Accra",
+    "area": "accra",
+    "region": "greater_accra",
+    "lat": 5.55711,
+    "lng": -0.20124,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "bon-agro",
+    "name": "Bon Agro",
+    "contactPerson": null,
+    "phones": [
+      "+233322054450",
+      "+233556781160"
+    ],
+    "whatsapp": [
+      "+233556781160"
+    ],
+    "emails": [],
+    "categories": [
+      "agrochemicals",
+      "tools",
+      "mechanization"
+    ],
+    "subcategories": [
+      "machinery & implements"
+    ],
+    "crops": [],
+    "services": [
+      "Ploughing",
+      "Harrowing",
+      "Planting",
+      "Harvesting"
+    ],
+    "addressText": "Ohwimase Kwadaso, Kumasi",
+    "area": "kumasi",
+    "region": "ashanti",
+    "lat": 6.69856,
+    "lng": -1.62331,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "callighana",
+    "name": "Callighana",
+    "contactPerson": null,
+    "phones": [
+      "+233244518769"
+    ],
+    "whatsapp": [
+      "+233244518769"
+    ],
+    "emails": [],
+    "categories": [
+      "agrochemicals"
+    ],
+    "subcategories": [],
+    "crops": [],
+    "services": [],
+    "addressText": "House No. 3 Adom link: Off Volta Road, Airport-Accra",
+    "area": "accra",
+    "region": "greater_accra",
+    "lat": 5.55711,
+    "lng": -0.20124,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "chemico-limited",
+    "name": "Chemico Limited",
+    "contactPerson": null,
+    "phones": [
+      "+233303202991",
+      "+233303202343"
+    ],
+    "whatsapp": [],
+    "emails": [],
+    "categories": [
+      "agrochemicals",
+      "fertilizer"
+    ],
+    "subcategories": [],
+    "crops": [],
+    "services": [],
+    "addressText": "Tema Community 1, 8 Obedeka Road, Tema",
+    "area": "tema",
+    "region": "greater_accra",
+    "lat": 5.65964,
+    "lng": -0.00968,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "chemvet-ghana-limited",
+    "name": "Chemvet Ghana Limited",
+    "contactPerson": null,
+    "phones": [
+      "+233244094482",
+      "+233279448299"
+    ],
+    "whatsapp": [
+      "+233244094482",
+      "+233279448299"
+    ],
+    "emails": [],
+    "categories": [
+      "agrochemicals",
+      "fertilizer",
+      "tools"
+    ],
+    "subcategories": [
+      "tools"
+    ],
+    "crops": [],
+    "services": [],
+    "addressText": "Abodu Near Pentecost Church",
+    "area": "abodu",
+    "region": "greater_accra",
+    "lat": null,
+    "lng": null,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "chrematin-agro-company-limited",
+    "name": "Chrematin Agro Company Limited",
+    "contactPerson": null,
+    "phones": [
+      "+233592299761"
+    ],
+    "whatsapp": [
+      "+233592299761"
+    ],
+    "emails": [],
+    "categories": [
+      "agrochemicals"
+    ],
+    "subcategories": [],
+    "crops": [],
+    "services": [],
+    "addressText": "15 Asoyi Cres, Accra",
+    "area": "accra",
+    "region": "greater_accra",
+    "lat": 5.55711,
+    "lng": -0.20124,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "crop-life-ghana",
+    "name": "Crop Life Ghana",
+    "contactPerson": null,
+    "phones": [
+      "+233244273075"
+    ],
+    "whatsapp": [
+      "+233244273075"
+    ],
+    "emails": [],
+    "categories": [
+      "agrochemicals"
+    ],
+    "subcategories": [],
+    "crops": [],
+    "services": [],
+    "addressText": "666/14 Kwe Okyerema Street, Dzorwulu",
+    "area": "dzorwulu",
+    "region": "greater_accra",
+    "lat": 5.61231,
+    "lng": -0.20384,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "dasimah-agrochemicals",
+    "name": "Dasimah Agrochemicals",
+    "contactPerson": null,
+    "phones": [
+      "+233549910601"
+    ],
+    "whatsapp": [
+      "+233549910601"
+    ],
+    "emails": [],
+    "categories": [
+      "agrochemicals"
+    ],
+    "subcategories": [],
+    "crops": [],
+    "services": [],
+    "addressText": null,
+    "area": null,
+    "region": null,
+    "lat": null,
+    "lng": null,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "demeter-ghana",
+    "name": "Demeter Ghana",
+    "contactPerson": null,
+    "phones": [
+      "+233553251250"
+    ],
+    "whatsapp": [
+      "+233553251250"
+    ],
+    "emails": [],
+    "categories": [
+      "agrochemicals",
+      "fertilizer"
+    ],
+    "subcategories": [],
+    "crops": [],
+    "services": [],
+    "addressText": "The Courtyard, Ndabaningi Sithole Road, Labone",
+    "area": "labone",
+    "region": "greater_accra",
+    "lat": 5.56982,
+    "lng": -0.17208,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "desert-lion-international-limited",
+    "name": "Desert Lion International Limited",
+    "contactPerson": null,
+    "phones": [
+      "+233505138640",
+      "+233500106010"
+    ],
+    "whatsapp": [
+      "+233505138640",
+      "+233500106010"
+    ],
+    "emails": [],
+    "categories": [
+      "agrochemicals",
+      "fertilizer"
+    ],
+    "subcategories": [],
+    "crops": [],
+    "services": [],
+    "addressText": "Haatso",
+    "area": "haatso",
+    "region": "greater_accra",
+    "lat": 5.67068,
+    "lng": -0.20335,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "dizengoff-ghana-limited",
+    "name": "Dizengoff Ghana Limited",
+    "contactPerson": null,
+    "phones": [
+      "+233577600363",
+      "+233302221815",
+      "+233302221831",
+      "+233302221863",
+      "+233302221868"
+    ],
+    "whatsapp": [
+      "+233577600363"
+    ],
+    "emails": [],
+    "categories": [
+      "agrochemicals",
+      "fertilizer",
+      "tools"
+    ],
+    "subcategories": [
+      "tools",
+      "protective equipment"
+    ],
+    "crops": [],
+    "services": [],
+    "addressText": "No. 2 Feo Eyeo Road, North Industrial Area",
+    "area": "industrial area",
+    "region": "greater_accra",
+    "lat": 5.56436,
+    "lng": -0.22195,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "k-badu-agrochemicals-company-limited",
+    "name": "K Badu Agrochemicals Company Limited",
+    "contactPerson": null,
+    "phones": [
+      "+233203115933",
+      "+233322020955",
+      "+233322080804",
+      "+233302240736"
+    ],
+    "whatsapp": [
+      "+233203115933"
+    ],
+    "emails": [],
+    "categories": [
+      "agrochemicals",
+      "fertilizer"
+    ],
+    "subcategories": [],
+    "crops": [],
+    "services": [],
+    "addressText": "Kajetia, Opposite Okonfo Anokye Polyclinic Kumasi",
+    "area": "kumasi",
+    "region": "ashanti",
+    "lat": 6.69856,
+    "lng": -1.62331,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "ldc",
+    "name": "LDC",
+    "contactPerson": null,
+    "phones": [
+      "+233544325060"
+    ],
+    "whatsapp": [
+      "+233544325060"
+    ],
+    "emails": [],
+    "categories": [
+      "agrochemicals",
+      "fertilizer",
+      "seeds"
+    ],
+    "subcategories": [],
+    "crops": [
+      "soybean",
+      "groundnut"
+    ],
+    "services": [],
+    "addressText": "Tema, Industrial Area",
+    "area": "tema",
+    "region": "greater_accra",
+    "lat": 5.67217,
+    "lng": 0.00562,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "miqdadi-limited",
+    "name": "Miqdadi Limited",
+    "contactPerson": null,
+    "phones": [
+      "+233540125128"
+    ],
+    "whatsapp": [
+      "+233540125128"
+    ],
+    "emails": [],
+    "categories": [
+      "agrochemicals",
+      "fertilizer",
+      "tools"
+    ],
+    "subcategories": [
+      "tools"
+    ],
+    "crops": [],
+    "services": [],
+    "addressText": "127B Spintex Road",
+    "area": "spintex",
+    "region": "greater_accra",
+    "lat": 5.62883,
+    "lng": -0.0902,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "pure-perfect-services-limited",
+    "name": "Pure & Perfect Services Limited",
+    "contactPerson": null,
+    "phones": [
+      "+233303211658",
+      "+233249054946",
+      "+233546891480"
+    ],
+    "whatsapp": [
+      "+233249054946",
+      "+233546891480"
+    ],
+    "emails": [],
+    "categories": [
+      "agrochemicals",
+      "fertilizer",
+      "seeds"
+    ],
+    "subcategories": [],
+    "crops": [
+      "chilli"
+    ],
+    "services": [],
+    "addressText": "Tema",
+    "area": "tema",
+    "region": "greater_accra",
+    "lat": 5.65964,
+    "lng": -0.00968,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "rainbow-agrosciences-co-limited",
+    "name": "Rainbow Agrosciences Co. Limited",
+    "contactPerson": null,
+    "phones": [
+      "+233570449664",
+      "+233303317028",
+      "+233243639920"
+    ],
+    "whatsapp": [
+      "+233570449664",
+      "+233243639920"
+    ],
+    "emails": [],
+    "categories": [
+      "agrochemicals"
+    ],
+    "subcategories": [],
+    "crops": [],
+    "services": [],
+    "addressText": "Tema",
+    "area": "tema",
+    "region": "greater_accra",
+    "lat": 5.65964,
+    "lng": -0.00968,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "rexpet-agrosolutions",
+    "name": "Rexpet Agrosolutions",
+    "contactPerson": null,
+    "phones": [
+      "+233544341913"
+    ],
+    "whatsapp": [
+      "+233544341913"
+    ],
+    "emails": [],
+    "categories": [
+      "agrochemicals",
+      "fertilizer"
+    ],
+    "subcategories": [],
+    "crops": [],
+    "services": [],
+    "addressText": "213 Jasmine Street, Dome Pillar 2",
+    "area": "dome",
+    "region": "greater_accra",
+    "lat": 5.65542,
+    "lng": -0.23288,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "rmg-ghana",
+    "name": "RMG Ghana",
+    "contactPerson": null,
+    "phones": [
+      "+233243200667",
+      "+233302776447"
+    ],
+    "whatsapp": [
+      "+233243200667"
+    ],
+    "emails": [],
+    "categories": [
+      "agrochemicals",
+      "fertilizer",
+      "seeds"
+    ],
+    "subcategories": [],
+    "crops": [
+      "maize"
+    ],
+    "services": [],
+    "addressText": "No. 14 Narku Ipan Road near Nyaho Clinic",
+    "area": "nyaho",
+    "region": "greater_accra",
+    "lat": 5.6149,
+    "lng": -0.18502,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "wumpini-agrochemicals-limited",
+    "name": "Wumpini Agrochemicals Limited",
+    "contactPerson": null,
+    "phones": [
+      "+233244290265",
+      "+233206418231"
+    ],
+    "whatsapp": [
+      "+233244290265",
+      "+233206418231"
+    ],
+    "emails": [],
+    "categories": [
+      "agrochemicals",
+      "fertilizer"
+    ],
+    "subcategories": [],
+    "crops": [],
+    "services": [],
+    "addressText": "Tamale",
+    "area": "tamale",
+    "region": "northern",
+    "lat": 9.4052,
+    "lng": -0.8424,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "amg-limited",
+    "name": "AMG Limited",
+    "contactPerson": null,
+    "phones": [
+      "+233596914609",
+      "+233244417767"
+    ],
+    "whatsapp": [
+      "+233596914609",
+      "+233244417767"
+    ],
+    "emails": [],
+    "categories": [
+      "fertilizer"
+    ],
+    "subcategories": [],
+    "crops": [],
+    "services": [],
+    "addressText": "No. 666/14 Nii Noi Kwame Street, Dzorwulu",
+    "area": "dzorwulu",
+    "region": "greater_accra",
+    "lat": 5.61231,
+    "lng": -0.20384,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "best-fertilizer-company-limited",
+    "name": "Best Fertilizer Company Limited",
+    "contactPerson": null,
+    "phones": [
+      "+233500048600"
+    ],
+    "whatsapp": [
+      "+233500048600"
+    ],
+    "emails": [],
+    "categories": [
+      "fertilizer"
+    ],
+    "subcategories": [],
+    "crops": [],
+    "services": [],
+    "addressText": "114 Teak Avenue, East Legon",
+    "area": "legon",
+    "region": "greater_accra",
+    "lat": 5.63698,
+    "lng": -0.14555,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "falcon-fertilizers",
+    "name": "Falcon Fertilizers",
+    "contactPerson": null,
+    "phones": [
+      "+233540101415"
+    ],
+    "whatsapp": [
+      "+233540101415"
+    ],
+    "emails": [],
+    "categories": [
+      "fertilizer"
+    ],
+    "subcategories": [],
+    "crops": [],
+    "services": [],
+    "addressText": "Kumasi",
+    "area": "kumasi",
+    "region": "ashanti",
+    "lat": 6.69856,
+    "lng": -1.62331,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "glofert",
+    "name": "Glofert",
+    "contactPerson": null,
+    "phones": [
+      "+233303979954"
+    ],
+    "whatsapp": [],
+    "emails": [],
+    "categories": [
+      "fertilizer"
+    ],
+    "subcategories": [],
+    "crops": [],
+    "services": [],
+    "addressText": "Nii Amon Link, Accra",
+    "area": "accra",
+    "region": "greater_accra",
+    "lat": 5.63705,
+    "lng": -0.15867,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "ras-ghana",
+    "name": "RAS Ghana",
+    "contactPerson": null,
+    "phones": [
+      "+233552536724"
+    ],
+    "whatsapp": [
+      "+233552536724"
+    ],
+    "emails": [],
+    "categories": [
+      "fertilizer",
+      "seeds"
+    ],
+    "subcategories": [],
+    "crops": [
+      "maize"
+    ],
+    "services": [],
+    "addressText": "Ashaiman",
+    "area": "ashaiman",
+    "region": "greater_accra",
+    "lat": 5.69438,
+    "lng": -0.02953,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "yara-ghana-limited",
+    "name": "Yara Ghana Limited",
+    "contactPerson": null,
+    "phones": [
+      "+233540101712"
+    ],
+    "whatsapp": [
+      "+233540101712"
+    ],
+    "emails": [],
+    "categories": [
+      "fertilizer"
+    ],
+    "subcategories": [],
+    "crops": [],
+    "services": [],
+    "addressText": "No.2 Borstal Avenue, Roman Ridge",
+    "area": "ridge",
+    "region": "greater_accra",
+    "lat": 5.6061,
+    "lng": -0.19065,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "amg-fertilizers",
+    "name": "AMG Fertilizers",
+    "contactPerson": null,
+    "phones": [
+      "+233558792575"
+    ],
+    "whatsapp": [
+      "+233558792575"
+    ],
+    "emails": [],
+    "categories": [
+      "seeds"
+    ],
+    "subcategories": [],
+    "crops": [
+      "soybean"
+    ],
+    "services": [],
+    "addressText": "Dzorwulu",
+    "area": "dzorwulu",
+    "region": "greater_accra",
+    "lat": 5.61231,
+    "lng": -0.20384,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "ciriep-agro-services",
+    "name": "Ciriep Agro Services",
+    "contactPerson": null,
+    "phones": [
+      "+233372023935",
+      "+233204218653",
+      "+233244711396"
+    ],
+    "whatsapp": [
+      "+233204218653",
+      "+233244711396"
+    ],
+    "emails": [],
+    "categories": [
+      "seeds"
+    ],
+    "subcategories": [],
+    "crops": [
+      "soybean"
+    ],
+    "services": [],
+    "addressText": "Tamale",
+    "area": "tamale",
+    "region": "northern",
+    "lat": 9.4052,
+    "lng": -0.8424,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "csir-sari",
+    "name": "CSIR SARI",
+    "contactPerson": null,
+    "phones": [
+      "+233243741968"
+    ],
+    "whatsapp": [
+      "+233243741968"
+    ],
+    "emails": [],
+    "categories": [
+      "seeds"
+    ],
+    "subcategories": [],
+    "crops": [
+      "soybean",
+      "groundnut"
+    ],
+    "services": [],
+    "addressText": "Tamale",
+    "area": "tamale",
+    "region": "northern",
+    "lat": 9.4052,
+    "lng": -0.8424,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "meridian-seeds",
+    "name": "Meridian Seeds",
+    "contactPerson": null,
+    "phones": [
+      "+233240415609",
+      "+233574387013"
+    ],
+    "whatsapp": [
+      "+233240415609",
+      "+233574387013"
+    ],
+    "emails": [],
+    "categories": [
+      "seeds"
+    ],
+    "subcategories": [],
+    "crops": [
+      "soybean",
+      "chilli"
+    ],
+    "services": [],
+    "addressText": "Achimota",
+    "area": "achimota",
+    "region": "greater_accra",
+    "lat": 5.6242,
+    "lng": -0.22768,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "seedco",
+    "name": "SeedCo",
+    "contactPerson": null,
+    "phones": [
+      "+233202194749",
+      "+233302792471",
+      "+233558273967"
+    ],
+    "whatsapp": [
+      "+233202194749",
+      "+233558273967"
+    ],
+    "emails": [],
+    "categories": [
+      "seeds"
+    ],
+    "subcategories": [],
+    "crops": [
+      "soybean",
+      "maize"
+    ],
+    "services": [],
+    "addressText": "7 Dzorwulu Crescent",
+    "area": "dzorwulu",
+    "region": "greater_accra",
+    "lat": 5.61234,
+    "lng": -0.20637,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "agri-business-solutions-ltd",
+    "name": "Agri-Business Solutions Ltd",
+    "contactPerson": null,
+    "phones": [
+      "+233241016369",
+      "+233540983904",
+      "+233541400704",
+      "+233243083095"
+    ],
+    "whatsapp": [
+      "+233241016369",
+      "+233540983904",
+      "+233541400704",
+      "+233243083095"
+    ],
+    "emails": [],
+    "categories": [
+      "seeds"
+    ],
+    "subcategories": [],
+    "crops": [
+      "ginger"
+    ],
+    "services": [],
+    "addressText": "Tema Community 25",
+    "area": "tema",
+    "region": "greater_accra",
+    "lat": 5.72228,
+    "lng": 0.01893,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "holland-greentech-ghana",
+    "name": "Holland GreenTech Ghana",
+    "contactPerson": null,
+    "phones": [
+      "+233248614197",
+      "+233550558317"
+    ],
+    "whatsapp": [
+      "+233248614197",
+      "+233550558317"
+    ],
+    "emails": [],
+    "categories": [
+      "seeds",
+      "irrigation"
+    ],
+    "subcategories": [],
+    "crops": [
+      "chilli"
+    ],
+    "services": [],
+    "addressText": "East Legon",
+    "area": "legon",
+    "region": "greater_accra",
+    "lat": 5.63548,
+    "lng": -0.16172,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "university-of-ghana",
+    "name": "University of Ghana",
+    "contactPerson": null,
+    "phones": [
+      "+233246294432"
+    ],
+    "whatsapp": [
+      "+233246294432"
+    ],
+    "emails": [],
+    "categories": [
+      "seeds"
+    ],
+    "subcategories": [],
+    "crops": [
+      "chilli"
+    ],
+    "services": [],
+    "addressText": "Legon",
+    "area": "legon",
+    "region": "greater_accra",
+    "lat": 5.64766,
+    "lng": -0.19603,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "csir-crop-research",
+    "name": "CSIR Crop Research",
+    "contactPerson": null,
+    "phones": [
+      "+233242745865"
+    ],
+    "whatsapp": [
+      "+233242745865"
+    ],
+    "emails": [],
+    "categories": [
+      "seeds"
+    ],
+    "subcategories": [],
+    "crops": [
+      "sweet_potato"
+    ],
+    "services": [],
+    "addressText": "Fumesua, Kumasi",
+    "area": "kumasi",
+    "region": "ashanti",
+    "lat": 6.69856,
+    "lng": -1.62331,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "maphlix-trust-ghana-limited",
+    "name": "Maphlix Trust Ghana Limited",
+    "contactPerson": null,
+    "phones": [
+      "+233302424984"
+    ],
+    "whatsapp": [],
+    "emails": [],
+    "categories": [
+      "seeds"
+    ],
+    "subcategories": [],
+    "crops": [
+      "sweet_potato"
+    ],
+    "services": [],
+    "addressText": "10 Alogboshie Street, Achimota",
+    "area": "achimota",
+    "region": "greater_accra",
+    "lat": 5.62767,
+    "lng": -0.23323,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "pokujobs",
+    "name": "PokuJobs",
+    "contactPerson": null,
+    "phones": [
+      "+233244089589",
+      "+233207644777",
+      "+233242281274"
+    ],
+    "whatsapp": [
+      "+233244089589",
+      "+233207644777",
+      "+233242281274"
+    ],
+    "emails": [],
+    "categories": [
+      "labour"
+    ],
+    "subcategories": [],
+    "crops": [],
+    "services": [],
+    "addressText": null,
+    "area": null,
+    "region": null,
+    "lat": null,
+    "lng": null,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "simon-modzaka",
+    "name": "Simon Modzaka",
+    "contactPerson": null,
+    "phones": [
+      "+233242664795"
+    ],
+    "whatsapp": [
+      "+233242664795"
+    ],
+    "emails": [],
+    "categories": [
+      "labour"
+    ],
+    "subcategories": [],
+    "crops": [],
+    "services": [],
+    "addressText": "Asutsuare",
+    "area": "asutsuare",
+    "region": "greater_accra",
+    "lat": 6.09254,
+    "lng": 0.19499,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "accra-mall-game",
+    "name": "Accra Mall - Game",
+    "contactPerson": null,
+    "phones": [
+      "+233592489573"
+    ],
+    "whatsapp": [
+      "+233592489573"
+    ],
+    "emails": [],
+    "categories": [
+      "tools"
+    ],
+    "subcategories": [
+      "tools"
+    ],
+    "crops": [],
+    "services": [],
+    "addressText": "Accra Mall, Spintex Road",
+    "area": "accra",
+    "region": "greater_accra",
+    "lat": 5.62218,
+    "lng": -0.17294,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "desert-lion-ghana-limited",
+    "name": "Desert Lion Ghana Limited",
+    "contactPerson": null,
+    "phones": [
+      "+233500106010",
+      "+233266020030",
+      "+233505138640",
+      "+233201764255"
+    ],
+    "whatsapp": [
+      "+233500106010",
+      "+233266020030",
+      "+233505138640",
+      "+233201764255"
+    ],
+    "emails": [],
+    "categories": [
+      "tools",
+      "motor_vehicle"
+    ],
+    "subcategories": [
+      "tools",
+      "protective equipment"
+    ],
+    "crops": [],
+    "services": [],
+    "addressText": "Desert Lion House, East Legon",
+    "area": "legon",
+    "region": "greater_accra",
+    "lat": 5.64766,
+    "lng": -0.19603,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "poly-tanks-ghana-limited-sacks-division",
+    "name": "Poly Tanks Ghana Limited (Sacks Division)",
+    "contactPerson": null,
+    "phones": [],
+    "whatsapp": [],
+    "emails": [],
+    "categories": [
+      "tools"
+    ],
+    "subcategories": [
+      "tools"
+    ],
+    "crops": [],
+    "services": [],
+    "addressText": "Spintex Road, Motorway Industrial Estate, Baatsona, Behind Coco Cola Bottling Plant",
+    "area": "spintex",
+    "region": "greater_accra",
+    "lat": 5.62883,
+    "lng": -0.0902,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "agricultural-engineering-services-directorate",
+    "name": "Agricultural Engineering Services Directorate",
+    "contactPerson": null,
+    "phones": [
+      "+233032777789"
+    ],
+    "whatsapp": [],
+    "emails": [],
+    "categories": [
+      "tools"
+    ],
+    "subcategories": [
+      "machinery & implements"
+    ],
+    "crops": [],
+    "services": [],
+    "addressText": "4th Giffard Street, Accra",
+    "area": "accra",
+    "region": "greater_accra",
+    "lat": 5.55711,
+    "lng": -0.20124,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "agro-africa",
+    "name": "Agro Africa",
+    "contactPerson": null,
+    "phones": [
+      "+233302968828"
+    ],
+    "whatsapp": [],
+    "emails": [],
+    "categories": [
+      "tools",
+      "mechanization",
+      "irrigation"
+    ],
+    "subcategories": [
+      "machinery & implements"
+    ],
+    "crops": [],
+    "services": [
+      "Ploughing",
+      "Harrowing",
+      "Planting",
+      "Fertilizer application",
+      "Spraying",
+      "Harvesting"
+    ],
+    "addressText": "No. 3 Boulevard Street, West Legon",
+    "area": "legon",
+    "region": "greater_accra",
+    "lat": 5.64766,
+    "lng": -0.19603,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "john-deere",
+    "name": "John Deere",
+    "contactPerson": null,
+    "phones": [
+      "+233501354250"
+    ],
+    "whatsapp": [
+      "+233501354250"
+    ],
+    "emails": [],
+    "categories": [
+      "tools"
+    ],
+    "subcategories": [
+      "machinery & implements"
+    ],
+    "crops": [],
+    "services": [],
+    "addressText": "Dzorwulu",
+    "area": "dzorwulu",
+    "region": "greater_accra",
+    "lat": 5.61231,
+    "lng": -0.20384,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "pine-consult-mech",
+    "name": "Pine Consult & Mech",
+    "contactPerson": null,
+    "phones": [
+      "+233553021264",
+      "+233246791684"
+    ],
+    "whatsapp": [
+      "+233553021264",
+      "+233246791684"
+    ],
+    "emails": [],
+    "categories": [
+      "tools"
+    ],
+    "subcategories": [
+      "machinery & implements"
+    ],
+    "crops": [],
+    "services": [],
+    "addressText": "57 Onyankle Street, Abelenkpe",
+    "area": "abelenkpe",
+    "region": "greater_accra",
+    "lat": 5.60413,
+    "lng": -0.2163,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "waatco",
+    "name": "WAATCO",
+    "contactPerson": null,
+    "phones": [
+      "+233540122299",
+      "+233540122256",
+      "+233243600147"
+    ],
+    "whatsapp": [
+      "+233540122299",
+      "+233540122256",
+      "+233243600147"
+    ],
+    "emails": [],
+    "categories": [
+      "tools",
+      "irrigation"
+    ],
+    "subcategories": [
+      "machinery & implements"
+    ],
+    "crops": [],
+    "services": [],
+    "addressText": "George Walker Bush (N1) Highway, Opposite Nogahil Hotel, Accra",
+    "area": "accra",
+    "region": "greater_accra",
+    "lat": 5.55711,
+    "lng": -0.20124,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "apsonic-ghana",
+    "name": "Apsonic Ghana",
+    "contactPerson": null,
+    "phones": [
+      "+233549658848"
+    ],
+    "whatsapp": [
+      "+233549658848"
+    ],
+    "emails": [],
+    "categories": [
+      "motor_vehicle"
+    ],
+    "subcategories": [],
+    "crops": [],
+    "services": [],
+    "addressText": "Spintex",
+    "area": "spintex",
+    "region": "greater_accra",
+    "lat": 5.62883,
+    "lng": -0.0902,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "bekaare-kuuwea",
+    "name": "Bekaare Kuuwea",
+    "contactPerson": null,
+    "phones": [
+      "+233205548917"
+    ],
+    "whatsapp": [
+      "+233205548917"
+    ],
+    "emails": [],
+    "categories": [
+      "motor_vehicle"
+    ],
+    "subcategories": [],
+    "crops": [],
+    "services": [],
+    "addressText": "Afram Plains",
+    "area": "la",
+    "region": "eastern",
+    "lat": 7.04387,
+    "lng": -0.07967,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "lk-international-co-ghana-limited",
+    "name": "LK International Co. Ghana Limited",
+    "contactPerson": null,
+    "phones": [
+      "+233245313443",
+      "+233245353142",
+      "+233245353729"
+    ],
+    "whatsapp": [
+      "+233245313443",
+      "+233245353142",
+      "+233245353729"
+    ],
+    "emails": [],
+    "categories": [
+      "motor_vehicle"
+    ],
+    "subcategories": [],
+    "crops": [],
+    "services": [],
+    "addressText": "Accra, Tamale, Techiman",
+    "area": "tamale",
+    "region": "northern",
+    "lat": 9.4052,
+    "lng": -0.8424,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "afram-plains-local-tractor-services",
+    "name": "Afram Plains local Tractor Services",
+    "contactPerson": null,
+    "phones": [
+      "+233543704736"
+    ],
+    "whatsapp": [
+      "+233543704736"
+    ],
+    "emails": [],
+    "categories": [
+      "mechanization"
+    ],
+    "subcategories": [],
+    "crops": [],
+    "services": [
+      "Ploughing",
+      "Harrowing"
+    ],
+    "addressText": "Afram Plains",
+    "area": "la",
+    "region": "eastern",
+    "lat": 7.04387,
+    "lng": -0.07967,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "asustsuare-comminity-tractor-services",
+    "name": "Asustsuare Comminity Tractor Services",
+    "contactPerson": null,
+    "phones": [
+      "+233244841622",
+      "+233505855319"
+    ],
+    "whatsapp": [
+      "+233244841622",
+      "+233505855319"
+    ],
+    "emails": [],
+    "categories": [
+      "mechanization"
+    ],
+    "subcategories": [],
+    "crops": [],
+    "services": [
+      "Ploughing",
+      "Harrowing",
+      "Planting"
+    ],
+    "addressText": "Asustaure",
+    "area": "asustaure",
+    "region": "greater_accra",
+    "lat": null,
+    "lng": null,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "jespa-international-inc",
+    "name": "Jespa International Inc.",
+    "contactPerson": null,
+    "phones": [
+      "+233541400882"
+    ],
+    "whatsapp": [
+      "+233541400882"
+    ],
+    "emails": [],
+    "categories": [
+      "mechanization"
+    ],
+    "subcategories": [],
+    "crops": [],
+    "services": [
+      "Ploughing",
+      "Harrowing",
+      "Planting",
+      "Harvesting"
+    ],
+    "addressText": "A1 Odum Road, Manet Cottage, Spintex Road",
+    "area": "spintex",
+    "region": "greater_accra",
+    "lat": 5.62883,
+    "lng": -0.0902,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "samak-agribusiness-limited",
+    "name": "Samak Agribusiness Limited",
+    "contactPerson": null,
+    "phones": [
+      "+233244907097"
+    ],
+    "whatsapp": [
+      "+233244907097"
+    ],
+    "emails": [],
+    "categories": [
+      "mechanization"
+    ],
+    "subcategories": [],
+    "crops": [],
+    "services": [
+      "Ploughing",
+      "Harrowing",
+      "Planting",
+      "Boom spraying",
+      "Harvesting"
+    ],
+    "addressText": "Tamale",
+    "area": "tamale",
+    "region": "northern",
+    "lat": 9.4052,
+    "lng": -0.8424,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "trotro-tractor",
+    "name": "Trotro Tractor",
+    "contactPerson": null,
+    "phones": [
+      "+233501583979",
+      "+233501583978",
+      "+233501583982"
+    ],
+    "whatsapp": [
+      "+233501583979",
+      "+233501583978",
+      "+233501583982"
+    ],
+    "emails": [],
+    "categories": [
+      "mechanization"
+    ],
+    "subcategories": [],
+    "crops": [],
+    "services": [
+      "Ploughing",
+      "Harrowing",
+      "Planting",
+      "Harvesting"
+    ],
+    "addressText": "19 Banana Avenue, East Legon",
+    "area": "legon",
+    "region": "greater_accra",
+    "lat": 5.64514,
+    "lng": -0.15077,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "agriminds-engineering-ghana-limited",
+    "name": "Agriminds & Engineering Ghana Limited",
+    "contactPerson": null,
+    "phones": [
+      "+233245768893"
+    ],
+    "whatsapp": [
+      "+233245768893"
+    ],
+    "emails": [],
+    "categories": [
+      "irrigation"
+    ],
+    "subcategories": [],
+    "crops": [],
+    "services": [],
+    "addressText": "Newtown, Ashanti Mampong",
+    "area": "mampong",
+    "region": "ashanti",
+    "lat": 7.05614,
+    "lng": -1.40425,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "lamba-geo-hydro-ltd",
+    "name": "Lamba Geo-Hydro Ltd",
+    "contactPerson": null,
+    "phones": [
+      "+233202984595"
+    ],
+    "whatsapp": [
+      "+233202984595"
+    ],
+    "emails": [],
+    "categories": [
+      "irrigation"
+    ],
+    "subcategories": [],
+    "crops": [],
+    "services": [],
+    "addressText": "Dansoman, Mr Mensah 6th Aotey Obour Link",
+    "area": "dansoman",
+    "region": "greater_accra",
+    "lat": 5.54485,
+    "lng": -0.26807,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "poly-tanks-ghana-limited-roto-division",
+    "name": "Poly Tanks Ghana Limited (Roto Division)",
+    "contactPerson": null,
+    "phones": [
+      "+233302811576"
+    ],
+    "whatsapp": [],
+    "emails": [],
+    "categories": [
+      "irrigation"
+    ],
+    "subcategories": [],
+    "crops": [],
+    "services": [],
+    "addressText": "Spintex Road, Motorway Industrial Estate, Baatsona, Behind Coco Cola Bottling Plant",
+    "area": "spintex",
+    "region": "greater_accra",
+    "lat": 5.62883,
+    "lng": -0.0902,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "acquahmeyer-drone-tech-limited",
+    "name": "AcquahMeyer Drone Tech Limited",
+    "contactPerson": null,
+    "phones": [
+      "+233248282022"
+    ],
+    "whatsapp": [
+      "+233248282022"
+    ],
+    "emails": [],
+    "categories": [
+      "drone_spraying"
+    ],
+    "subcategories": [],
+    "crops": [],
+    "services": [],
+    "addressText": "81 Boundary Road, Madina",
+    "area": "madina",
+    "region": "greater_accra",
+    "lat": 5.65016,
+    "lng": -0.15046,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "dronehub-ghana",
+    "name": "DroneHub Ghana",
+    "contactPerson": null,
+    "phones": [
+      "+233554460055",
+      "+233554460012"
+    ],
+    "whatsapp": [
+      "+233554460055",
+      "+233554460012"
+    ],
+    "emails": [],
+    "categories": [
+      "drone_spraying"
+    ],
+    "subcategories": [],
+    "crops": [],
+    "services": [],
+    "addressText": "Circle",
+    "area": "circle",
+    "region": "greater_accra",
+    "lat": 5.56991,
+    "lng": -0.21552,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "gnotech-ghana-drone-services",
+    "name": "GnoTech Ghana Drone Services",
+    "contactPerson": null,
+    "phones": [
+      "+233547762535"
+    ],
+    "whatsapp": [
+      "+233547762535"
+    ],
+    "emails": [],
+    "categories": [
+      "drone_spraying"
+    ],
+    "subcategories": [],
+    "crops": [],
+    "services": [],
+    "addressText": "Tse Addo High Street",
+    "area": null,
+    "region": "greater_accra",
+    "lat": 5.58583,
+    "lng": -0.14143,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "precision-solutions",
+    "name": "Precision Solutions",
+    "contactPerson": null,
+    "phones": [
+      "+233552536724"
+    ],
+    "whatsapp": [
+      "+233552536724"
+    ],
+    "emails": [],
+    "categories": [
+      "drone_spraying"
+    ],
+    "subcategories": [],
+    "crops": [],
+    "services": [],
+    "addressText": "Trade Fair, La",
+    "area": "la",
+    "region": "greater_accra",
+    "lat": 5.56947,
+    "lng": -0.1474,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "skt-aeroshutter",
+    "name": "SKT Aeroshutter",
+    "contactPerson": null,
+    "phones": [
+      "+233243720644",
+      "+233507352423"
+    ],
+    "whatsapp": [
+      "+233243720644",
+      "+233507352423"
+    ],
+    "emails": [],
+    "categories": [
+      "drone_spraying"
+    ],
+    "subcategories": [],
+    "crops": [],
+    "services": [],
+    "addressText": "119 Westlands Boulevard",
+    "area": "la",
+    "region": "greater_accra",
+    "lat": 5.56023,
+    "lng": -0.15764,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "avni-third-part-logistics",
+    "name": "Avni Third Part Logistics",
+    "contactPerson": null,
+    "phones": [
+      "+233302916017",
+      "+233552790630"
+    ],
+    "whatsapp": [
+      "+233552790630"
+    ],
+    "emails": [],
+    "categories": [
+      "logistics"
+    ],
+    "subcategories": [],
+    "crops": [],
+    "services": [],
+    "addressText": "Cantoments",
+    "area": "cantoment",
+    "region": "greater_accra",
+    "lat": 5.57077,
+    "lng": -0.1766,
+    "source": "complete-farmer-db"
+  },
+  {
+    "id": "strategic-clearing-agency",
+    "name": "Strategic Clearing Agency",
+    "contactPerson": null,
+    "phones": [
+      "+233246567555",
+      "+233260836987",
+      "+233271197487"
+    ],
+    "whatsapp": [
+      "+233246567555",
+      "+233260836987",
+      "+233271197487"
+    ],
+    "emails": [],
+    "categories": [
+      "logistics"
+    ],
+    "subcategories": [],
+    "crops": [],
+    "services": [],
+    "addressText": "East Legon",
+    "area": "legon",
+    "region": "greater_accra",
+    "lat": 5.63548,
+    "lng": -0.16172,
+    "source": "complete-farmer-db"
+  }
+]

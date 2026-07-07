@@ -4,7 +4,7 @@ import { useLang } from '../i18n.jsx';
 import { useAuth } from '../auth/useAuth.js';
 import { LangToggle } from '../components/Chrome.jsx';
 import { CROPS, REGIONS } from '../data/diseaseDatabase';
-import { SUPPLIERS } from '../data/suppliers';
+import { getVendors } from '../db/vendors';
 import { getSavedRegion, setSavedRegion, getSavedCrops, setSavedCrops } from '../utils/prefs';
 import { getFavourites, toggleFavourite, setDefaultSupplier, updateSupplierNote, getSuggestedFavourites } from '../db/favorites';
 import RegionSheet from '../components/RegionSheet.jsx';
@@ -67,8 +67,7 @@ function SettingRow({ icon, label, value, action, onClick, last = false }) {
 
 /* ── favourite supplier card ────────────────────────────────────────────── */
 
-function FavSupplierCard({ fav, onToggle, onSetDefault, onSaveNote, t }) {
-  const supplier = SUPPLIERS.find((s) => s.id === fav.supplierId);
+function FavSupplierCard({ fav, supplier, onToggle, onSetDefault, onSaveNote, t, pick }) {
   const [editing, setEditing] = useState(false);
   const [note, setNote] = useState(fav.notes || '');
 
@@ -94,7 +93,7 @@ function FavSupplierCard({ fav, onToggle, onSetDefault, onSaveNote, t }) {
             {supplier.name}
           </div>
           <div className="muted" style={{ fontSize: 13 }}>
-            📍 {supplier.town} · {supplier.price_range}
+            📍 {supplier.addressText || '—'}{supplier.region ? ` · ${pick(REGIONS[supplier.region])}` : ''}
           </div>
         </div>
         <button
@@ -199,8 +198,7 @@ function FavSupplierCard({ fav, onToggle, onSetDefault, onSaveNote, t }) {
 
 /* ── suggestion banner ──────────────────────────────────────────────────── */
 
-function SuggestBanner({ suggestion, onAdd, t }) {
-  const supplier = SUPPLIERS.find((s) => s.id === suggestion.supplierId);
+function SuggestBanner({ suggestion, supplier, onAdd, t }) {
   if (!supplier) return null;
   return (
     <div style={{
@@ -214,7 +212,7 @@ function SuggestBanner({ suggestion, onAdd, t }) {
       <div className="between">
         <div>
           <strong style={{ fontFamily: 'var(--font-display)', fontSize: 15 }}>{supplier.name}</strong>
-          <div className="muted" style={{ fontSize: 12 }}>📍 {supplier.town}</div>
+          <div className="muted" style={{ fontSize: 12 }}>📍 {supplier.addressText || '—'}</div>
         </div>
         <button
           onClick={() => onAdd(suggestion.supplierId)}
@@ -243,6 +241,7 @@ export default function Profile() {
   const [selectedCrops, setSelectedCrops] = useState(() => getSavedCrops());
   const [favs, setFavs] = useState([]);
   const [suggestions, setSuggestions] = useState([]);
+  const [vendorsById, setVendorsById] = useState({});
 
   const refreshFavs = useCallback(async () => {
     const [f, s] = await Promise.all([getFavourites(), getSuggestedFavourites()]);
@@ -252,6 +251,15 @@ export default function Profile() {
 
   // eslint-disable-next-line react-hooks/set-state-in-effect -- async IDB read
   useEffect(() => { refreshFavs(); }, [refreshFavs]);
+
+  // Load the vendor directory once to resolve favourite/suggested supplier ids.
+  useEffect(() => {
+    let live = true;
+    getVendors().then((list) => {
+      if (live) setVendorsById(Object.fromEntries(list.map((v) => [v.id, v])));
+    });
+    return () => { live = false; };
+  }, []);
 
   const handleToggleCrop = (cropId) => {
     setSelectedCrops((prev) => {
@@ -411,15 +419,15 @@ export default function Profile() {
         <SectionLabel style={{ marginTop: 26 }}>{t('profile_fav_suppliers')}</SectionLabel>
 
         {suggestions.map((s) => (
-          <SuggestBanner key={s.supplierId} suggestion={s} onAdd={handleToggleFav} t={t} />
+          <SuggestBanner key={s.supplierId} suggestion={s} supplier={vendorsById[s.supplierId]} onAdd={handleToggleFav} t={t} />
         ))}
 
         {defaultFav && (
-          <FavSupplierCard fav={defaultFav} onToggle={handleToggleFav} onSetDefault={handleSetDefault} onSaveNote={handleSaveNote} t={t} />
+          <FavSupplierCard fav={defaultFav} supplier={vendorsById[defaultFav.supplierId]} onToggle={handleToggleFav} onSetDefault={handleSetDefault} onSaveNote={handleSaveNote} t={t} pick={pick} />
         )}
 
         {otherFavs.map((fav) => (
-          <FavSupplierCard key={fav.supplierId} fav={fav} onToggle={handleToggleFav} onSetDefault={handleSetDefault} onSaveNote={handleSaveNote} t={t} />
+          <FavSupplierCard key={fav.supplierId} fav={fav} supplier={vendorsById[fav.supplierId]} onToggle={handleToggleFav} onSetDefault={handleSetDefault} onSaveNote={handleSaveNote} t={t} pick={pick} />
         ))}
 
         {favs.length === 0 && suggestions.length === 0 && (

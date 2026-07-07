@@ -3,8 +3,17 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { useLang } from '../i18n.jsx';
-import { findSuppliers, whatsappLink, telLink } from '../data/suppliers';
+import { REGIONS } from '../data/diseaseDatabase';
+import { getVendors } from '../db/vendors';
+import {
+  filterVendors, whatsappLink, telLink, primaryPhone, primaryWhatsapp,
+} from '../data/suppliers';
+import { VENDOR_CATEGORIES } from '../data/vendorCategories';
 import { getFavourites, toggleFavourite, recordContact } from '../db/favorites';
+import VendorDetailSheet from './VendorDetailSheet.jsx';
+
+// How many vendor cards to show per "page" before the Show-more button.
+const PAGE_SIZE = 8;
 
 const icon = new L.Icon({
   iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -12,6 +21,8 @@ const icon = new L.Icon({
   shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
   iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34], shadowSize: [41, 41],
 });
+
+const CAT_LABEL = Object.fromEntries(VENDOR_CATEGORIES.map((c) => [c.key, c]));
 
 const PhoneIcon = () => (
   <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -24,110 +35,193 @@ const WhatsAppIcon = () => (
   </svg>
 );
 
-export default function SupplierList({ region, productName = '', showMap = true }) {
-  const { t, lang } = useLang();
-  const suppliers = findSuppliers(region, productName);
+/**
+ * Renders vendors filtered by `region` + `category`, best-effort ranked by
+ * `keyword` (e.g. a diagnosed treatment). If a region filter yields nothing, we
+ * transparently fall back to all regions so the farmer is never left empty.
+ */
+export default function SupplierList({ region = 'all', category = null, keyword = '', showMap = true }) {
+  const { t, lang, pick } = useLang();
+  const [vendors, setVendors] = useState(null); // null = loading
   const [favIds, setFavIds] = useState(new Set());
   const [defaultId, setDefaultId] = useState(null);
+  const [visible, setVisible] = useState(PAGE_SIZE); // pagination window
+  const [detail, setDetail] = useState(null); // vendor shown in the detail modal
+
+  // Collapse back to the first page whenever the filter inputs change, so a new
+  // search doesn't start scrolled deep into a previous, longer result set. Done
+  // during render (not in an effect) so there's no extra pass showing stale rows.
+  const filterKey = `${region}|${category}|${keyword}|${vendors?.length ?? 'x'}`;
+  const [prevKey, setPrevKey] = useState(filterKey);
+  if (filterKey !== prevKey) {
+    setPrevKey(filterKey);
+    setVisible(PAGE_SIZE);
+  }
+
+  useEffect(() => {
+    let live = true;
+    getVendors().then((v) => { if (live) setVendors(v); });
+    return () => { live = false; };
+  }, []);
 
   const refreshFavs = useCallback(async () => {
     const favs = await getFavourites();
     setFavIds(new Set(favs.map((f) => f.supplierId)));
-    const def = favs.find((f) => f.isDefault);
-    setDefaultId(def?.supplierId ?? null);
+    setDefaultId(favs.find((f) => f.isDefault)?.supplierId ?? null);
   }, []);
 
   // eslint-disable-next-line react-hooks/set-state-in-effect -- async IDB read, not synchronous
   useEffect(() => { refreshFavs(); }, [refreshFavs]);
 
-  const handleStar = async (supplierId) => {
-    await toggleFavourite(supplierId);
-    await refreshFavs();
-  };
+  const handleStar = async (id) => { await toggleFavourite(id); await refreshFavs(); };
 
-  const handleWhatsAppClick = (supplierId) => {
-    recordContact(supplierId);
-  };
-
-  const handleCallClick = (supplierId) => {
-    recordContact(supplierId);
-  };
-
-  if (suppliers.length === 0) {
-    return <p className="muted center" style={{ padding: 20 }}>No shops listed nearby yet.</p>;
+  if (vendors === null) {
+    return <p className="muted center" style={{ padding: 20 }}>{t('shops_loading')}</p>;
   }
 
-  // Sort: default supplier first, then favourites, then the rest
-  const sorted = [...suppliers].sort((a, b) => {
+  let list = filterVendors(vendors, { region, category, keyword });
+  let regionFallback = false;
+  if (list.length === 0 && region && region !== 'all') {
+    list = filterVendors(vendors, { region: 'all', category, keyword });
+    regionFallback = true;
+  }
+
+  if (list.length === 0) {
+    return <p className="muted center" style={{ padding: 20 }}>{t('shops_none')}</p>;
+  }
+
+  // Sort: default supplier first, then favourites, then the keyword ranking.
+  const sorted = [...list].sort((a, b) => {
     if (a.id === defaultId) return -1;
     if (b.id === defaultId) return 1;
-    const aFav = favIds.has(a.id) ? 1 : 0;
-    const bFav = favIds.has(b.id) ? 1 : 0;
-    return bFav - aFav;
+    return (favIds.has(b.id) ? 1 : 0) - (favIds.has(a.id) ? 1 : 0);
   });
 
-  const center = [sorted[0].lat, sorted[0].lng];
+  const pinned = sorted.filter((s) => s.lat != null && s.lng != null);
+  const paged = sorted.slice(0, visible);
+  const remaining = sorted.length - paged.length;
 
   return (
     <div className="stack">
-      <div style={{
-        display: 'flex', alignItems: 'center', gap: 8, padding: '8px 12px',
-        borderRadius: 'var(--radius-sm)', background: 'var(--warn-tint)',
-        fontSize: 12, fontWeight: 700, color: 'var(--warn)',
-      }}>
-        <span>⚠️</span> Demo contacts — numbers are placeholders for the competition
-      </div>
-      {showMap && (
+      {regionFallback && (
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: 8, padding: '8px 12px',
+          borderRadius: 'var(--radius-sm)', background: 'var(--green-tint)',
+          fontSize: 12, fontWeight: 700, color: 'var(--green)',
+        }}>
+          <span>ℹ️</span> {t('shops_region_fallback')}
+        </div>
+      )}
+
+      {showMap && pinned.length > 0 && (
         <div style={{ height: 190, borderRadius: 'var(--radius)', overflow: 'hidden', boxShadow: 'var(--shadow-card)' }}>
-          <MapContainer center={center} zoom={9} style={{ height: '100%', width: '100%' }} scrollWheelZoom={false}>
+          <MapContainer center={[pinned[0].lat, pinned[0].lng]} zoom={9} style={{ height: '100%', width: '100%' }} scrollWheelZoom={false}>
             <TileLayer attribution="&copy; OpenStreetMap" url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-            {sorted.map((s) => (
+            {pinned.map((s) => (
               <Marker key={s.id} position={[s.lat, s.lng]} icon={icon}>
-                <Popup><strong>{s.name}</strong><br />{s.town}<br />{s.price_range}</Popup>
+                <Popup>
+                  <strong>{s.name}</strong><br />{s.addressText}
+                </Popup>
               </Marker>
             ))}
           </MapContainer>
         </div>
       )}
 
-      {sorted.map((s) => (
-        <div key={s.id} className="card stack" style={{ gap: 12 }}>
-          <div className="between">
-            <div style={{ flex: 1 }}>
-              <div className="row" style={{ gap: 6 }}>
-                <strong style={{ fontSize: 17, fontFamily: 'var(--font-display)' }}>{s.name}</strong>
-                {s.id === defaultId && (
-                  <span className="pill pill--green" style={{ fontSize: 10, padding: '2px 6px' }}>📌</span>
+      {paged.map((s) => {
+        const phone = primaryPhone(s);
+        const wa = primaryWhatsapp(s);
+        return (
+          <div key={s.id} className="card stack" style={{ gap: 10 }}>
+            <div className="between">
+              <button
+                onClick={() => setDetail(s)}
+                style={{ flex: 1, minWidth: 0, background: 'none', border: 'none', textAlign: 'left', padding: 0, cursor: 'pointer' }}
+                aria-label={`${t('shops_details')} — ${s.name}`}
+              >
+                <div className="row" style={{ gap: 6 }}>
+                  <strong style={{ fontSize: 17, fontFamily: 'var(--font-display)' }}>{s.name}</strong>
+                  {s.id === defaultId && (
+                    <span className="pill pill--green" style={{ fontSize: 10, padding: '2px 6px' }}>📌</span>
+                  )}
+                  <span style={{ color: 'var(--ink-soft)', fontSize: 15 }}>›</span>
+                </div>
+                <div className="muted" style={{ fontSize: 13 }}>
+                  📍 {s.addressText || '—'}{s.region ? ` · ${pick(REGIONS[s.region])}` : ''}
+                </div>
+                {s.contactPerson && (
+                  <div className="muted" style={{ fontSize: 13 }}>👤 {s.contactPerson}</div>
                 )}
-              </div>
-              <div className="muted" style={{ fontSize: 13 }}>📍 {s.town} · {s.price_range}</div>
+              </button>
+              <button
+                onClick={() => handleStar(s.id)}
+                style={{ background: 'none', border: 'none', fontSize: 22, flexShrink: 0, padding: 4 }}
+                aria-label={favIds.has(s.id) ? 'Remove from favourites' : 'Add to favourites'}
+              >
+                {favIds.has(s.id) ? '⭐' : '☆'}
+              </button>
             </div>
-            <button
-              onClick={() => handleStar(s.id)}
-              style={{ background: 'none', border: 'none', fontSize: 22, flexShrink: 0, padding: 4 }}
-              aria-label={favIds.has(s.id) ? 'Remove from favourites' : 'Add to favourites'}
-            >
-              {favIds.has(s.id) ? '⭐' : '☆'}
-            </button>
+
+            {/* category tags — hidden when the list is already filtered to one */}
+            {!category && s.categories.length > 0 && (
+              <div className="row" style={{ gap: 6, flexWrap: 'wrap' }}>
+                {s.categories.map((c) => (
+                  <span key={c} className="pill" style={{ fontSize: 11, padding: '3px 8px', background: 'var(--green-tint)', color: 'var(--green)', border: 'none' }}>
+                    {CAT_LABEL[c]?.icon} {t(CAT_LABEL[c]?.i18n || c)}
+                  </span>
+                ))}
+              </div>
+            )}
+
+            {s.services.length > 0 && (
+              <div className="muted" style={{ fontSize: 13 }}>🔧 {t('shops_provides')}: {s.services.join(', ')}</div>
+            )}
+            {s.crops.length > 0 && (
+              <div className="muted" style={{ fontSize: 13 }}>🌱 {t('shops_seeds_for')}: {s.crops.join(', ')}</div>
+            )}
+
+            <div className="row" style={{ gap: 12 }}>
+              {phone && (
+                <a className="contact-btn" href={telLink(phone)} style={{ background: 'var(--green)' }}
+                  onClick={() => recordContact(s.id)}
+                  aria-label={`${t('call_shop')} ${s.name}`}>
+                  <PhoneIcon /><span>{t('call_shop')}</span>
+                </a>
+              )}
+              {wa && (
+                <a className="contact-btn" href={whatsappLink(s, { number: wa, treatment: keyword, category, lang })}
+                  target="_blank" rel="noopener noreferrer" style={{ background: '#128C7E' }}
+                  onClick={() => recordContact(s.id)}
+                  aria-label={`${t('open_whatsapp')} ${s.name}`}>
+                  <WhatsAppIcon /><span>{t('open_whatsapp')}</span>
+                </a>
+              )}
+            </div>
           </div>
-          {!productName && (
-            <div className="muted" style={{ fontSize: 13 }}>{t('shops_sells')}: {s.products.join(', ')}</div>
-          )}
-          <div className="row" style={{ gap: 12 }}>
-            <a className="contact-btn" href={telLink(s)} style={{ background: 'var(--green)' }}
-              onClick={() => handleCallClick(s.id)}
-              aria-label={`${t('call_shop')} ${s.name}`}>
-              <PhoneIcon /><span>{t('call_shop')}</span>
-            </a>
-            <a className="contact-btn" href={whatsappLink(s, productName || s.products[0], lang)}
-              target="_blank" rel="noopener noreferrer" style={{ background: '#128C7E' }}
-              onClick={() => handleWhatsAppClick(s.id)}
-              aria-label={`${t('open_whatsapp')} ${s.name}`}>
-              <WhatsAppIcon /><span>{t('open_whatsapp')}</span>
-            </a>
-          </div>
-        </div>
-      ))}
+        );
+      })}
+
+      {remaining > 0 && (
+        <button
+          className="btn btn--tint btn--block"
+          onClick={() => setVisible((v) => v + PAGE_SIZE)}
+          style={{ marginTop: 4 }}
+        >
+          {t('shops_show_more')} ({remaining})
+        </button>
+      )}
+      <p className="muted center" style={{ fontSize: 12, margin: '2px 0 0' }}>
+        {t('shops_showing')} {paged.length}/{sorted.length}
+      </p>
+
+      {detail && (
+        <VendorDetailSheet
+          vendor={detail}
+          category={category}
+          keyword={keyword}
+          onClose={() => setDetail(null)}
+        />
+      )}
     </div>
   );
 }

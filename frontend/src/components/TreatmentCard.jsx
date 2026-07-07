@@ -3,6 +3,7 @@ import { useLang } from '../i18n.jsx';
 import useSuccessRates from './useSuccessRates';
 import SupplierSheet from './SupplierSheet.jsx';
 import { totalSprayNote, isSprayBased, detectVessel, purchaseNote } from '../data/farmSize.js';
+import { TREATMENT_CATEGORY } from '../data/vendorCategories';
 
 export default function TreatmentCard({ treatment, region, loads }) {
   const { t, pick, lang } = useLang();
@@ -80,7 +81,7 @@ export default function TreatmentCard({ treatment, region, loads }) {
       <button className="btn btn--block" onClick={() => setShowShops(true)}>🏪 {t('find_suppliers')}</button>
 
       {showShops && (
-        <SupplierSheet region={region} productName={treatment.name} onClose={() => setShowShops(false)} />
+        <SupplierSheet region={region} productName={treatment.name} category={TREATMENT_CATEGORY} onClose={() => setShowShops(false)} />
       )}
     </div>
   );

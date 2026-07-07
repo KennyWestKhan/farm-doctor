@@ -1,0 +1,268 @@
+{
+  "10 Alogboshie Street, Achimota, Ghana": {
+    "lat": 5.62767,
+    "lng": -0.23323,
+    "region": "greater_accra"
+  },
+  "114 Teak Avenue, East Legon, Ghana": {
+    "lat": 5.63698,
+    "lng": -0.14555,
+    "region": "greater_accra"
+  },
+  "119 Westlands Boulevard, Ghana": null,
+  "127B Spintex Road, Ghana": {
+    "lat": 5.62883,
+    "lng": -0.0902,
+    "region": "greater_accra"
+  },
+  "15 Asoyi Cres, Accra, Ghana": null,
+  "19 Banana Avenue, East Legon, Ghana": {
+    "lat": 5.64514,
+    "lng": -0.15077,
+    "region": "greater_accra"
+  },
+  "21 Lanma Street , Accra, Ghana": null,
+  "213 Jasmine Street, Dome Pillar 2, Ghana": null,
+  "33 Mampong Road, Kumasi, Ghana": {
+    "lat": 6.70471,
+    "lng": -1.62423,
+    "region": "ashanti"
+  },
+  "4th Giffard Street, Accra, Ghana": null,
+  "57 Onyankle Street, Abelenkpe, Ghana": {
+    "lat": 5.60413,
+    "lng": -0.2163,
+    "region": "greater_accra"
+  },
+  "666/14 Kwe Okyerema Street, Dzorwulu, Ghana": null,
+  "7 Dzorwulu Crescent, Ghana": {
+    "lat": 5.61234,
+    "lng": -0.20637,
+    "region": "greater_accra"
+  },
+  "81 Boundary Road, Madina, Ghana": {
+    "lat": 5.65016,
+    "lng": -0.15046,
+    "region": "greater_accra"
+  },
+  "A1 Odum Road, Manet Cottage, Spintex Road, Ghana": null,
+  "Abodu Near Pentecost Church, Ghana": null,
+  "Accra Mall, Spintex Road, Ghana": {
+    "lat": 5.62218,
+    "lng": -0.17294,
+    "region": "greater_accra"
+  },
+  "Accra, Ghana": {
+    "lat": 5.55711,
+    "lng": -0.20124,
+    "region": "greater_accra"
+  },
+  "Accra, Tamale, Techiman, Ghana": null,
+  "Achimota, Ghana": {
+    "lat": 5.6242,
+    "lng": -0.22768,
+    "region": "greater_accra"
+  },
+  "Afram Plains, Ghana": {
+    "lat": 7.04387,
+    "lng": -0.07967,
+    "region": "eastern"
+  },
+  "Agbogba-Ashonmang Road, Ghana": null,
+  "Ashaiman, Ghana": {
+    "lat": 5.69438,
+    "lng": -0.02953,
+    "region": "greater_accra"
+  },
+  "Asustaure, Ghana": null,
+  "Asutsuare, Ghana": {
+    "lat": 6.09254,
+    "lng": 0.19499,
+    "region": "greater_accra"
+  },
+  "Cantoments, Ghana": {
+    "lat": 5.57077,
+    "lng": -0.1766,
+    "region": "greater_accra"
+  },
+  "Circle, Ghana": {
+    "lat": 5.56991,
+    "lng": -0.21552,
+    "region": "greater_accra"
+  },
+  "Dansoman, Mr Mensah 6th Aotey Obour Link, Ghana": null,
+  "Desert Lion House, East Legon, Ghana": null,
+  "Dzorwulu, Ghana": {
+    "lat": 5.61231,
+    "lng": -0.20384,
+    "region": "greater_accra"
+  },
+  "East Legon, Ghana": {
+    "lat": 5.63548,
+    "lng": -0.16172,
+    "region": "greater_accra"
+  },
+  "Firestone, Legon-Madina High Road, Ghana": null,
+  "Fumesua, Kumasi, Ghana": null,
+  "George Walker Bush (N1) Highway, Opposite Nogahil Hotel, Accra, Ghana": null,
+  "Haatso, Ghana": {
+    "lat": 5.67068,
+    "lng": -0.20335,
+    "region": "greater_accra"
+  },
+  "House No. 3 Adom link: Off Volta Road, Airport-Accra, Ghana": null,
+  "Kajetia, Opposite Okonfo Anokye Polyclinic Kumasi, Ghana": null,
+  "Kumasi, Ghana": {
+    "lat": 6.69856,
+    "lng": -1.62331,
+    "region": "ashanti"
+  },
+  "Legon, Ghana": {
+    "lat": 5.64766,
+    "lng": -0.19603,
+    "region": "greater_accra"
+  },
+  "Madina Zongo Junction, Opposite Aide Chemist, Lybia quarters lane, Ghana": null,
+  "Newtown, Ashanti Mampong, Ghana": null,
+  "Nii Amon Link, Accra, Ghana": {
+    "lat": 5.63705,
+    "lng": -0.15867,
+    "region": "greater_accra"
+  },
+  "No. 14 Narku Ipan Road near Nyaho Clinic, Ghana": null,
+  "No. 2 Feo Eyeo Road, North Industrial Area, Ghana": null,
+  "No. 3 Boulevard Street, West Legon, Ghana": null,
+  "No. 666/14 Nii Noi Kwame Street, Dzorwulu, Ghana": null,
+  "No. 7 Adembra Road, East Cantoments, Ghana": null,
+  "No.2 Borstal Avenue, Roman Ridge, Ghana": {
+    "lat": 5.6061,
+    "lng": -0.19065,
+    "region": "greater_accra"
+  },
+  "Ohwimase Kwadaso, Kumasi, Ghana": null,
+  "Spintex Road, Motorway Industrial Estate, Baatsona, Behind Coco Cola Bottling Plant, Ghana": null,
+  "Spintex, Ghana": {
+    "lat": 5.62883,
+    "lng": -0.0902,
+    "region": "greater_accra"
+  },
+  "Tamale, Ghana": {
+    "lat": 9.4052,
+    "lng": -0.8424,
+    "region": "northern"
+  },
+  "Tema Community 1, 8 Obedeka Road, Tema, Ghana": null,
+  "Tema Community 25, Ghana": {
+    "lat": 5.72228,
+    "lng": 0.01893,
+    "region": "greater_accra"
+  },
+  "Tema, Ghana": {
+    "lat": 5.65964,
+    "lng": -0.00968,
+    "region": "greater_accra"
+  },
+  "Tema, Industrial Area, Ghana": {
+    "lat": 5.67217,
+    "lng": 0.00562,
+    "region": "greater_accra"
+  },
+  "The Courtyard, Ndabaningi Sithole Road, Labone, Ghana": null,
+  "Trade Fair, La, Ghana": {
+    "lat": 5.56947,
+    "lng": -0.1474,
+    "region": "greater_accra"
+  },
+  "Tse Addo High Street, Ghana": {
+    "lat": 5.58583,
+    "lng": -0.14143,
+    "region": "greater_accra"
+  },
+  "abodu, Ghana": null,
+  "accra, Ghana": {
+    "lat": 5.55711,
+    "lng": -0.20124,
+    "region": "greater_accra"
+  },
+  "agbogba, Ghana": {
+    "lat": 5.69186,
+    "lng": -0.19845,
+    "region": "greater_accra"
+  },
+  "asustaure, Ghana": null,
+  "cantoment, Ghana": {
+    "lat": 5.5842,
+    "lng": -0.16064,
+    "region": "greater_accra"
+  },
+  "dansoman, Ghana": {
+    "lat": 5.54485,
+    "lng": -0.26807,
+    "region": "greater_accra"
+  },
+  "dome, Ghana": {
+    "lat": 5.65542,
+    "lng": -0.23288,
+    "region": "greater_accra"
+  },
+  "dzorwulu, Ghana": {
+    "lat": 5.61231,
+    "lng": -0.20384,
+    "region": "greater_accra"
+  },
+  "industrial area, Ghana": {
+    "lat": 5.56436,
+    "lng": -0.22195,
+    "region": "greater_accra"
+  },
+  "kumasi, Ghana": {
+    "lat": 6.69856,
+    "lng": -1.62331,
+    "region": "ashanti"
+  },
+  "la, Ghana": {
+    "lat": 5.56023,
+    "lng": -0.15764,
+    "region": "greater_accra"
+  },
+  "labone, Ghana": {
+    "lat": 5.56982,
+    "lng": -0.17208,
+    "region": "greater_accra"
+  },
+  "legon, Ghana": {
+    "lat": 5.64766,
+    "lng": -0.19603,
+    "region": "greater_accra"
+  },
+  "madina, Ghana": {
+    "lat": 5.6865,
+    "lng": -0.16771,
+    "region": "greater_accra"
+  },
+  "mampong, Ghana": {
+    "lat": 7.05614,
+    "lng": -1.40425,
+    "region": "ashanti"
+  },
+  "nyaho, Ghana": {
+    "lat": 5.6149,
+    "lng": -0.18502,
+    "region": "greater_accra"
+  },
+  "spintex, Ghana": {
+    "lat": 5.62883,
+    "lng": -0.0902,
+    "region": "greater_accra"
+  },
+  "tamale, Ghana": {
+    "lat": 9.4052,
+    "lng": -0.8424,
+    "region": "northern"
+  },
+  "tema, Ghana": {
+    "lat": 5.65964,
+    "lng": -0.00968,
+    "region": "greater_accra"
+  }
+}

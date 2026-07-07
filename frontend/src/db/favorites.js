@@ -12,7 +12,7 @@
 import { openDB } from 'idb';
 
 const DB_NAME = 'farm-doctor';
-const DB_VERSION = 4;
+const DB_VERSION = 5;
 
 let _dbPromise = null;
 
@@ -47,6 +47,12 @@ function db() {
         // v4 store — cached treatment success rates from Supabase
         if (!database.objectStoreNames.contains('successRates')) {
           database.createObjectStore('successRates', { keyPath: 'key' });
+        }
+
+        // v5 store — cached vendor directory from Supabase (bundled seed is the
+        // offline baseline; this holds the latest synced copy)
+        if (!database.objectStoreNames.contains('vendors')) {
+          database.createObjectStore('vendors', { keyPath: 'id' });
         }
       },
       terminated() { _dbPromise = null; },
