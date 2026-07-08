@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLang } from '../i18n.jsx';
 import { LangToggle, NetDot } from '../components/Chrome.jsx';
+import { useOnline } from '../components/useOnline';
 import { useAuth } from '../auth/useAuth.js';
 import { getRecentReports } from '../db/storage';
 import { getCrop, getDisease, REGIONS, ALL_DISEASES } from '../data/diseaseDatabase';
@@ -41,6 +42,7 @@ export default function Home() {
   const { t, pick } = useLang();
   const nav = useNavigate();
   const { user } = useAuth();
+  const online = useOnline();
   const [recent, setRecent] = useState([]);
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
@@ -149,27 +151,53 @@ export default function Home() {
       </div>
 
       <div className="stagger" style={{ padding: '18px 18px 0' }}>
-        {/* Primary CTA */}
-        <button className="card" onClick={() => nav('/diagnose')} style={{ background: 'var(--green-tint)', display: 'flex', alignItems: 'center', gap: 14 }}>
-          <span style={{ fontSize: 38 }}>🔍</span>
-          <span style={{ flex: 1 }}>
-            <strong style={{ fontFamily: 'var(--font-display)', fontSize: 19, color: 'var(--green-deep)', display: 'block' }}>
-              {t('home_diagnose_cta')}
-            </strong>
-            <span className="muted" style={{ fontSize: 14 }}>{t('home_prompt')}</span>
-          </span>
-          <span style={{ fontSize: 22, color: 'var(--green)' }}>→</span>
-        </button>
+        {/* Primary action = camera scan (fastest, AI-powered). When offline the
+            AI is unreachable, so we lead with the symptom questionnaire instead
+            and mark the camera as needing internet. */}
+        {online ? (
+          <>
+            <button className="card" onClick={() => nav('/scan/crop')} style={{ background: 'var(--green-tint)', display: 'flex', alignItems: 'center', gap: 14 }}>
+              <span style={{ fontSize: 38 }}>📷</span>
+              <span style={{ flex: 1 }}>
+                <strong style={{ fontFamily: 'var(--font-display)', fontSize: 19, color: 'var(--green-deep)', display: 'block' }}>
+                  {t('scan_crop_title')}
+                </strong>
+                <span className="muted" style={{ fontSize: 14 }}>{t('home_scan_desc')}</span>
+              </span>
+              <span style={{ fontSize: 22, color: 'var(--green)' }}>→</span>
+            </button>
+            <button className="card" onClick={() => nav('/diagnose')} style={{ marginTop: 14, display: 'flex', alignItems: 'center', gap: 14 }}>
+              <span style={{ fontSize: 34 }}>📋</span>
+              <span style={{ flex: 1 }}>
+                <strong style={{ fontFamily: 'var(--font-display)', fontSize: 18, display: 'block' }}>{t('home_questions_cta')}</strong>
+                <span className="muted" style={{ fontSize: 13 }}>{t('home_questions_desc')}</span>
+              </span>
+              <span style={{ fontSize: 22, color: 'var(--green)' }}>→</span>
+            </button>
+          </>
+        ) : (
+          <>
+            <button className="card" onClick={() => nav('/diagnose')} style={{ background: 'var(--green-tint)', display: 'flex', alignItems: 'center', gap: 14 }}>
+              <span style={{ fontSize: 38 }}>📋</span>
+              <span style={{ flex: 1 }}>
+                <strong style={{ fontFamily: 'var(--font-display)', fontSize: 19, color: 'var(--green-deep)', display: 'block' }}>
+                  {t('home_questions_cta')}
+                </strong>
+                <span className="muted" style={{ fontSize: 14 }}>{t('home_questions_offline_desc')}</span>
+              </span>
+              <span style={{ fontSize: 22, color: 'var(--green)' }}>→</span>
+            </button>
+            <button className="card" onClick={() => nav('/scan/crop')} style={{ marginTop: 14, display: 'flex', alignItems: 'center', gap: 14, opacity: 0.6 }}>
+              <span style={{ fontSize: 34 }}>📷</span>
+              <span style={{ flex: 1 }}>
+                <strong style={{ fontFamily: 'var(--font-display)', fontSize: 18, display: 'block' }}>{t('scan_crop_title')}</strong>
+                <span className="muted" style={{ fontSize: 13 }}>{t('home_scan_needs_net')}</span>
+              </span>
+              <span style={{ fontSize: 22, color: 'var(--green)' }}>→</span>
+            </button>
+          </>
+        )}
 
-        {/* Scan actions — one tap to camera */}
-        <button className="card" onClick={() => nav('/scan/crop')} style={{ marginTop: 14, display: 'flex', alignItems: 'center', gap: 14 }}>
-          <span style={{ fontSize: 34 }}>🌿</span>
-          <span style={{ flex: 1 }}>
-            <strong style={{ fontFamily: 'var(--font-display)', fontSize: 18, display: 'block' }}>{t('scan_crop_title')}</strong>
-            <span className="muted" style={{ fontSize: 13 }}>{t('scan_crop_desc_short')}</span>
-          </span>
-          <span style={{ fontSize: 22, color: 'var(--green)' }}>→</span>
-        </button>
         <button className="card" onClick={() => nav('/scan/label')} style={{ marginTop: 8, display: 'flex', alignItems: 'center', gap: 14 }}>
           <span style={{ fontSize: 34 }}>🏷️</span>
           <span style={{ flex: 1 }}>
@@ -203,7 +231,7 @@ export default function Home() {
                   <button
                     key={d.id}
                     className="card row"
-                    onClick={() => nav('/diagnose', { state: { cropId: d.cropId } })}
+                    onClick={() => nav(`/disease/${d.id}`)}
                     style={{ padding: 12, gap: 12, textAlign: 'left' }}
                   >
                     <span style={{ fontSize: 28 }}>{crop?.emoji}</span>

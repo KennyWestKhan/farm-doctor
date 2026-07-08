@@ -10,7 +10,10 @@ export default function SymptomChecklist({ cropId, onDone, onBack }) {
   const [answers, setAnswers] = useState({});
 
   const setAnswer = (key, val) => setAnswers((a) => ({ ...a, [key]: val }));
-  const hasSignal = Object.values(answers).some((v) => v === ANSWER.YES);
+  // Enable once every question has an answer — "Not sure"/"No" throughout is a
+  // valid response (it just yields a low-confidence result that defers to the
+  // camera/Vision path), so requiring a "Yes" would wrongly trap the user.
+  const allAnswered = questions.every((q) => answers[q.key] != null);
 
   const OPTIONS = [
     { val: ANSWER.YES, label: t('yes'), cls: 'pill--green' },
@@ -51,7 +54,7 @@ export default function SymptomChecklist({ cropId, onDone, onBack }) {
       </div>
 
       <div className="sticky-cta" style={{ marginTop: 18 }}>
-        <button className="btn btn--block" onClick={() => onDone(answers)} disabled={!hasSignal}>
+        <button className="btn btn--block" onClick={() => onDone(answers)} disabled={!allAnswered}>
           {t('see_result')} →
         </button>
       </div>
