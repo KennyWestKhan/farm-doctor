@@ -17,9 +17,21 @@
 import { db } from './favorites';
 import { supabase } from './supabase';
 
-const uid = () =>
-  (crypto.randomUUID && crypto.randomUUID()) ||
-  `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+// Always returns a valid UUID v4. crypto.randomUUID only exists in Chrome 92+
+// (2021); on the older Android WebViews we target, we fall back to a hand-built
+// v4 from getRandomValues (or Math.random as a last resort). This matters because
+// report ids are written to a `uuid` column server-side (validations.report_id) —
+// a non-UUID id silently breaks the treatment-validation loop on old devices.
+const uid = () => {
+  if (typeof crypto !== 'undefined' && crypto.randomUUID) return crypto.randomUUID();
+  const b = new Uint8Array(16);
+  if (typeof crypto !== 'undefined' && crypto.getRandomValues) crypto.getRandomValues(b);
+  else for (let i = 0; i < 16; i++) b[i] = Math.floor(Math.random() * 256);
+  b[6] = (b[6] & 0x0f) | 0x40; // version 4
+  b[8] = (b[8] & 0x3f) | 0x80; // variant 10
+  const h = [...b].map((x) => x.toString(16).padStart(2, '0'));
+  return `${h[0]}${h[1]}${h[2]}${h[3]}-${h[4]}${h[5]}-${h[6]}${h[7]}-${h[8]}${h[9]}-${h[10]}${h[11]}${h[12]}${h[13]}${h[14]}${h[15]}`;
+};
 
 // ---- reports -------------------------------------------------------------
 
