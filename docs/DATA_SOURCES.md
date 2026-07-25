@@ -76,11 +76,17 @@ Each validation record contains:
 **License:** CC BY 4.0
 **Usage:** Live fetch per region (one representative coordinate per region) on the Result screen; not cached, not stored. Falls back to static guidance when offline or the request fails.
 
-### Supplier Location Data (Demo)
+### Agro-Input Supplier Directory
 
-**Type:** Seeded demonstration data
-**Format:** JSON (`frontend/src/data/suppliers.js`)
-**Status:** Placeholder — 13 demo suppliers with fictional WhatsApp numbers (`+23355000XXXX`). Coordinates are approximate town centres. To be replaced with verified agro-dealer contacts before farmer-facing deployment.
+**Type:** Compiled directory of real Ghanaian agro-input suppliers
+**Format:** Bundled JSON offline baseline (`frontend/src/data/vendors.seed.json`) + Supabase `vendors` table (live sync)
+**Ghanaian:** Yes — Ghana-based agro-input businesses
+
+A directory of 69 real agro-input suppliers across ten categories (agrochemicals, fertilizer, seeds, irrigation, mechanization, tools, drone spraying, vehicles, logistics, labour), each with business name, phone(s), address, region, and input categories. Compiled from an agro-input vendor listing, then cleaned by a reproducible pipeline (`scripts/build-vendors.py`): de-duplicated across categories, phone numbers parsed and classified (mobile numbers are WhatsApp-capable, landlines are call-only), and addresses geocoded at build time via OpenStreetMap/Nominatim.
+
+**Privacy handling:** the bundled offline copy is redacted — it carries business name, phones, address and categories, but **not** contact-person names or emails. The raw source file and the full database seed are excluded from version control. Contact-person and email fields, where shown, are served only at runtime.
+
+**Status:** Functional in production, filterable by input type and region. Rights to publish specific contact details are being confirmed; the directory is presented as a demonstration of the supplier-linkage capability, and individual contacts can be restricted or replaced without code changes.
 
 ## Data Ethics
 
@@ -96,7 +102,7 @@ Each validation record contains:
 
 - **Uneven regional coverage.** Disease prevalence and seasonality data currently exists for only 5 of Ghana's 16 regions (Ashanti, Greater Accra, Western, Volta, Northern). Farmers in the other 11 regions still get full diagnosis, supplier, and report functionality, but won't see a regional risk note or home-screen alert — the app does not claim regional confidence it doesn't have, and this gap is documented in the README's Known Limitations rather than silently masked.
 - **Crop coverage skew.** 6 crops are covered in depth (23 diseases); major staples like maize, rice, plantain, and tomato are not yet included. The offline matcher and Claude Vision prompt both explicitly reject crops outside this list rather than guessing, to avoid confidently misdiagnosing an unsupported crop.
-- **Translation quality bias.** All Twi strings are first-draft machine/human-assisted translations pending native-speaker review (tracked in `TWI_REVIEW_QUEUE` in `diseaseDatabase.js`). Until reviewed, Twi-speaking farmers may receive lower-quality guidance than English-speaking farmers — this is flagged in-repo as a pre-launch blocker, not treated as production-ready.
+- **Translation quality.** Twi content across the app has been reviewed by a native Twi speaker (July 2026), so Twi-speaking farmers get guidance of comparable quality to English. New strings added after a review pass are checked before release.
 - **Photo-quality bias.** The Claude Vision prompt is explicitly tuned for low-resolution, badly-lit, angled photos from older budget Android phones (common across rural Ghana) rather than assuming high-end camera hardware, to avoid the system underperforming for farmers with older devices.
 - **Confidence thresholding.** Both the offline matcher and Claude Vision diagnoses surface a confidence score and explicitly label low-confidence results as "not fully sure" rather than presenting a guess as certain — this is a deliberate design choice to avoid false confidence driving an incorrect (and potentially costly or unsafe) chemical treatment decision.
 - **No demographic data collected.** The app does not collect age, gender, education level, or income data from farmers, so it cannot — and does not attempt to — personalize or restrict recommendations based on those attributes.
@@ -114,3 +120,19 @@ The validation pipeline stores data in the Supabase instance documented in the b
 ```
 backend/schema.sql → treatment_success_rates
 ```
+
+The supplier directory is regenerated from source by:
+
+```
+scripts/build-vendors.py   →  frontend/src/data/vendors.seed.json + supabase/vendors.sql
+```
+
+## Offline Matcher — Accuracy Benchmark
+
+The on-device symptom matcher is evaluated against a labelled case set (23 full-symptom profiles + 28 partial/noisy/ambiguous farmer-style reports). Metrics and the labelled cases are defined in `frontend/src/engine/matcherBench.js`; run the report with:
+
+```
+cd frontend && npm run bench:matcher
+```
+
+Latest results (51 cases): 100% top-1 accuracy, 100% precision on confident-tier predictions, 100% defer-to-AI recall on ambiguous cases, well-separated confidence when correct vs uncertain. These cases are authored from expert symptom knowledge, so they validate the matcher's scoring and decision logic — not real-world field-photo accuracy, which the Claude Vision tier and the farmer validation loop address. The benchmark also runs in CI as a regression guard.

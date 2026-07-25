@@ -13,6 +13,7 @@ import { getSavedRegion } from '../utils/prefs';
 import { bumpScanCount } from '../utils/scanCount.js';
 import { sanitizeText, LIMITS } from '../utils/sanitize.js';
 import { apiFetch } from '../utils/apiFetch.js';
+import { warmBackend } from '../utils/warmBackend.js';
 import ReviewPrompt from '../components/ReviewPrompt.jsx';
 
 const API = import.meta.env.VITE_API_URL || '';
@@ -51,6 +52,7 @@ export default function ScanCrop() {
       nav('/diagnose', { replace: true });
       return;
     }
+    warmBackend(); // re-wake the backend while the farmer frames the shot
     const t = setTimeout(() => inputRef.current?.click(), 120);
     return () => clearTimeout(t);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps

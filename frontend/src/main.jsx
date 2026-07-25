@@ -5,6 +5,7 @@ import './styles/theme.css';
 import { LanguageProvider } from './i18n.jsx';
 import { AuthProvider } from './auth/AuthContext.jsx';
 import { startSync } from './db/sync';
+import { warmBackend } from './utils/warmBackend';
 import App from './App.jsx';
 
 // When a redeployed build's service worker takes over, reload once so the
@@ -22,6 +23,9 @@ if ('serviceWorker' in navigator) {
 }
 
 startSync();
+// Give the (Render free-tier) backend a head start on waking before the farmer
+// reaches a scan — avoids a ~50s cold start on the first live diagnosis.
+warmBackend();
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

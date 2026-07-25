@@ -211,7 +211,7 @@ environment before building — changing them later needs a rebuild.
 - **Crops (6):** chilli pepper, cassava, sweet potato, groundnut, ginger, cocoa
 - **Diseases (23):** with symptoms, regional prevalence, seasonality, treatments
 - **Regions (16):** all of Ghana's regions selectable app-wide (location, shops, reports, dashboard). Disease prevalence/seasonality data and the spray-timing advisory currently cover the original 5 MVP regions (Ashanti, Greater Accra, Western, Volta, Northern) in full; the other 11 work for diagnosis, shops and reports but don't yet show a regional risk note or home alert.
-- **Suppliers (13 seeded)** across the 5 MVP regions with WhatsApp deep links
+- **Suppliers (69 real agro-input vendors)** across 10 categories (agrochemicals, fertilizer, seeds, irrigation, mechanization, and more), filterable by input type and region, with call / WhatsApp links
 - **Storage guidance** for all 4 original crops (drying, storage method, spoilage signs, shelf life)
 
 ## Data sources
@@ -221,7 +221,7 @@ environment before building — changing them later needs a rebuild.
 | Disease knowledge (symptoms, treatments, regional prevalence, seasonality) | Expert-curated from CSIR/SARI extension guidance, MOFA Directorate of Crop Services materials, IITA cassava disease resources, CRI root crop publications | In-app JSON (`frontend/src/data/diseaseDatabase.js`) |
 | Farmer treatment validations                                               | Self-collected via in-app "Did it work?" feedback form                                                                                                    | IndexedDB → Supabase `validations` table             |
 | App reviews                                                                | Self-collected star ratings + comments                                                                                                                    | Supabase `reviews` table                             |
-| Supplier locations                                                         | Seeded demo data (placeholder)                                                                                                                            | In-app JSON (`frontend/src/data/suppliers.js`)       |
+| Agro-input supplier directory                                              | Real Ghanaian vendors (69 across 10 categories); cleaned + geocoded by `scripts/build-vendors.py`                                                          | Bundled JSON (`frontend/src/data/vendors.seed.json`) + Supabase `vendors` table |
 | Treatment success rates                                                    | Live from Supabase `treatment_success_rates` view; seeded fallback for dashboard demo mode                                                                | Supabase view + cached in IndexedDB                  |
 | Map tiles                                                                  | OpenStreetMap (© contributors)                                                                                                                            | Runtime cache via service worker                     |
 | Spray-timing forecast                                                      | [Open-Meteo](https://open-meteo.com) (free, no API key)                                                                                                    | Live fetch per region, no caching                    |
@@ -297,10 +297,10 @@ The offline-first architecture keeps costs low: most diagnoses happen on-device 
 
 ## Known limitations
 
-- Twi translations have been reviewed by a native Twi speaker (July 2026). Strings added after that review are flagged in `TWI_REVIEW_QUEUE` in `diseaseDatabase.js` until they're signed off too.
-- Supplier data is placeholder (seeded with demo WhatsApp numbers).
+- Twi content has been reviewed by a native Twi speaker (July 2026).
+- Supplier directory is a real compiled list of Ghanaian agro-input vendors. Publishing rights on specific contact details are being confirmed; contact-person names and emails are kept out of the bundled/committed data and individual entries can be restricted without code changes.
 - Dashboard defaults to live data (which may be zero initially). A demo toggle lets judges preview the dashboard at scale. Treatment success rates on diagnosis cards pull from the live `treatment_success_rates` Supabase view.
-- Offline matcher is rule-based (not ML) — a deliberate choice for reliability on low-end devices with no connectivity. Accuracy benchmarking against field-collected cases is in progress.
+- Offline matcher is rule-based (not ML) — a deliberate choice for reliability on low-end devices with no connectivity. Accuracy is benchmarked on 51 labelled cases (100% top-1, 100% defer-to-AI on ambiguous inputs); run `npm run bench:matcher`. Cases are authored from expert symptom knowledge, so they validate the scoring/decision logic — field-photo accuracy is handled by the Vision tier and the farmer validation loop.
 - Currently covers 6 crops / 23 diseases. Expansion to additional Ghanaian staples (maize, rice, plantain, tomato) is planned.
 - Spray-timing advisory uses a single representative coordinate per region (not farm-precise GPS) and a simplified rain/heat heuristic — good enough for go/no-go guidance, not a precision ag tool.
 - All 16 Ghana regions are selectable, but disease prevalence/seasonality data (and therefore regional risk notes + home alerts) only exists for the 5 original MVP regions. The other 11 still get full diagnosis, supplier, and report functionality.
