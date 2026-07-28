@@ -61,27 +61,21 @@ async function computeLiveStats() {
     fetchSuccessRates(),
   ]);
 
-  let diagnoses, farmers, regionCounts, diseaseCounts, regions, last7;
+  let diagnoses, farmers, regionCounts, diseaseCounts;
   if (impact) {
     diagnoses = impact.diagnoses;
     farmers = impact.farmers;         // real signup count (auth.users)
     regionCounts = impact.regionCount;
     diseaseCounts = impact.diseaseCount;
-    regions = impact.regions;
-    last7 = impact.last7;
   } else {
     diagnoses = localReports.length;
     farmers = 0;
     regionCounts = {};
     diseaseCounts = {};
-    const weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
-    last7 = 0;
     for (const r of localReports) {
       if (r.region) regionCounts[r.region] = (regionCounts[r.region] || 0) + 1;
       if (r.topDiseaseId) diseaseCounts[r.topDiseaseId] = (diseaseCounts[r.topDiseaseId] || 0) + 1;
-      if (r.createdAt && Date.parse(r.createdAt) >= weekAgo) last7 += 1;
     }
-    regions = Object.keys(regionCounts).length;
   }
 
   // Aggregate validations + success rate across all treatments/regions, and
@@ -115,7 +109,7 @@ async function computeLiveStats() {
     .sort((a, b) => b.count - a.count)
     .slice(0, 4);
 
-  return { diagnoses, validations, avgSuccess, farmersTested: farmers, regions, last7, byRegion, topDiseases };
+  return { diagnoses, validations, avgSuccess, farmersTested: farmers, byRegion, topDiseases };
 }
 
 export default function Dashboard() {
@@ -131,12 +125,11 @@ export default function Dashboard() {
     return () => { live = false; };
   }, []);
 
-  const demoStats = { ...dashboardStats(), regions: 5, last7: 128 };
-  const stats = demo ? demoStats : (live || { diagnoses: 0, validations: 0, avgSuccess: 0, farmersTested: 0, regions: 0, last7: 0 });
+  const demoStats = dashboardStats();
+  const stats = demo ? demoStats : (live || { diagnoses: 0, validations: 0, avgSuccess: 0, farmersTested: 0 });
   const topDiseases = demo ? DEMO_TOP_DISEASES : (live?.topDiseases || []);
   const byRegion = demo ? DEMO_BY_REGION : (live?.byRegion || []);
   const valueSaved = demo ? (demoStats.farmersTested * 0.5 * 5000).toLocaleString() : '0';
-  const hasLiveData = live && live.diagnoses > 0;
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--bg)' }}>
@@ -169,9 +162,7 @@ export default function Dashboard() {
               <div className="muted" style={{ fontSize: 12, marginTop: 2 }}>
                 {demo
                   ? 'Illustrative numbers showing what the dashboard looks like at scale'
-                  : hasLiveData
-                    ? `${live.diagnoses} real ${live.diagnoses === 1 ? 'diagnosis' : 'diagnoses'} from the app`
-                    : 'No farmer data collected yet. Toggle to see a demo preview.'}
+                  : `${live?.diagnoses || 0} real ${live?.diagnoses === 1 ? 'diagnosis' : 'diagnoses'} from the app`}
               </div>
             </div>
             <button
@@ -193,8 +184,6 @@ export default function Dashboard() {
             <Kpi big={stats.validations} label="Validations" />
             <Kpi big={stats.avgSuccess ? `${stats.avgSuccess}%` : '—'} label="Avg success rate" />
             <Kpi big={stats.farmersTested} label="People reached" />
-            <Kpi big={stats.regions} label="Regions active" />
-            <Kpi big={stats.last7} label="Checks this week" />
           </div>
 
           {(topDiseases.length > 0 || byRegion.length > 0) && (
@@ -219,15 +208,6 @@ export default function Dashboard() {
                   </div>
                 </section>
               )}
-            </div>
-          )}
-
-          {!demo && !hasLiveData && (
-            <div className="card center" style={{ marginTop: 22, padding: 28 }}>
-              <div style={{ fontSize: 44, marginBottom: 10 }}>📊</div>
-              <p className="muted" style={{ margin: 0, lineHeight: 1.5 }}>
-                The dashboard populates as farmers use the app and submit treatment feedback. Toggle "Show demo" above to preview the dashboard at scale.
-              </p>
             </div>
           )}
 

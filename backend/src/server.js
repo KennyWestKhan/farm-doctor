@@ -24,7 +24,7 @@ import { createClient } from "@supabase/supabase-js";
 import { TextractClient } from "@aws-sdk/client-textract";
 import { VISION_SYSTEM_PROMPT } from "./prompt.js";
 import { sanitizeText } from "./sanitize.js";
-import { translateLabel } from "./labelTranslate.js";
+import { translateLabel, tesseractAvailable } from "./labelTranslate.js";
 
 // supabase-js spins up a realtime (WebSocket) client on creation. Node < 22 has
 // no global WebSocket, which throws even though we only do REST inserts. Provide
@@ -175,7 +175,8 @@ app.get("/api/health", (_req, res) => {
     ok: true,
     vision: !!anthropic,
     db: !!supabase,
-    ocr: !!textract,
+    ocr: !!textract || tesseractAvailable, // reflects real OCR availability
+    ocrEngine: textract ? "textract" : (tesseractAvailable ? "tesseract" : null),
     scanLimit: UNLIMITED_SCANS ? null : SCAN_LIMIT
   });
 });
@@ -267,10 +268,9 @@ app.post("/api/translate-label", scanLimiter, async (req, res) => {
   const { imageBase64, rawText, context = {} } = req.body || {};
   if (!imageBase64 && !rawText)
     return res.status(400).json({ error: "imageBase64 or rawText required" });
-  if (imageBase64 && !textract)
-    return res
-      .status(503)
-      .json({ error: "OCR not configured (missing AWS credentials)" });
+  // OCR an image needs Textract or the Tesseract fallback; text-only refine doesn't.
+  if (imageBase64 && !textract && !tesseractAvailable)
+    return res.status(503).json({ error: "OCR not available" });
   if (typeof imageBase64 === "string" && imageBase64.length > 8_000_000) {
     return res.status(413).json({ error: "image too large" });
   }

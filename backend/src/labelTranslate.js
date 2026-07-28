@@ -106,6 +106,43 @@ async function ocrWithTextract(textract, imageBytes) {
     .join('\n');
 }
 
+// Free OCR fallback (Tesseract.js) for when AWS Textract isn't configured. The
+// worker is lazily created once and reused for the process lifetime. The English
+// language data (~10 MB) is cached to disk (cachePath) so it's only downloaded
+// once and reused across restarts on the same instance — later cold starts read
+// from the cache instead of re-fetching. Textract, when available, stays the
+// primary path (faster + more accurate on labels).
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { mkdirSync } from 'node:fs';
+
+const TESSERACT_CACHE = join(tmpdir(), 'fd-tesseract-cache');
+let tesseractWorker = null;
+
+async function ocrWithTesseract(imageBytes) {
+  if (!tesseractWorker) {
+    const { createWorker } = await import('tesseract.js');
+    // The cache dir must exist for cachePath to take effect (Tesseract won't
+    // create it). Once present, the ~10 MB language data is written here on
+    // first download and reused afterwards.
+    mkdirSync(TESSERACT_CACHE, { recursive: true });
+    tesseractWorker = await createWorker('eng', 1, { cachePath: TESSERACT_CACHE });
+  }
+  const { data } = await tesseractWorker.recognize(imageBytes);
+  return (data?.text || '').trim();
+}
+
+// Whether the Tesseract fallback can be used at all (the package resolves).
+// Checked once at import; used by the health endpoint so `ocr` reflects real
+// availability rather than being hard-coded.
+export let tesseractAvailable = false;
+try {
+  await import('tesseract.js');
+  tesseractAvailable = true;
+} catch {
+  /* package missing — OCR falls back to Textract-only */
+}
+
 /**
  * @param {object} opts
  * @param {object} opts.anthropic  Anthropic client (required)
@@ -119,9 +156,9 @@ export async function translateLabel({ anthropic, textract, imageBase64, rawText
   // 1. Get the label text (OCR once; reuse on refine).
   let text = rawText;
   if (!text) {
-    if (!textract) throw new Error('OCR not configured');
     const bytes = Buffer.from(imageBase64, 'base64');
-    text = await ocrWithTextract(textract, bytes);
+    // Prefer Textract when configured; otherwise fall back to free Tesseract OCR.
+    text = textract ? await ocrWithTextract(textract, bytes) : await ocrWithTesseract(bytes);
   }
   if (!text || text.trim().length < 3) {
     return { product_name: 'Unknown', instructions: null, confidence: 0, unreadable: true, rawText: text || '' };
