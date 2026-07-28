@@ -424,13 +424,14 @@ app.post("/api/reports", writeLimiter, async (req, res) => {
   if (!rows.length) return res.json({ ok: true, inserted: 0 });
 
   try {
-    const { error } = await supabase
-      .from("reports")
-      .upsert(rows, { onConflict: "id", ignoreDuplicates: true });
+    // Plain upsert on the client id (same pattern as /api/reviews, which works
+    // on this backend). Re-syncing a report just updates its row. Avoids the
+    // `ignoreDuplicates` option, which this supabase-js version chokes on.
+    const { error } = await supabase.from("reports").upsert(rows, { onConflict: "id" });
     if (error) throw error;
     res.json({ ok: true, inserted: rows.length });
   } catch (err) {
-    console.error("reports insert error", err);
+    console.error("reports insert error", err?.message || err);
     res.status(500).json({ error: "Could not store reports" });
   }
 });
