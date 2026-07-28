@@ -4,6 +4,7 @@ import { useLang } from '../i18n.jsx';
 import { Header } from '../components/Chrome.jsx';
 import ScanLoading from '../components/ScanLoading.jsx';
 import { useOnline } from '../components/useOnline';
+import PhotoPickInputs, { openCamera, openGallery } from '../components/PhotoPickInputs.jsx';
 import { CROPS } from '../data/diseaseDatabase';
 import { checkPesticideStatus } from '../data/pesticideRegistry.js';
 import { sanitizeText, LIMITS } from '../utils/sanitize';
@@ -29,7 +30,8 @@ export default function ScanLabel() {
   const { t, pick, lang } = useLang();
   const nav = useNavigate();
   const online = useOnline();
-  const inputRef = useRef(null);
+  const cameraRef = useRef(null);
+  const galleryRef = useRef(null);
 
   const [step, setStep] = useState('intro'); // intro | loading | result | error
   const [result, setResult] = useState(null);
@@ -128,15 +130,17 @@ export default function ScanLabel() {
           )}
         </div>
 
-        <input ref={inputRef} type="file" accept="image/*" capture="environment" hidden
-          onChange={(e) => onPhoto(e.target.files?.[0])} />
+        <PhotoPickInputs onFile={onPhoto} cameraRef={cameraRef} galleryRef={galleryRef} />
 
-        <div className="sticky-cta" style={{ display: 'flex', gap: 10 }}>
+        <div className="sticky-cta stack">
           {step === 'error' && canRetry && (
-            <button className="btn btn--tint" style={{ flex: 1 }} onClick={retry}>↻ {t('try_again')}</button>
+            <button className="btn btn--tint btn--block" onClick={retry}>↻ {t('try_again')}</button>
           )}
-          <button className="btn btn--block" style={{ flex: 1 }} disabled={!canScan} onClick={() => inputRef.current?.click()}>
+          <button className="btn btn--block" disabled={!canScan} onClick={() => openCamera(cameraRef)}>
             📷 {t('scan_cta')}
+          </button>
+          <button className="btn btn--tint btn--block" disabled={!canScan} onClick={() => openGallery(galleryRef)}>
+            🖼️ {t('scan_upload')}
           </button>
         </div>
       </div>

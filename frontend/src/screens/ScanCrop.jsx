@@ -7,6 +7,7 @@ import DiagnosisDetail from '../components/DiagnosisDetail.jsx';
 import AiTag from '../components/AiTag.jsx';
 import ScanLoading from '../components/ScanLoading.jsx';
 import CropSelect from './CropSelect.jsx';
+import PhotoPickInputs, { openCamera, openGallery } from '../components/PhotoPickInputs.jsx';
 import { CROPS, getDisease, matchDiseaseByName } from '../data/diseaseDatabase';
 import { buildRegionalNote } from '../engine/symptomMatcher';
 import { saveReport, updateReport } from '../db/storage';
@@ -37,7 +38,8 @@ export default function ScanCrop() {
   const { t, pick } = useLang();
   const nav = useNavigate();
   const online = useOnline();
-  const inputRef = useRef(null);
+  const cameraRef = useRef(null);
+  const galleryRef = useRef(null);
 
   const savedCrops = getSavedCrops();
   const [step, setStep] = useState('crop'); // crop | capture | preview | loading | result | unclear
@@ -73,12 +75,10 @@ export default function ScanCrop() {
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // Warm the backend while the farmer picks take vs upload. Do not auto-open
+  // the camera — that forced capture and blocked gallery picks on phones.
   useEffect(() => {
-    if (step === 'capture' && canScan) {
-      warmBackend();
-      const tmr = setTimeout(() => inputRef.current?.click(), 120);
-      return () => clearTimeout(tmr);
-    }
+    if (step === 'capture' && canScan) warmBackend();
   }, [step, canScan]);
 
   const matchedId = vision ? resolveDiseaseId(cropId, vision) : null;
@@ -214,17 +214,11 @@ export default function ScanCrop() {
       .replaceAll('{detected}', cropLabel(cropId));
   }
 
-  const fileInput = (
-    <input
-      ref={inputRef}
-      type="file"
-      accept="image/*"
-      capture="environment"
-      hidden
-      onChange={(e) => {
-        onFilePicked(e.target.files?.[0]);
-        e.target.value = '';
-      }}
+  const fileInputs = (
+    <PhotoPickInputs
+      onFile={onFilePicked}
+      cameraRef={cameraRef}
+      galleryRef={galleryRef}
     />
   );
 
@@ -252,10 +246,13 @@ export default function ScanCrop() {
             <p className="muted" style={{ margin: 0 }}>{t('scan_crop_desc')}</p>
           </div>
         </div>
-        {fileInput}
-        <div className="sticky-cta">
-          <button className="btn btn--block" onClick={() => inputRef.current?.click()}>
+        {fileInputs}
+        <div className="sticky-cta stack">
+          <button className="btn btn--block" onClick={() => openCamera(cameraRef)}>
             📷 {t('scan_crop_cta')}
+          </button>
+          <button className="btn btn--tint btn--block" onClick={() => openGallery(galleryRef)}>
+            🖼️ {t('scan_crop_upload')}
           </button>
         </div>
       </div>
@@ -266,7 +263,7 @@ export default function ScanCrop() {
     return (
       <div className="screen page-enter" style={{ display: 'flex', flexDirection: 'column' }}>
         <Header title={t('scan_crop_title')} onBack={restart} />
-        {fileInput}
+        {fileInputs}
         <div className="stagger stack" style={{ marginTop: 6 }}>
           <div className="card center">
             <img
@@ -291,7 +288,8 @@ export default function ScanCrop() {
           </div>
         </div>
         <div className="sticky-cta" style={{ display: 'flex', gap: 10 }}>
-          <button className="btn btn--tint" onClick={() => inputRef.current?.click()} style={{ flex: 0 }}>📷</button>
+          <button className="btn btn--tint" onClick={() => openCamera(cameraRef)} style={{ flex: 0 }} aria-label={t('photo_retake')}>📷</button>
+          <button className="btn btn--tint" onClick={() => openGallery(galleryRef)} style={{ flex: 0 }} aria-label={t('photo_choose_other')}>🖼️</button>
           <button className="btn btn--block" onClick={submitPhoto} style={{ flex: 1 }}>{t('scan_crop_send')}</button>
         </div>
       </div>
@@ -302,7 +300,7 @@ export default function ScanCrop() {
     return (
       <div className="screen page-enter">
         <Header title={t('scan_crop_title')} onBack={restart} />
-        {fileInput}
+        {fileInputs}
         <ScanLoading
           icon="🔎"
           steps={[
@@ -320,7 +318,7 @@ export default function ScanCrop() {
     return (
       <div className="screen page-enter">
         <Header title={t('scan_crop_title')} onBack={restart} />
-        {fileInput}
+        {fileInputs}
         <div className="stagger stack">
           <div className="card center stack" style={{ marginTop: 8 }}>
             <div style={{ fontSize: 48 }}>{canRetry ? '⚠️' : '🤔'}</div>
@@ -331,6 +329,9 @@ export default function ScanCrop() {
           )}
           <button className={canRetry ? 'btn btn--tint btn--block' : 'btn btn--block'} onClick={restart}>
             📷 {t('scan_crop_cta')}
+          </button>
+          <button className="btn btn--tint btn--block" onClick={() => openGallery(galleryRef)}>
+            🖼️ {t('scan_crop_upload')}
           </button>
           <button className="btn btn--tint btn--block" onClick={goToQuestions}>
             📋 {t('scan_use_questions')}
@@ -343,7 +344,7 @@ export default function ScanCrop() {
   return (
     <div className="screen page-enter">
       <Header title={t('diagnosis')} onBack={() => nav('/')} action={<AiTag vision={vision} />} />
-      {fileInput}
+      {fileInputs}
       <div className="stagger">
         {cropMismatch && (
           <div

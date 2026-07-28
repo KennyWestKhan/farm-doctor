@@ -3,6 +3,7 @@ import { useLang } from '../i18n.jsx';
 import { Header } from '../components/Chrome.jsx';
 import YouTubeButton from '../components/YouTubeButton.jsx';
 import CameraCapture from '../components/CameraCapture.jsx';
+import PhotoPickInputs, { openCamera, openGallery } from '../components/PhotoPickInputs.jsx';
 
 const TIPS = [
   { icon: '☀️', key: 'photo_tip_daylight' },
@@ -13,13 +14,13 @@ const TIPS = [
 
 export default function PhotoGuide({ onPhoto, onSkip, onBack }) {
   const { t } = useLang();
-  const inputRef = useRef(null);
+  const cameraRef = useRef(null);
+  const galleryRef = useRef(null);
   // The in-app camera (framing reticle) is the default; it falls back to the
   // OS camera (the file input) on any error or on the user's request.
   const [showCamera, setShowCamera] = useState(false);
 
-  const handleFile = (e) => {
-    const file = e.target.files?.[0];
+  const handleFile = (file) => {
     if (file) onPhoto(file);
   };
 
@@ -28,7 +29,7 @@ export default function PhotoGuide({ onPhoto, onSkip, onBack }) {
       <CameraCapture
         onCapture={(blob) => { setShowCamera(false); onPhoto(blob); }}
         onCancel={() => setShowCamera(false)}
-        onFallback={() => { setShowCamera(false); inputRef.current?.click(); }}
+        onFallback={() => { setShowCamera(false); openCamera(cameraRef); }}
       />
     );
   }
@@ -45,20 +46,19 @@ export default function PhotoGuide({ onPhoto, onSkip, onBack }) {
           </div>
         ))}
 
-        {/* A working YouTube search, same fallback pattern as DiseaseVideos —
-            no curated video exists for "how to photograph a sick plant" so we
-            never claim one is coming, just link straight to a real search. Same
-            YouTube button as everywhere else, so the cue stays consistent. */}
         <YouTubeButton
           href={`https://www.youtube.com/results?search_query=${encodeURIComponent('how to photograph a sick crop for diagnosis')}`}
           label={t('watch_video')}
         />
       </div>
 
-      <input ref={inputRef} type="file" accept="image/*" capture="environment" onChange={handleFile} hidden />
+      <PhotoPickInputs onFile={handleFile} cameraRef={cameraRef} galleryRef={galleryRef} />
 
       <div className="sticky-cta stack" style={{ marginTop: 'auto' }}>
         <button className="btn btn--block" onClick={() => setShowCamera(true)}>📷 {t('ready_take')}</button>
+        <button className="btn btn--tint btn--block" onClick={() => openGallery(galleryRef)}>
+          🖼️ {t('photo_upload')}
+        </button>
         <button className="btn btn--tint btn--block" onClick={onSkip}>{t('skip_photo')}</button>
       </div>
     </div>

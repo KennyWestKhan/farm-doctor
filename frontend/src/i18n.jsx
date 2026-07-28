@@ -32,6 +32,9 @@ const STRINGS = {
   take_photo: { en: 'Take photo', twi: 'Twa mfonin' },
   ready_take: { en: "I'm ready — take photo", twi: 'Masiesie — twa mfonin' },
   skip_photo: { en: 'Skip photo for now', twi: 'Gyae mfonin no seesei' },
+  photo_upload: { en: 'Upload from gallery', twi: 'Fa mfonin a ɛwɔ fon no so' },
+  photo_retake: { en: 'Retake', twi: 'San twa' },
+  photo_choose_other: { en: 'Choose another', twi: 'Paw foforɔ' },
 
   // In-app camera with framing reticle (Twi pending native review 2026-07-04)
   camera_hint: { en: 'Put the sick leaf in the box — fill the frame', twi: 'Fa nhaban a ayare no to adaka no mu — hyɛ no ma' },
@@ -272,6 +275,7 @@ const STRINGS = {
   scan_crop_mismatch: { en: 'You picked {picked}, but this looks like {detected}. We used {detected}.', twi: 'Wopaw {picked}, nanso yei te sɛ {detected}. Yɛde {detected} na ɛyɛɛ adwuma.' },
   scan_crop_desc: { en: 'Photograph the sick plant. We find the disease and tell you what to do.', twi: 'Twa afifideɛ a ayare no mfonin. Yɛbɛhwehwɛ yadeɛ no na yɛaka deɛ wonyɛ.' },
   scan_crop_cta: { en: 'Take photo of the crop', twi: 'Twa mfudeɛ no mfonin' },
+  scan_crop_upload: { en: 'Upload a photo instead', twi: 'Fa mfonin a ɛwɔ fon no so mmom' },
   scan_note_label: { en: 'Describe the problem (optional)', twi: 'Kyerɛ asɛm no mu (sɛ wopɛ a)' },
   scan_note_placeholder: { en: 'e.g. "leaves turning yellow for 2 weeks"', twi: 'te sɛ "nhahan no ayɛ akokɔsrade bɛyɛ nnawɔtwe 2"' },
   scan_crop_send: { en: 'Send for diagnosis', twi: 'Fa ma yɛnhwɛ' },
@@ -297,6 +301,7 @@ const STRINGS = {
   scan_label_title: { en: 'Scan a label', twi: 'Scan label' },
   scan_subtitle: { en: 'Photograph the writing on the chemical container — we turn it into plain words.', twi: 'Twa mfonin fa nsɛm a ɛwɔ aduro toa no so — yɛbɛdane no nsɛm a wote aseɛ.' },
   scan_cta: { en: 'Take photo of the label', twi: 'Twa label no mfonin' },
+  scan_upload: { en: 'Upload a label photo', twi: 'Fa label mfonin a ɛwɔ fon no so' },
   scan_from_result: { en: 'Bought it? Scan the label', twi: 'Woatɔ? Scan label no' },
   scan_reading: { en: 'Reading the label…', twi: 'Yɛrekenkan label no…' },
   scan_needs_internet: { en: 'Scanning needs internet. Connect and try again.', twi: 'Scan hia intanɛt. Fa intanɛt na sɔ hwɛ bio.' },
