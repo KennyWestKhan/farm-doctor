@@ -49,7 +49,7 @@ export const AVAILABLE_DISEASE_PHOTOS = new Set([
   // 'chilli_bacterial_spot',
   // 'chilli_rust',
   // 'chilli_leaf_spot',
-  // 'cassava_brown_streak',
+  'cassava_brown_streak',      // Phillip Abidrabo, CC BY-SA 3.0 (Wikimedia Commons)
   // 'cassava_mosaic',
   // 'cassava_bacterial_blight',
   // 'cassava_green_mite',
@@ -64,7 +64,7 @@ export const AVAILABLE_DISEASE_PHOTOS = new Set([
   // 'ginger_bacterial_wilt',
   // 'ginger_rhizome_rot',
   // 'ginger_leaf_spot',
-  // 'cocoa_black_pod',
+  'cocoa_black_pod',           // Scot Nelson, CC0 / public domain (Wikimedia Commons)
   // 'cocoa_swollen_shoot',
   // 'cocoa_capsid',
   // 'cocoa_stem_borer',
@@ -74,11 +74,18 @@ export function cropPhoto(cropId) {
   return CROP_PHOTOS[cropId] || { src: null, emoji: '🌱', source: '' };
 }
 
+// Attribution per enabled photo (required for CC BY / BY-SA; blank for CC0).
+// Full details in public/photos/diseases/ATTRIBUTIONS.md.
+const DISEASE_PHOTO_CREDITS = {
+  cocoa_black_pod: '', // Scot Nelson, CC0 — no attribution required
+  cassava_brown_streak: 'Photo: Phillip Abidrabo, CC BY-SA 3.0',
+};
+
 export function diseasePhoto(diseaseId) {
   if (!AVAILABLE_DISEASE_PHOTOS.has(diseaseId)) return null;
   return {
     src: `/photos/diseases/${diseaseId}.jpg`,
     emoji: CROP_PHOTOS[DISEASE_CROP[diseaseId]]?.emoji || '🌱',
-    source: '',
+    source: DISEASE_PHOTO_CREDITS[diseaseId] || '',
   };
 }

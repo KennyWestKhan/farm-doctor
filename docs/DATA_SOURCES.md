@@ -91,6 +91,7 @@ A directory of 69 real agro-input suppliers across ten categories (agrochemicals
 ## Data Ethics
 
 - Phone OTP authentication is optional; full app functionality available in guest mode
+- Diagnosis reports sync only anonymized metadata (crop, disease, region, confidence, status) plus an opaque user id — never names, phone numbers, GPS, photos, or free-text notes — to power the aggregate impact dashboard
 - Validation reports contain no names, phone numbers, or location coordinates
 - All user-submitted text is sanitized on both client and server before storage or model input
 - Farmer notes sent to Claude Vision are structurally separated and labelled as untrusted input

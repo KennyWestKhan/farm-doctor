@@ -18,8 +18,11 @@ import {
   removePendingVision,
   getUnsyncedValidations,
   markValidationSynced,
+  getUnsyncedReports,
+  markReportsSynced,
   updateReport,
 } from './storage';
+import { supabase } from './supabase';
 import { matchDiseaseByName } from '../data/diseaseDatabase';
 import { notifyDiagnosisReady } from '../utils/notify.js';
 
@@ -97,13 +100,54 @@ async function flushValidations() {
   });
 }
 
+// Push anonymized diagnosis reports to the impact table so the dashboard shows
+// real, cross-farmer totals (not just this device). No PII leaves the phone —
+// only crop/disease/region/confidence and an opaque user id. This is what turns
+// the 84+ real users' local usage into demonstrable, aggregated evidence.
+async function flushReports() {
+  const items = await getUnsyncedReports();
+  if (!items.length) return;
+
+  // Stamp each report with the current auth/anon user id (for a distinct-farmer
+  // count) when the report doesn't already carry one.
+  let sessionUserId = null;
+  try {
+    const { data } = (await supabase?.auth?.getSession?.()) || {};
+    sessionUserId = data?.session?.user?.id || null;
+  } catch { /* no session — fine, user_id stays null */ }
+
+  const payload = items.map((r) => ({
+    id: r.id,
+    userId: r.userId || sessionUserId || null,
+    cropId: r.cropId || null,
+    region: r.region || null,
+    diseaseId: r.topDiseaseId || null,
+    confidence: typeof r.confidence === 'number' ? r.confidence : null,
+    status: r.status || null,
+    hadPhoto: !!r.hadPhoto,
+    source: r.rechecked ? 'vision' : (r.offline ? 'offline' : 'scan'),
+    createdAt: r.createdAt || null,
+  }));
+
+  // Chunk so a large first-time backlog doesn't send one huge request.
+  for (let i = 0; i < payload.length; i += 50) {
+    const chunk = payload.slice(i, i + 50);
+    const res = await fetch(`${API}/api/reports`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ reports: chunk }),
+    });
+    if (res.ok) await markReportsSynced(chunk.map((c) => c.id));
+  }
+}
+
 let syncing = false;
 
 export async function syncNow() {
   if (!API || !navigator.onLine || syncing) return;
   syncing = true;
   try {
-    await Promise.allSettled([flushVision(), flushValidations()]);
+    await Promise.allSettled([flushVision(), flushValidations(), flushReports()]);
   } finally {
     syncing = false;
   }

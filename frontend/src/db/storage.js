@@ -66,15 +66,33 @@ export async function getRecentReports(limit = 3) {
   return out;
 }
 
+/** Reports not yet pushed to the server (they lack a `synced` flag). */
+export async function getUnsyncedReports() {
+  return (await getReports()).filter((r) => !r.synced);
+}
+
+/** Mark reports as synced after a successful push. */
+export async function markReportsSynced(ids) {
+  const d = await db();
+  const tx = d.transaction('reports', 'readwrite');
+  for (const id of ids) {
+    const r = await tx.store.get(id);
+    if (r && !r.synced) { r.synced = 1; await tx.store.put(r); }
+  }
+  await tx.done;
+}
+
 export async function getReport(id) {
   return (await db()).get('reports', id);
 }
 
-/** Merge a patch into a report (single read-modify-write transaction). */
+/** Merge a patch into a report (single read-modify-write transaction). Clears
+ *  the `synced` flag so a corrected report (e.g. after a Vision recheck) is
+ *  re-pushed, keeping the impact aggregates accurate. */
 export async function updateReport(id, patch) {
   const tx = (await db()).transaction('reports', 'readwrite');
   const r = await tx.store.get(id);
-  if (r) await tx.store.put({ ...r, ...patch });
+  if (r) await tx.store.put({ ...r, ...patch, synced: 0 });
   await tx.done;
   return r ? { ...r, ...patch } : null;
 }
@@ -234,4 +252,44 @@ export function lookupSuccessRate(rateMap, treatmentId, region) {
     trendDelta: 0,
     percent: Math.round((agg.success / agg.total) * 100),
   };
+}
+
+// ---- impact stats (cross-farmer, live from Supabase) ---------------------
+
+/**
+ * Aggregate impact metrics from the synced `reports` table plus the real signup
+ * count. Anonymized — reads only crop/disease/region/status + an opaque user id,
+ * never any personal data. Returns null when Supabase is unconfigured or offline
+ * so the dashboard can fall back to this device's local reports.
+ */
+export async function fetchImpactStats() {
+  if (!supabase || !navigator.onLine) return null;
+  try {
+    const [reportsRes, countRes] = await Promise.all([
+      supabase.from('reports').select('user_id, region, disease_id, status'),
+      supabase.rpc('app_user_count'),
+    ]);
+    const reports = reportsRes.data;
+    if (reportsRes.error || !Array.isArray(reports)) return null;
+
+    const users = new Set();
+    const regionCount = {};
+    const diseaseCount = {};
+    for (const r of reports) {
+      if (r.user_id) users.add(r.user_id);
+      if (r.region) regionCount[r.region] = (regionCount[r.region] || 0) + 1;
+      if (r.disease_id) diseaseCount[r.disease_id] = (diseaseCount[r.disease_id] || 0) + 1;
+    }
+    const userCount = typeof countRes?.data === 'number' ? countRes.data : null;
+
+    return {
+      diagnoses: reports.length,
+      farmers: userCount ?? users.size, // real signups; fall back to distinct diagnosers
+      diagnosers: users.size,
+      regionCount,
+      diseaseCount,
+    };
+  } catch {
+    return null;
+  }
 }

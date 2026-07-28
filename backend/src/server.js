@@ -393,5 +393,47 @@ app.post('/api/shop-submissions', writeLimiter, async (req, res) => {
   }
 });
 
+/**
+ * POST /api/reports
+ * Batch-sync anonymized diagnosis reports from a device to the impact table.
+ * No personal data: crop/disease/region/confidence + an opaque user id. Upsert
+ * on the client id so re-syncing the same report is idempotent.
+ */
+app.post("/api/reports", writeLimiter, async (req, res) => {
+  if (!supabase) return res.status(503).json({ error: "DB not configured" });
+  const items = Array.isArray(req.body?.reports) ? req.body.reports : [];
+  if (!items.length) return res.json({ ok: true, inserted: 0 });
+
+  const STATUS = ["confident", "uncertain", "no_match"];
+  const SOURCE = ["offline", "scan", "vision"];
+  const str = (v, n) => (typeof v === "string" ? v.slice(0, n) : null);
+
+  const rows = items.slice(0, 200).map((r) => ({
+    id: str(r.id, 64),
+    user_id: str(r.userId, 64),
+    crop_id: str(r.cropId, 64),
+    region: str(r.region, 32),
+    disease_id: str(r.diseaseId, 64),
+    confidence: typeof r.confidence === "number" ? r.confidence : null,
+    status: STATUS.includes(r.status) ? r.status : null,
+    had_photo: !!r.hadPhoto,
+    source: SOURCE.includes(r.source) ? r.source : null,
+    created_at: str(r.createdAt, 40) || undefined,
+  })).filter((x) => x.id);
+
+  if (!rows.length) return res.json({ ok: true, inserted: 0 });
+
+  try {
+    const { error } = await supabase
+      .from("reports")
+      .upsert(rows, { onConflict: "id", ignoreDuplicates: true });
+    if (error) throw error;
+    res.json({ ok: true, inserted: rows.length });
+  } catch (err) {
+    console.error("reports insert error", err);
+    res.status(500).json({ error: "Could not store reports" });
+  }
+});
+
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`Farm Doctor API on :${PORT}`));

@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { dashboardStats } from '../data/successRates';
-import { getReports, fetchSuccessRates } from '../db/storage';
+import { getReports, fetchSuccessRates, fetchImpactStats } from '../db/storage';
 import { REGIONS } from '../data/diseaseDatabase';
 
 function useCountUp(target, ms = 900) {
@@ -50,19 +50,31 @@ const DEMO_BY_REGION = [
 ];
 
 async function computeLiveStats() {
-  // `reports` is this device's local IndexedDB only (diagnoses made here).
-  // `rateMap` comes from the Supabase `treatment_success_rates` view — real,
-  // cross-farmer validation data ("did it work?" feedback synced from every
-  // device) — already fetched elsewhere in the app (TreatmentCard success
-  // pills) but never previously wired into this dashboard.
-  const [reports, rateMap] = await Promise.all([getReports(), fetchSuccessRates()]);
-  const diagnoses = reports.length;
+  // Prefer cross-farmer aggregates synced to Supabase (`impact`), so this shows
+  // real totals from every device — not just this one. Falls back to the local
+  // device's IndexedDB reports when offline / Supabase unconfigured. `rateMap`
+  // is the Supabase `treatment_success_rates` view (real "did it work?" data).
+  const [impact, localReports, rateMap] = await Promise.all([
+    fetchImpactStats(),
+    getReports(),
+    fetchSuccessRates(),
+  ]);
 
-  const regionCounts = {};
-  const diseaseCounts = {};
-  for (const r of reports) {
-    if (r.region) regionCounts[r.region] = (regionCounts[r.region] || 0) + 1;
-    if (r.topDiseaseId) diseaseCounts[r.topDiseaseId] = (diseaseCounts[r.topDiseaseId] || 0) + 1;
+  let diagnoses, farmers, regionCounts, diseaseCounts;
+  if (impact) {
+    diagnoses = impact.diagnoses;
+    farmers = impact.farmers;         // real signup count (auth.users)
+    regionCounts = impact.regionCount;
+    diseaseCounts = impact.diseaseCount;
+  } else {
+    diagnoses = localReports.length;
+    farmers = 0;
+    regionCounts = {};
+    diseaseCounts = {};
+    for (const r of localReports) {
+      if (r.region) regionCounts[r.region] = (regionCounts[r.region] || 0) + 1;
+      if (r.topDiseaseId) diseaseCounts[r.topDiseaseId] = (diseaseCounts[r.topDiseaseId] || 0) + 1;
+    }
   }
 
   // Aggregate validations + success rate across all treatments/regions, and
@@ -96,9 +108,7 @@ async function computeLiveStats() {
     .sort((a, b) => b.count - a.count)
     .slice(0, 4);
 
-  // Farmer count has no backing query yet (would need a distinct-device-id
-  // count in Supabase) — left at 0 rather than faking a number.
-  return { diagnoses, validations, avgSuccess, farmersTested: 0, byRegion, topDiseases };
+  return { diagnoses, validations, avgSuccess, farmersTested: farmers, byRegion, topDiseases };
 }
 
 export default function Dashboard() {
@@ -169,7 +179,7 @@ export default function Dashboard() {
             <Kpi big={stats.diagnoses} label="Diagnoses made" />
             <Kpi big={stats.validations} label="Validations" />
             <Kpi big={stats.avgSuccess ? `${stats.avgSuccess}%` : '—'} label="Avg success rate" />
-            <Kpi big={stats.farmersTested} label="Farmers" />
+            <Kpi big={stats.farmersTested} label="People reached" />
           </div>
 
           {(topDiseases.length > 0 || byRegion.length > 0) && (
