@@ -14,6 +14,7 @@ import { bumpScanCount } from '../utils/scanCount.js';
 import { sanitizeText, LIMITS } from '../utils/sanitize.js';
 import { apiFetch } from '../utils/apiFetch.js';
 import { warmBackend } from '../utils/warmBackend.js';
+import { syncNow } from '../db/sync.js';
 import ReviewPrompt from '../components/ReviewPrompt.jsx';
 
 const API = import.meta.env.VITE_API_URL || '';
@@ -105,6 +106,7 @@ export default function ScanCrop() {
       setCropId(detectedCrop);
       setReportId(report.id);
       bumpScanCount();
+      syncNow(); // push this scan to the impact dashboard right away
 
       if (did) setStep('result');
       else { setFeedback(v.feedback_if_unclear || t('scan_crop_unclear')); setStep('unclear'); }

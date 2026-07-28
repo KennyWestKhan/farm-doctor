@@ -48,12 +48,13 @@ export default function DiagnoseFlow() {
     });
     if (result.needsVision && session.photoBlob) {
       await queueForVision({ reportId: report.id, cropId: session.cropId, photoBlob: session.photoBlob });
-      // If online, recheck with Claude Vision now so the result is ready in Reports.
-      syncNow();
     }
     patch({ answers, result, report });
     bumpScanCount();
     go('result');
+    // Flush this new report (and any Vision queue) to the server now, so it
+    // shows up on the impact dashboard without waiting for the next app launch.
+    syncNow();
   }, [session.cropId, session.region, session.photoBlob]);
 
   // Back from the first step leaves the flow entirely (to Home).

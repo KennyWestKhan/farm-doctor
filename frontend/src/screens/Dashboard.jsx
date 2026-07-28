@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { dashboardStats } from '../data/successRates';
 import { getReports, fetchSuccessRates, fetchImpactStats } from '../db/storage';
+import { syncNow } from '../db/sync';
 import { REGIONS } from '../data/diseaseDatabase';
 
 function useCountUp(target, ms = 900) {
@@ -122,7 +123,13 @@ export default function Dashboard() {
   const [demo, setDemo] = useState(false);
   const [live, setLive] = useState(null);
 
-  useEffect(() => { computeLiveStats().then(setLive); }, []);
+  // Flush any unsynced local reports first, then read the aggregates — so a
+  // diagnosis just made on this device is reflected without a manual reload.
+  useEffect(() => {
+    let live = true;
+    syncNow().finally(() => { if (live) computeLiveStats().then((s) => live && setLive(s)); });
+    return () => { live = false; };
+  }, []);
 
   const demoStats = { ...dashboardStats(), regions: 5, last7: 128 };
   const stats = demo ? demoStats : (live || { diagnoses: 0, validations: 0, avgSuccess: 0, farmersTested: 0, regions: 0, last7: 0 });
