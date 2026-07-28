@@ -22,9 +22,29 @@ import ws from "ws";
 import Anthropic from "@anthropic-ai/sdk";
 import { createClient } from "@supabase/supabase-js";
 import { TextractClient } from "@aws-sdk/client-textract";
-import { VISION_SYSTEM_PROMPT } from "./prompt.js";
+import { buildVisionPrompt, DISEASE_CATALOG } from "./prompt.js";
 import { sanitizeText } from "./sanitize.js";
 import { translateLabel, tesseractAvailable } from "./labelTranslate.js";
+
+/** Resolve a Vision JSON payload to a known catalog disease_id when possible. */
+function resolveDiseaseId(cropId, parsed) {
+  const crop = DISEASE_CATALOG[cropId];
+  if (!crop) return null;
+
+  // Prefer explicit catalog id from the model.
+  if (parsed?.disease_id && crop.diseases.some((d) => d.id === parsed.disease_id)) {
+    return parsed.disease_id;
+  }
+
+  // Fall back to name match within this crop only.
+  const name = String(parsed?.disease || "").toLowerCase().trim();
+  if (!name) return null;
+  for (const d of crop.diseases) {
+    const dn = d.name.toLowerCase();
+    if (dn === name || dn.includes(name) || name.includes(dn)) return d.id;
+  }
+  return null;
+}
 
 // supabase-js spins up a realtime (WebSocket) client on creation. Node < 22 has
 // no global WebSocket, which throws even though we only do REST inserts. Provide
@@ -192,12 +212,24 @@ app.post("/api/diagnose", scanLimiter, async (req, res) => {
       .status(503)
       .json({ error: "Vision feature not configured. Please contact admin" });
   }
-  const { imageBase64, mediaType = "image/jpeg", note } = req.body || {};
+  const {
+    imageBase64,
+    mediaType = "image/jpeg",
+    note,
+    cropId: rawCropId,
+  } = req.body || {};
   if (!imageBase64)
     return res.status(400).json({ error: "imageBase64 required" });
   if (typeof imageBase64 !== "string" || imageBase64.length > 8_000_000) {
     return res.status(413).json({ error: "image too large" });
   }
+
+  // Farmer crop is a soft prior (hint), not a hard lock — they may misname it
+  // or tap "Not sure". Vision identifies the plant from the photo.
+  const farmerCropId =
+    typeof rawCropId === "string" && DISEASE_CATALOG[rawCropId]
+      ? rawCropId
+      : null;
 
   // Anti-prompt-injection is STRUCTURAL: the system prompt is fixed and trusted;
   // any farmer free-text is sanitized and passed as user-role data, clearly
@@ -211,7 +243,9 @@ app.post("/api/diagnose", scanLimiter, async (req, res) => {
     },
     {
       type: "text",
-      text: "Diagnose this crop. Respond with only the JSON object."
+      text: farmerCropId
+        ? `Farmer thinks this is ${DISEASE_CATALOG[farmerCropId].label} (crop_id "${farmerCropId}"). Identify the real crop from the photo, diagnose disease_id from that crop's catalog, and set crop_mismatch if you disagree with the farmer. Respond with only the JSON object.`
+        : "Farmer did not name the crop. Identify crop_id and disease_id from the photo using the catalog. Respond with only the JSON object."
     }
   ];
   if (cleanNote) {
@@ -224,8 +258,8 @@ app.post("/api/diagnose", scanLimiter, async (req, res) => {
   try {
     const message = await anthropic.messages.create({
       model: VISION_MODEL,
-      max_tokens: 400,
-      system: VISION_SYSTEM_PROMPT,
+      max_tokens: 500,
+      system: buildVisionPrompt(farmerCropId),
       messages: [{ role: "user", content: userContent }]
     });
 
@@ -244,7 +278,38 @@ app.post("/api/diagnose", scanLimiter, async (req, res) => {
         .status(502)
         .json({ error: "Model did not return valid JSON", raw: text });
     }
-    res.json(parsed);
+
+    // Prefer the crop Vision saw. Fall back to farmer hint only if Vision
+    // returned an unknown/missing crop_id.
+    const detectedCrop =
+      typeof parsed.crop_id === "string" && DISEASE_CATALOG[parsed.crop_id]
+        ? parsed.crop_id
+        : null;
+    const resolvedCrop = detectedCrop || farmerCropId;
+    const cropMismatch = !!(
+      farmerCropId &&
+      detectedCrop &&
+      farmerCropId !== detectedCrop
+    );
+    const diseaseId = resolveDiseaseId(resolvedCrop, parsed);
+    const diseaseName = diseaseId
+      ? DISEASE_CATALOG[resolvedCrop].diseases.find((d) => d.id === diseaseId)
+          ?.name
+      : parsed.disease || null;
+
+    res.json({
+      ...parsed,
+      crop_id: resolvedCrop,
+      crop: resolvedCrop
+        ? DISEASE_CATALOG[resolvedCrop].label
+        : parsed.crop || null,
+      farmer_crop_id: farmerCropId,
+      crop_mismatch: cropMismatch || !!parsed.crop_mismatch,
+      disease_id: diseaseId,
+      disease: diseaseName,
+      confidence:
+        typeof parsed.confidence === "number" ? parsed.confidence : 0,
+    });
   } catch (err) {
     console.error("diagnose error", err);
     res.status(500).json({ error: "Vision request failed" });

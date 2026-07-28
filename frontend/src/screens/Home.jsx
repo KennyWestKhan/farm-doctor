@@ -67,7 +67,7 @@ export default function Home() {
     if (r.type === 'disease' && r.diseaseId) {
       nav(`/disease/${r.diseaseId}`);
     } else {
-      nav('/diagnose', { state: { cropId: r.cropId } });
+      nav('/diagnose', { state: { cropId: r.cropId, skipPhoto: true } });
     }
   };
 
@@ -166,7 +166,7 @@ export default function Home() {
               </span>
               <span style={{ fontSize: 22, color: 'var(--green)' }}>→</span>
             </button>
-            <button className="card" onClick={() => nav('/diagnose')} style={{ marginTop: 14, display: 'flex', alignItems: 'center', gap: 14 }}>
+            <button className="card" onClick={() => nav('/diagnose', { state: { skipPhoto: true } })} style={{ marginTop: 14, display: 'flex', alignItems: 'center', gap: 14 }}>
               <span style={{ fontSize: 34 }}>📋</span>
               <span style={{ flex: 1 }}>
                 <strong style={{ fontFamily: 'var(--font-display)', fontSize: 18, display: 'block' }}>{t('home_questions_cta')}</strong>
@@ -177,7 +177,7 @@ export default function Home() {
           </>
         ) : (
           <>
-            <button className="card" onClick={() => nav('/diagnose')} style={{ background: 'var(--green-tint)', display: 'flex', alignItems: 'center', gap: 14 }}>
+            <button className="card" onClick={() => nav('/diagnose', { state: { skipPhoto: true } })} style={{ background: 'var(--green-tint)', display: 'flex', alignItems: 'center', gap: 14 }}>
               <span style={{ fontSize: 38 }}>📋</span>
               <span style={{ flex: 1 }}>
                 <strong style={{ fontFamily: 'var(--font-display)', fontSize: 19, color: 'var(--green-deep)', display: 'block' }}>

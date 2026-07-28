@@ -214,13 +214,13 @@ export const CROPS = [
             technical_instruction: 'Dilute per label (~1:100), spray 10L per hectare every 7 days.',
             farmer_instruction: {
               en: {
-                mixing: 'Mix the powder into water until it looks like weak tea — not clear, not dark.',
+                mixing: 'Mix the powder into water until it looks like light milo — not clear, not dark.',
                 amount: 'Use one bottle cap (about 5 g) of powder for one bucket of water.',
                 application: 'Spray the fruit and leaves until water just begins to drip off them.',
                 frequency: 'Spray once every week, and again after heavy rain.',
               },
               twi: {
-                mixing: 'Fra mfutuma no ​nsuo mu kosi sɛ ɛbɛyɛ sɛ tii a ɛnyɛ den — ɛnyɛ kann, ɛnyɛ tuntum.',
+                mixing: 'Fra mfutuma no nsuo mu kosi sɛ ɛbɛyɛ sɛ milo a emu hare — ɛnyɛ nsuo a emu da hɔ, ɛnyɛ nso tuntum',
                 amount: 'Fa toa ano ​mfutuma baako (bɛyɛ 5 g) gu bokiti nsuo baako mu.',
                 application: 'Pete gu aba ne nhaban no so kosi sɛ nsuo no bɛfiri so atɔ fam.',
                 frequency: 'Pete pɛnkoro dapɛn biara, na sane yɛ bio osutɔ akyi.',
@@ -235,13 +235,13 @@ export const CROPS = [
             technical_instruction: 'Dilute per label, spray every 7–10 days.',
             farmer_instruction: {
               en: {
-                mixing: 'Mix until the water looks like weak tea.',
+                mixing: 'Mix until the water looks like light milo.',
                 amount: 'Two bottle caps (about 10 g) of powder per bucket of water.',
                 application: 'Spray all over the plant, especially the fruit, until leaves drip.',
                 frequency: 'Every week. Stop 2 weeks before you harvest.',
               },
               twi: {
-                mixing: 'Fra no kosi sɛ nsuo no bɛyɛ sɛ tii a ɛnyɛ den.',
+                mixing: 'Fra no kosi sɛ nsuo no bɛyɛ sɛ milo a emu hare.',
                 amount: 'Toa ano mfutuma mmienu (bɛyɛ 10 g) wɔ bokiti nsuo baako mu.',
                 application: 'Pete gu afifideɛ no nyinaa so, titiriw aba no, kosi sɛ nhaban no bɛsɔ.',
                 frequency: 'Dapɛn biara. Gyae nnawɔtwe mmienu ansa na woatwa.',
@@ -279,13 +279,13 @@ export const CROPS = [
             technical_instruction: 'Copper-based bactericide, spray every 7 days at first sign.',
             farmer_instruction: {
               en: {
-                mixing: 'Mix powder into water until it looks like weak tea.',
+                mixing: 'Mix powder into water until it looks like light milo.',
                 amount: 'One bottle cap (about 5 g) of powder per bucket of water.',
                 application: 'Spray both the top and underside of leaves until they drip.',
                 frequency: 'Once a week, starting as soon as you see the first spots.',
               },
               twi: {
-                mixing: 'Fra mfutuma no nsuo mu kosi sɛ ɛbɛyɛ sɛ tii a ɛnyɛ den.',
+                mixing: 'Fra mfutuma no nsuo mu kosi sɛ ɛbɛyɛ sɛ milo a emu hare.',
                 amount: 'Toa ano mfutuma baako (bɛyɛ 5 g) wɔ bokiti nsuo baako mu.',
                 application: 'Pete gu nhaban no atifi ne aseɛ nyinaa kosi sɛ ɛbɛsɔ.',
                 frequency: 'Pɛnkoro dapɛn biara, firi ɛberɛ a wohunu nsisii a ɛdi kan no.',
@@ -364,13 +364,13 @@ export const CROPS = [
             technical_instruction: 'Sulfur fungicide, spray every 7–14 days.',
             farmer_instruction: {
               en: {
-                mixing: 'Mix until the water looks like weak tea.',
+                mixing: 'Mix until the water looks like light koko (thin porridge).',
                 amount: 'Two bottle caps (about 10 g) of powder per bucket of water.',
                 application: 'Spray under the leaves where the rusty bumps are, until they drip.',
                 frequency: 'Every week while you still see the rusty bumps.',
               },
               twi: {
-                mixing: 'Fra no kosi sɛ nsuo no bɛyɛ sɛ tii a ɛnyɛ den.',
+                mixing: 'Fra no kosi sɛ nsuo no bɛyɛ sɛ koko a emu hare.',
                 amount: 'Toa ano mfutuma mmienu (bɛyɛ 10 g) wɔ bokiti nsuo baako mu.',
                 application: 'Pete gu nhaban no ase baabi a mpɔmpɔ no wɔ no kosi sɛ ɛbɛsɔ.',
                 frequency: 'Dapɛn biara mmerɛ a woda so hunu mpɔmpɔ no.',
@@ -385,13 +385,13 @@ export const CROPS = [
             technical_instruction: 'Systemic fungicide, spray every 10–14 days.',
             farmer_instruction: {
               en: {
-                mixing: 'Shake the bottle well. Mix until water is a very light tea colour.',
+                mixing: 'Shake the bottle well. Mix until the water looks like very light milo.',
                 amount: 'Half a bottle cap (about 2.5 ml) of liquid per bucket of water.',
                 application: 'Spray the whole plant, top and bottom of leaves, until dripping.',
                 frequency: 'Every 10 days. Stop 3 weeks before harvest.',
               },
               twi: {
-                mixing: 'Woso toa no yie. Fra no kosi sɛ nsuo no bɛyɛ sɛ tii a emu hare paa.',
+                mixing: 'Woso toa no yie. Fra no kosi sɛ nsuo no bɛyɛ sɛ milo a emu hare paa.',
                 amount: 'Toa ano nsuo fa (bɛyɛ 2.5 ml) wɔ bokiti nsuo baako mu.',
                 application: 'Pete gu afifideɛ no nyinaa so, nhaban atifi ne ase, kosi sɛ ɛbɛsɔ.',
                 frequency: 'Nnafua 10 biara. Gyae nnawɔtwe 3 ansa na woatwa.',
@@ -406,13 +406,13 @@ export const CROPS = [
             technical_instruction: 'Protectant fungicide, spray every 7–10 days as preventive.',
             farmer_instruction: {
               en: {
-                mixing: 'Mix until the water looks like weak tea.',
+                mixing: 'Mix until the water looks a bit cloudy, like after washing rice.',
                 amount: 'Two bottle caps (about 10 g) of powder per bucket of water.',
                 application: 'Spray the whole plant before rust appears, or at very first sign.',
                 frequency: 'Every week during the rust season (September–December).',
               },
               twi: {
-                mixing: 'Fra no kosi sɛ nsuo no bɛyɛ sɛ tii a ɛnyɛ den.',
+                mixing: 'Fra no kosi sɛ nsuo no yɛ ahoɔhare te sɛ nsuo a wɔde adware ɛmo.',
                 amount: 'Toa ano mfutuma mmienu (bɛyɛ 10 g) wɔ bokiti nsuo baako mu.',
                 application: 'Pete gu afifideɛ no nyinaa so ansa na nkannare aba, anaa sɛ wofiri aseɛ hunu bi.',
                 frequency: 'Dapɛn biara wɔ nkannare berɛ mu (September–December).',
@@ -449,13 +449,13 @@ export const CROPS = [
             technical_instruction: 'Protectant fungicide, spray every 7–10 days.',
             farmer_instruction: {
               en: {
-                mixing: 'Mix until the water looks like weak tea.',
+                mixing: 'Mix until the water looks like light milo.',
                 amount: 'Two bottle caps (about 10 g) of powder per bucket of water.',
                 application: 'Spray the whole plant, especially older leaves, until they drip.',
                 frequency: 'Every week while new spots keep appearing.',
               },
               twi: {
-                mixing: 'Fra no kosi sɛ nsuo no bɛyɛ sɛ tii a ɛnyɛ den.',
+                mixing: 'Fra no kosi sɛ nsuo no bɛyɛ sɛ milo a emu hare.',
                 amount: 'Toa ano mfutuma mmienu (bɛyɛ 10 g) wɔ bokiti nsuo baako mu.',
                 application: 'Pete gu afifideɛ no nyinaa so, titiriw nhaban dada no, kosi sɛ ɛbɛsɔ.',
                 frequency: 'Dapɛn biara mmerɛ a nsisii foforɔ da so pue.',
@@ -470,13 +470,13 @@ export const CROPS = [
             technical_instruction: 'Copper fungicide, spray every 7 days.',
             farmer_instruction: {
               en: {
-                mixing: 'Mix powder into water until it looks like weak tea.',
+                mixing: 'Mix powder into water until it looks like light koko (thin porridge).',
                 amount: 'One bottle cap (about 5 g) of powder per bucket of water.',
                 application: 'Spray all the leaves, top and bottom, until dripping.',
                 frequency: 'Once a week. Works best when you start early, before spots spread.',
               },
               twi: {
-                mixing: 'Fra mfutuma no nsuo mu kosi sɛ ɛbɛyɛ sɛ tii a ɛnyɛ den.',
+                mixing: 'Fra mfutuma no nsuo mu kosi sɛ ɛbɛyɛ sɛ koko a emu hare.',
                 amount: 'Toa ano mfutuma baako (bɛyɛ 5 g) wɔ bokiti nsuo baako mu.',
                 application: 'Pete gu nhaban no nyinaa so, atifi ne ase, kosi sɛ ɛbɛsɔ.',
                 frequency: 'Pɛnkoro dapɛn biara. Eye sɛ wofiri aseɛ ntɛm, ansa na nsisii atrɛw.',
@@ -739,13 +739,13 @@ export const CROPS = [
             technical_instruction: 'Copper reduces bacterial spread on leaf surfaces. Not a cure, but slows it.',
             farmer_instruction: {
               en: {
-                mixing: 'Mix powder into water until it looks like weak tea.',
+                mixing: 'Mix powder into water until it looks a bit cloudy, like after washing rice.',
                 amount: 'One bottle cap (about 5 g) of powder per bucket of water.',
                 application: 'Spray the healthy plants around the sick ones to protect them.',
                 frequency: 'Every week during the rainy season when the disease is spreading.',
               },
               twi: {
-                mixing: 'Fra mfutuma no nsuo mu kosi sɛ ɛbɛyɛ sɛ tii a ɛnyɛ den.',
+                mixing: 'Fra mfutuma no nsuo mu kosi sɛ ɛbɛyɛ ahoɔhare te sɛ nsuo a wɔde adware ɛmo.',
                 amount: 'Toa ano mfutuma baako (bɛyɛ 5 g) wɔ bokiti nsuo baako mu.',
                 application: 'Pete gu afifideɛ a ɛho yɛ den a ɛbɛn deɛ ayare no ho na wobɛbɔ ho ban.',
                 frequency: 'Dapɛn biara wɔ osutɔ berɛ mu ɛberɛ a yadeɛ no retrɛw.',
@@ -846,13 +846,13 @@ export const CROPS = [
             technical_instruction: 'Sulfur kills mites on contact. Spray when infestation is heavy.',
             farmer_instruction: {
               en: {
-                mixing: 'Mix until the water looks like weak tea.',
+                mixing: 'Mix until the water looks like light koko (thin porridge).',
                 amount: 'Two bottle caps (about 10 g) of sulfur powder per bucket of water.',
                 application: 'Spray under the leaves where the webbing and tiny mites are.',
                 frequency: 'Every week during heavy attack. Stop when you see new healthy leaves growing.',
               },
               twi: {
-                mixing: 'Fra no kosi sɛ nsuo no bɛyɛ sɛ tii a ɛnyɛ den.',
+                mixing: 'Fra no kosi sɛ nsuo no bɛyɛ sɛ koko a emu hare.',
                 amount: 'Toa ano mfutuma mmienu (bɛyɛ 10 g) wɔ bokiti nsuo baako mu.',
                 application: 'Pete gu nhaban no ase baabi a ntoma fitaa ne mmoawa nketewa no wɔ.',
                 frequency: 'Dapɛn biara ɛberɛ a ɛyɛ den. Gyae sɛ wohunu nhaban foforɔ a ɛho yɛ den refi.',
@@ -981,13 +981,13 @@ export const CROPS = [
             technical_instruction: 'Protectant fungicide, spray every 10–14 days.',
             farmer_instruction: {
               en: {
-                mixing: 'Mix until the water looks like weak tea.',
+                mixing: 'Mix until the water looks a bit cloudy, like after washing rice.',
                 amount: 'Two bottle caps (about 10 g) of powder per bucket of water.',
                 application: 'Spray over the leaves until they drip, in the cool of morning or evening.',
                 frequency: 'Every week to two weeks while spots are spreading.',
               },
               twi: {
-                mixing: 'Fra no kosi sɛ nsuo no bɛyɛ sɛ tii a ɛnyɛ den.',
+                mixing: 'Fra no kosi sɛ nsuo no yɛ ahoɔhare te sɛ nsuo a wɔde adware ɛmo.',
                 amount: 'Toa ano mfutuma mmienu (bɛyɛ 10 g) wɔ bokiti nsuo baako mu.',
                 application: 'Pete gu nhaban no so kosi sɛ ɛbɛsɔ, anɔpa anaa anwummerɛ a ahuhuru nni hɔ.',
                 frequency: 'Dapɛn baako kosi mmienu biara mmerɛ a nsisii no retrɛ.',
@@ -1002,13 +1002,13 @@ export const CROPS = [
             technical_instruction: 'Copper-based fungicide, spray every 7–10 days.',
             farmer_instruction: {
               en: {
-                mixing: 'Mix powder into water until it looks like weak tea.',
+                mixing: 'Mix powder into water until it looks like light milo.',
                 amount: 'One bottle cap (about 5 g) of powder per bucket of water.',
                 application: 'Spray the leaves top and bottom until dripping.',
                 frequency: 'Every week, especially during the rainy season.',
               },
               twi: {
-                mixing: 'Fra mfutuma no nsuo mu kosi sɛ ɛbɛyɛ sɛ tii a ɛnyɛ den.',
+                mixing: 'Fra mfutuma no nsuo mu kosi sɛ ɛbɛyɛ sɛ milo a emu hare.',
                 amount: 'Toa ano mfutuma baako (bɛyɛ 5 g) wɔ bokiti nsuo baako mu.',
                 application: 'Pete gu nhaban no atifi ne ase kosi sɛ ɛbɛsɔ.',
                 frequency: 'Dapɛn biara, titiriw osutɔ berɛ mu.',
@@ -1160,13 +1160,13 @@ export const CROPS = [
             technical_instruction: 'Protectant fungicide, spray every 14 days from 30 days after planting.',
             farmer_instruction: {
               en: {
-                mixing: 'Mix until the water looks like weak tea.',
+                mixing: 'Mix until the water looks like light milo.',
                 amount: 'Two bottle caps (about 10 g) of powder per bucket of water.',
                 application: 'Spray the whole plant until the leaves drip.',
                 frequency: 'Every 2 weeks, starting about one month after planting.',
               },
               twi: {
-                mixing: 'Fra no kosi sɛ nsuo no bɛyɛ sɛ tii a ɛnyɛ den.',
+                mixing: 'Fra no kosi sɛ nsuo no bɛyɛ sɛ milo a emu hare.',
                 amount: 'Toa ano mfutuma mmienu (bɛyɛ 10 g) wɔ bokiti nsuo baako mu.',
                 application: 'Pete gu afifideɛ no nyinaa so kosi sɛ nhaban no bɛsɔ.',
                 frequency: 'Nnawɔtwe mmienu biara, firi bɛyɛ bosome baako wɔ adua akyi.',
@@ -1181,13 +1181,13 @@ export const CROPS = [
             technical_instruction: 'Systemic fungicide, spray every 14 days. Cures and protects.',
             farmer_instruction: {
               en: {
-                mixing: 'Shake the bottle well. Mix until water is a very light tea colour.',
+                mixing: 'Shake the bottle well. Mix until the water looks like very light milo.',
                 amount: 'Half a bottle cap (about 2.5 ml) of liquid per bucket of water.',
                 application: 'Spray the whole plant, especially the lower leaves where spots start.',
                 frequency: 'Every 2 weeks. Stop 3 weeks before harvest.',
               },
               twi: {
-                mixing: 'Woso toa no yie. Fra no kosi sɛ nsuo no bɛyɛ sɛ tii a emu hare paa.',
+                mixing: 'Woso toa no yie. Fra no kosi sɛ nsuo no bɛyɛ sɛ milo a emu hare paa.',
                 amount: 'Toa ano nsuo fa (bɛyɛ 2.5 ml) wɔ bokiti nsuo baako mu.',
                 application: 'Pete gu afifideɛ no nyinaa so, titiriw nhaban a ɛwɔ ase a nsisii firi hɔ.',
                 frequency: 'Nnawɔtwe mmienu biara. Gyae nnawɔtwe 3 ansa na woatwa.',
@@ -1245,13 +1245,13 @@ export const CROPS = [
             technical_instruction: 'Spray at first pustules, repeat every 10–14 days.',
             farmer_instruction: {
               en: {
-                mixing: 'Mix until the water looks like weak tea.',
+                mixing: 'Mix until the water looks like light koko (thin porridge).',
                 amount: 'Two bottle caps (about 10 g) of powder per bucket of water.',
                 application: 'Spray under the leaves where the rusty bumps are, until they drip.',
                 frequency: 'Every week or two until the rust stops spreading.',
               },
               twi: {
-                mixing: 'Fra no kosi sɛ nsuo no bɛyɛ sɛ tii a ɛnyɛ den.',
+                mixing: 'Fra no kosi sɛ nsuo no bɛyɛ sɛ koko a emu hare.',
                 amount: 'Toa ano mfutuma mmienu (bɛyɛ 10 g) wɔ bokiti nsuo baako mu.',
                 application: 'Pete gu nhaban no ase baabi a mpɔmpɔ no wɔ no kosi sɛ ɛbɛsɔ.',
                 frequency: 'Dapɛn baako anaa mmienu biara kosi sɛ nkannare no bɛgyae trɛ.',
@@ -1266,13 +1266,13 @@ export const CROPS = [
             technical_instruction: 'Systemic fungicide, curative and protective. Spray every 10–14 days.',
             farmer_instruction: {
               en: {
-                mixing: 'Shake the bottle well. Mix until water is a very light tea colour.',
+                mixing: 'Shake the bottle well. Mix until the water looks like very light milo.',
                 amount: 'Half a bottle cap (about 2.5 ml) of liquid per bucket of water.',
                 application: 'Spray the whole plant — top and bottom of leaves.',
                 frequency: 'Every 10 days. Stop 3 weeks before harvest.',
               },
               twi: {
-                mixing: 'Woso toa no yie. Fra no kosi sɛ nsuo no bɛyɛ sɛ tii a emu hare paa.',
+                mixing: 'Woso toa no yie. Fra no kosi sɛ nsuo no bɛyɛ sɛ milo a emu hare paa.',
                 amount: 'Toa ano nsuo fa (bɛyɛ 2.5 ml) wɔ bokiti nsuo baako mu.',
                 application: 'Pete gu afifideɛ no nyinaa so — nhaban atifi ne ase.',
                 frequency: 'Nnafua 10 biara. Gyae nnawɔtwe 3 ansa na woatwa.',
@@ -1287,13 +1287,13 @@ export const CROPS = [
             technical_instruction: 'Protectant fungicide, spray preventively every 10–14 days.',
             farmer_instruction: {
               en: {
-                mixing: 'Mix until the water looks like weak tea.',
+                mixing: 'Mix until the water looks a bit cloudy, like after washing rice.',
                 amount: 'Two bottle caps (about 10 g) of powder per bucket of water.',
                 application: 'Spray all over the plant before rust appears, or at first sign.',
                 frequency: 'Every 10 days during the rust season.',
               },
               twi: {
-                mixing: 'Fra no kosi sɛ nsuo no bɛyɛ sɛ tii a ɛnyɛ den.',
+                mixing: 'Fra no kosi sɛ nsuo no yɛ ahoɔhare te sɛ nsuo a wɔde adware ɛmo.',
                 amount: 'Toa ano mfutuma mmienu (bɛyɛ 10 g) wɔ bokiti nsuo baako mu.',
                 application: 'Pete gu afifideɛ no nyinaa so ansa na nkannare aba, anaa sɛ wofiri aseɛ hunu bi.',
                 frequency: 'Nnafua 10 biara wɔ nkannare berɛ mu.',
@@ -1765,13 +1765,13 @@ export const CROPS = [
             technical_instruction: 'Protectant fungicide, spray every 10–14 days during wet season.',
             farmer_instruction: {
               en: {
-                mixing: 'Mix until the water looks like weak tea.',
+                mixing: 'Mix until the water looks like light milo.',
                 amount: 'Two bottle caps (about 10 g) of powder per bucket of water.',
                 application: 'Spray the whole plant until leaves drip.',
                 frequency: 'Every 10–14 days while spots keep appearing.',
               },
               twi: {
-                mixing: 'Fra no kosi sɛ nsuo no bɛyɛ sɛ tii a ɛnyɛ den.',
+                mixing: 'Fra no kosi sɛ nsuo no bɛyɛ sɛ milo a emu hare.',
                 amount: 'Toa ano mfutuma mmienu (bɛyɛ 10 g) wɔ bokiti nsuo baako mu.',
                 application: 'Pete gu afifideɛ no nyinaa so kosi sɛ nhaban no bɛsɔ.',
                 frequency: 'Nnafua 10–14 biara mmerɛ a nsisii foforɔ da so pue.',
@@ -1836,13 +1836,13 @@ export const CROPS = [
             technical_instruction: 'Spray copper-based fungicide every 3–4 weeks through the rainy season, per CRIG calendar.',
             farmer_instruction: {
               en: {
-                mixing: 'Mix the powder into water until it looks like weak tea.',
+                mixing: 'Mix the powder into water until it looks like light milo.',
                 amount: 'Follow the bottle/sachet measure for one knapsack sprayer (15L).',
                 application: 'Spray all pods and the lower canopy until they are well covered.',
                 frequency: 'Every 3–4 weeks during the rainy season, starting when pods are small.',
               },
               twi: {
-                mixing: 'Fra mfutuma no nsuo mu kosi sɛ ɛbɛyɛ sɛ tii a ɛnyɛ den.',
+                mixing: 'Fra mfutuma no nsuo mu kosi sɛ ɛbɛyɛ sɛ koko a emu hare.',
                 amount: 'Di sɛdeɛ wɔakyerɛ wɔ toa/sache so ma sprayer (15L) baako.',
                 application: 'Pete gu aba no nyinaa ne nnua no ase fa so kosi sɛ ɛbɛsɔ yie.',
                 frequency: 'Nnawɔtwe 3–4 biara wɔ osutɔ berɛ mu, firi ɛberɛ a aba no sua.',

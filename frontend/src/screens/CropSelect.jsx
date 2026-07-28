@@ -3,7 +3,13 @@ import { CROPS } from '../data/diseaseDatabase';
 import CropPhoto from '../components/CropPhoto.jsx';
 import { Header } from '../components/Chrome.jsx';
 
-export default function CropSelect({ onPick, onBack }) {
+/**
+ * @param {object} props
+ * @param {(cropId: string) => void} props.onPick
+ * @param {() => void} [props.onBack]
+ * @param {() => void} [props.onUnsure]  — scan flow: "Not sure, detect from photo"
+ */
+export default function CropSelect({ onPick, onBack, onUnsure }) {
   const { t, pick } = useLang();
   return (
     <div className="screen page-enter">
@@ -18,6 +24,15 @@ export default function CropSelect({ onPick, onBack }) {
           </button>
         ))}
       </div>
+      {onUnsure && (
+        <button
+          className="btn btn--tint btn--block"
+          onClick={onUnsure}
+          style={{ marginTop: 16 }}
+        >
+          {t('scan_crop_unsure')}
+        </button>
+      )}
     </div>
   );
 }

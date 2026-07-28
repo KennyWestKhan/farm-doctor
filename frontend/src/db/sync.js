@@ -33,7 +33,11 @@ const BATCH_SIZE = 4;
 // disease name maps to one of our crop's diseases, we adopt it (so the report
 // shows our structured treatments/suppliers); the raw result is always kept.
 function visionPatch(cropId, vision) {
-  const matchedId = matchDiseaseByName(cropId, vision?.disease);
+  // Prefer catalog disease_id from the backend; fall back to fuzzy name match.
+  const matchedId =
+    (typeof vision?.disease_id === 'string' && vision.disease_id) ||
+    matchDiseaseByName(cropId, vision?.disease) ||
+    null;
   const conf = typeof vision?.confidence === 'number' ? vision.confidence : 0;
   return {
     vision,

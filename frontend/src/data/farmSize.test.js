@@ -4,7 +4,7 @@ import {
   detectVessel, isSprayBased, MIN_LOADS, MAX_LOADS, FARM_SIZE_PRESETS, DEFAULT_ACRES,
 } from './farmSize.js';
 
-const treatment = (amount, mixing = 'Mix into water until it looks like weak tea.') => ({
+const treatment = (amount, mixing = 'Mix into water until it looks like light milo.') => ({
   farmer_instruction: { en: { amount, mixing } },
 });
 
@@ -131,6 +131,6 @@ describe('existing helpers (regression)', () => {
 
   it('isSprayBased hides totals for cultural controls', () => {
     expect(isSprayBased(treatment('n/a', 'No mixing — this is a field practice.'))).toBe(false);
-    expect(isSprayBased(treatment('n/a', 'Mix until the water looks like weak tea.'))).toBe(true);
+    expect(isSprayBased(treatment('n/a', 'Mix until the water looks like light milo.'))).toBe(true);
   });
 });

@@ -2,7 +2,7 @@
 
 **Offline-first crop disease diagnosis for Ghanaian smallholder farmers.**
 
-Farmers answer a visual symptom checklist or snap a photo. The app returns a diagnosis in **Twi and English**, recommends **Ghana-specific treatments** in farmer language (bottle caps, weak-tea colour — not ml ratios), links to **local agro-input suppliers** via WhatsApp, and tracks **whether the treatment actually worked**. Built to run on 5–10 year old Android phones with poor cameras and intermittent connectivity.
+Farmers answer a visual symptom checklist or snap a photo. The app returns a diagnosis in **Twi and English**, recommends **Ghana-specific treatments** in farmer language (bottle caps, light milo colour — not ml ratios), links to **local agro-input suppliers** via WhatsApp, and tracks **whether the treatment actually worked**. Built to run on 5–10 year old Android phones with poor cameras and intermittent connectivity.
 
 **Repository:** [github.com/KennyWestKhan/farm-doctor](https://github.com/KennyWestKhan/farm-doctor)
 
@@ -40,7 +40,7 @@ Most agro-apps stop at diagnosis. Farm Doctor goes further: farmers photograph t
 AWS Textract extracts the text, then Claude (via function calling) translates it into:
 
 - Plain-language instructions in English and Twi
-- Everyday Ghanaian measurement analogies (bottle caps, milk tins, matchboxes, pure-water sachets, tea colour), each dose carrying the real measure in brackets — e.g. "two bottle caps (10 ml)" — so it stays verifiable against the label
+- Everyday Ghanaian measurement analogies (bottle caps, milk tins, matchboxes, pure-water sachets, light milo / koko colour), each dose carrying the real measure in brackets — e.g. "two bottle caps (10 ml)" — so it stays verifiable against the label
 - Context-aware dosing based on farm size, crop, and growth stage
 
 ### Counterfeit / banned pesticide check

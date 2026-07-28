@@ -10,7 +10,7 @@ Ghana loses an estimated 30–40% of crop yield to pests and diseases every year
 
 ## Solution
 
-Farm Doctor Ghana is an offline-first Progressive Web App that puts crop diagnosis, treatment guidance, and supplier access in a farmer's pocket — in Twi and English, using measurements farmers already understand (bottle caps, buckets, "weak tea" colour, not millilitres), and working with no internet for the core flow. It is built to run on 5–10 year old Android phones with poor cameras and patchy connectivity.
+Farm Doctor Ghana is an offline-first Progressive Web App that puts crop diagnosis, treatment guidance, and supplier access in a farmer's pocket — in Twi and English, using measurements farmers already understand (bottle caps, buckets, "light milo" colour, not millilitres), and working with no internet for the core flow. It is built to run on 5–10 year old Android phones with poor cameras and patchy connectivity.
 
 ## Technical Approach
 

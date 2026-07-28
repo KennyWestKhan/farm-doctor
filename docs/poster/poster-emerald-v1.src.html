@@ -1,0 +1,247 @@
+<title>Farm Doctor Ghana — A1 Poster</title>
+<style>
+  :root{
+    --ground:#f7f1e3; --panel:#fffdf8; --panel2:#f1e7d2;
+    --ink:#16231b; --ink-soft:#5b6357; --line:#e6dbc4;
+    --green-deep:#123c28; --green:#2b7a3b; --emerald:#3f9a6a;
+    --gold:#c8971f; --good:#2b7a3b; --warn:#c07d16;
+    --w:594mm;
+  }
+  *{box-sizing:border-box; margin:0; padding:0}
+  body{background:#d8cdb4; display:flex; justify-content:center; padding:24px;
+    font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    color:var(--ink); -webkit-font-smoothing:antialiased}
+  .poster{width:var(--w); min-height:841mm; flex-shrink:0; background:var(--ground); box-shadow:0 12px 60px rgba(0,0,0,.28);
+    display:flex; flex-direction:column; overflow:hidden}
+  .eyebrow{font-size:15px; font-weight:800; letter-spacing:.18em; text-transform:uppercase; color:var(--gold)}
+  h2.sec{font-size:40px; font-weight:900; letter-spacing:-.01em; line-height:1.02; color:var(--green-deep); text-wrap:balance}
+  .num{font-variant-numeric:tabular-nums}
+  .pad{padding:34px 46px}
+
+  /* header */
+  header{background:var(--green-deep); color:#f4ecda; padding:44px 46px 40px; position:relative}
+  header:after{content:""; position:absolute; left:0; right:0; bottom:0; height:8px;
+    background:linear-gradient(90deg,var(--gold),var(--emerald))}
+  .brandrow{display:flex; align-items:center; gap:22px}
+  .mark{width:96px; height:96px; border-radius:24px; background:linear-gradient(150deg,#3f9a6a,#123c28);
+    display:grid; place-items:center; font-size:52px; flex-shrink:0; box-shadow:inset 0 0 0 2px rgba(255,255,255,.12)}
+  .title{font-size:82px; font-weight:900; letter-spacing:-.02em; line-height:.94; color:#fff}
+  .tag{font-size:27px; color:#d7e6d5; margin-top:12px; font-weight:500}
+  .chips{display:flex; gap:12px; margin-top:20px; flex-wrap:wrap}
+  .chip{font-size:16px; font-weight:700; letter-spacing:.04em; padding:8px 16px; border-radius:999px;
+    background:rgba(255,255,255,.10); color:#eadfc7; border:1px solid rgba(255,255,255,.16)}
+  .chip.gold{background:var(--gold); color:#2a1e00; border-color:transparent}
+
+  /* problem strip */
+  .problem{display:grid; grid-template-columns:repeat(3,1fr); gap:0; background:var(--panel2)}
+  .pstat{padding:26px 40px; border-right:1px solid var(--line)}
+  .pstat:last-child{border-right:none}
+  .pstat b{display:block; font-size:58px; font-weight:900; color:var(--green-deep); letter-spacing:-.02em; line-height:1}
+  .pstat span{display:block; font-size:19px; color:var(--ink-soft); margin-top:8px; font-weight:500; line-height:1.3}
+
+  /* generic section shell */
+  section{border-top:1px solid var(--line)}
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:0}
+  .grid2 > div{padding:36px 46px}
+  .grid2 > div:first-child{border-right:1px solid var(--line)}
+
+  /* section 1 — visual summary */
+  .summary{display:grid; grid-template-columns:1.15fr 1fr; gap:40px; align-items:center}
+  .phone{width:100%; border-radius:34px; border:10px solid #14231a; box-shadow:0 18px 46px rgba(0,0,0,.22); display:block; background:#000}
+  .lead{font-size:30px; font-weight:800; color:var(--ink); line-height:1.18; letter-spacing:-.01em; text-wrap:balance}
+  .lead em{color:var(--green); font-style:normal}
+  .steps{display:flex; flex-direction:column; gap:16px; margin-top:26px}
+  .step{display:flex; gap:18px; align-items:flex-start}
+  .stepnum{width:46px; height:46px; border-radius:13px; background:var(--emerald); color:#fff; font-weight:900;
+    font-size:22px; display:grid; place-items:center; flex-shrink:0}
+  .step b{font-size:22px; font-weight:800; color:var(--green-deep)}
+  .step p{font-size:19px; color:var(--ink-soft); line-height:1.32; margin-top:2px}
+  .footnote{font-size:18px; color:var(--ink-soft); margin-top:26px; padding-top:20px; border-top:1px dashed var(--line)}
+  .footnote b{color:var(--green-deep)}
+
+  /* section 2 — architecture */
+  .arch{display:flex; flex-direction:column; gap:14px; margin-top:22px}
+  .tier{border:2px solid var(--line); border-radius:16px; padding:20px 22px; background:var(--panel)}
+  .tier h4{font-size:15px; letter-spacing:.12em; text-transform:uppercase; color:var(--gold); font-weight:800; margin-bottom:12px}
+  .tier.on{border-color:var(--emerald); background:#f3f8f2}
+  .tline{display:flex; align-items:center; gap:12px; font-size:20px; color:var(--ink); font-weight:600; padding:6px 0}
+  .dot{width:11px; height:11px; border-radius:50%; background:var(--green); flex-shrink:0}
+  .flow{text-align:center; font-size:26px; color:var(--emerald); font-weight:900; line-height:1}
+  .sources{margin-top:22px; font-size:19px; color:var(--ink-soft); line-height:1.4}
+  .sources b{color:var(--green-deep)}
+  .srcpills{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px}
+  .srcpill{font-size:15px; font-weight:700; padding:6px 12px; border-radius:8px; background:var(--panel2); color:var(--green-deep)}
+
+  /* section 3 — results */
+  .results{background:var(--green-deep); color:#eef3ea}
+  .results .eyebrow{color:var(--gold)}
+  .results h2.sec{color:#fff}
+  .metrics{display:grid; grid-template-columns:repeat(3,1fr); gap:22px; margin-top:24px}
+  .metric{background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14); border-radius:18px; padding:24px 22px}
+  .metric .big{font-size:82px; font-weight:900; line-height:.9; color:#fff; letter-spacing:-.03em}
+  .metric .lbl{font-size:18px; color:#cfe0cb; margin-top:12px; line-height:1.3; font-weight:600}
+  .metric .sub{font-size:15px; color:#9db79b; margin-top:6px}
+  .rnote{font-size:17px; color:#a9c1a6; margin-top:18px; font-style:italic}
+  .prod{display:grid; grid-template-columns:1.3fr 1fr; gap:30px; margin-top:26px; align-items:center}
+  .prodlist{display:flex; flex-direction:column; gap:14px}
+  .pitem{display:flex; gap:14px; align-items:flex-start; font-size:21px; color:#e9f1e7; line-height:1.3}
+  .pitem .k{color:var(--gold); font-weight:900; flex-shrink:0}
+  .dashshot{width:100%; border-radius:16px; border:1px solid rgba(255,255,255,.2); box-shadow:0 12px 34px rgba(0,0,0,.34); display:block}
+
+  /* section 4 — scalability */
+  .scale{display:grid; grid-template-columns:1fr 1fr; gap:40px}
+  .flywheel{background:var(--panel); border:2px solid var(--line); border-radius:18px; padding:28px}
+  .flywheel h4{font-size:22px; font-weight:900; color:var(--green-deep); margin-bottom:14px}
+  .cycle{display:flex; flex-direction:column; gap:10px}
+  .cyc{display:flex; gap:14px; align-items:center; font-size:20px; color:var(--ink); font-weight:600}
+  .cyc .arrow{color:var(--emerald); font-weight:900}
+  .paths{display:flex; flex-direction:column; gap:16px}
+  .path b{font-size:21px; color:var(--green-deep); font-weight:800}
+  .path p{font-size:19px; color:var(--ink-soft); line-height:1.35; margin-top:3px}
+  .coverage{margin-top:26px; padding:22px 26px; background:var(--green); color:#fff; border-radius:16px;
+    font-size:23px; font-weight:800; text-align:center; letter-spacing:.01em}
+
+  /* footer */
+  footer{margin-top:auto; background:var(--ink); color:#d8cdb4; padding:26px 46px; display:flex; justify-content:space-between;
+    align-items:center; font-size:19px; flex-wrap:wrap; gap:12px}
+  footer b{color:#fff}
+  footer .u{color:var(--gold); font-weight:800}
+
+  @media print{
+    @page{ size:A1 portrait; margin:0 }
+    body{background:#fff; padding:0}
+    .poster{box-shadow:none; width:100%}
+  }
+</style>
+
+<div class="poster">
+  <header>
+    <div class="brandrow">
+      <div class="mark">🌿</div>
+      <div>
+        <div class="title">Farm Doctor Ghana</div>
+        <div class="tag">Find what's wrong with your crop — even with no internet.</div>
+      </div>
+    </div>
+    <div class="chips">
+      <span class="chip gold">Agriculture Track</span>
+      <span class="chip">Ghana AI Innovation Challenge 2026</span>
+      <span class="chip">Twi + English</span>
+      <span class="chip">farm-doctor-seven.vercel.app</span>
+    </div>
+  </header>
+
+  <div class="problem">
+    <div class="pstat"><b class="num">30–40%</b><span>of Ghana's crop yield lost to pests &amp; disease every year</span></div>
+    <div class="pstat"><b class="num">1 : 1,900</b><span>extension officers to farmers — expert help rarely arrives in time</span></div>
+    <div class="pstat"><b class="num">80%+</b><span>of Ghana's food is grown by smallholders who can't easily diagnose it</span></div>
+  </div>
+
+  <!-- SECTION 1 -->
+  <section class="pad">
+    <div class="eyebrow">The solution</div>
+    <h2 class="sec">A crop doctor in every farmer's pocket</h2>
+    <div class="summary" style="margin-top:26px">
+      <img class="phone" src="__IMG_HOME__" alt="Farm Doctor home screen"/>
+      <div>
+        <div class="lead">Snap a photo or answer a few yes/no questions. Get a diagnosis, a treatment plan in <em>plain Twi</em> — bottle caps and bucket measures, not millilitres — and the nearest shop that sells it. <em>All without a signal.</em></div>
+        <div class="steps">
+          <div class="step"><div class="stepnum">1</div><div><b>Scan or answer</b><p>Photograph the sick plant, or with no signal answer a short visual checklist.</p></div></div>
+          <div class="step"><div class="stepnum">2</div><div><b>Diagnose</b><p>Instant on-device result with a confidence score — no internet needed.</p></div></div>
+          <div class="step"><div class="stepnum">3</div><div><b>Treat</b><p>Steps in bottle caps &amp; buckets, scaled to farm size, with safety warnings.</p></div></div>
+          <div class="step"><div class="stepnum">4</div><div><b>Source</b><p>Call or WhatsApp a real agro-input supplier by region and input type.</p></div></div>
+        </div>
+        <div class="footnote">Built to run on <b>5–10 year old Android phones</b> with poor cameras and patchy networks.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2 + fold handled by grid -->
+  <section>
+    <div class="pad">
+      <div class="eyebrow">Data &amp; model architecture</div>
+      <h2 class="sec">Two-tier hybrid diagnosis — offline first, AI when it helps</h2>
+      <div class="grid2" style="margin-top:24px; border-top:1px solid var(--line)">
+        <div style="border-right:1px solid var(--line)">
+          <div class="arch">
+            <div class="tier on">
+              <h4>On the phone — works with zero network</h4>
+              <div class="tline"><span class="dot"></span>Visual symptom checklist → weighted matcher</div>
+              <div class="tline"><span class="dot"></span>Confidence score (0–1) per disease</div>
+              <div class="tline"><span class="dot"></span>IndexedDB offline store · PWA</div>
+            </div>
+            <div class="flow">▼ &nbsp;below 70% confidence &nbsp;▼</div>
+            <div class="tier">
+              <h4>Backend — when a signal exists</h4>
+              <div class="tline"><span class="dot"></span>Claude Vision — crop &amp; disease from a photo</div>
+              <div class="tline"><span class="dot"></span>OCR (Textract / Tesseract) → Claude → label in Twi</div>
+              <div class="tline"><span class="dot"></span>Supabase — anonymized impact metrics</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="sources">
+            <b>Ghanaian data.</b> A structured crop-disease knowledge base built from national research &amp; extension guidance — <b>6 crops, 23 diseases</b> with symptoms, diagnostic weights, regional prevalence and seasonality. Plus a directory of real Ghanaian agro-input suppliers and anonymized farmer-generated diagnosis data.
+            <div class="srcpills">
+              <span class="srcpill">MOFA / PPRSD</span><span class="srcpill">CSIR-SARI</span><span class="srcpill">CSIR-CRI</span>
+              <span class="srcpill">IITA</span><span class="srcpill">ICRISAT</span><span class="srcpill">COCOBOD / CRIG</span>
+            </div>
+          </div>
+          <div class="footnote" style="border-top:1px dashed var(--line)">
+            <b>Why hybrid?</b> Most diagnoses cost <b>zero AI calls</b> and run with no network — the AI is a second opinion for hard cases and the camera path, not a dependency.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3 -->
+  <section class="results pad">
+    <div class="eyebrow">Results &amp; performance</div>
+    <h2 class="sec">Measured — not just claimed</h2>
+    <div class="metrics">
+      <div class="metric"><div class="big num">100%</div><div class="lbl">Top-1 accuracy</div><div class="sub">47 / 47 labelled cases</div></div>
+      <div class="metric"><div class="big num">100%</div><div class="lbl">Confident-tier precision</div><div class="sub">43 / 43 — no confident mistakes</div></div>
+      <div class="metric"><div class="big num">100%</div><div class="lbl">Defers to AI on ambiguous input</div><div class="sub">4 / 4 — knows what it doesn't know</div></div>
+    </div>
+    <div class="rnote">Offline matcher benchmarked on 51 labelled cases (23 textbook + 28 partial / noisy / ambiguous). Cases authored from expert symptom knowledge — validates the scoring &amp; decision logic. Reproducible: <span style="color:#e7d9b3">npm run bench:matcher</span></div>
+    <div class="prod">
+      <div class="prodlist">
+        <div class="pitem"><span class="k">✓</span><div>Live Claude Vision diagnosis <b style="color:#fff">verified in production</b></div></div>
+        <div class="pitem"><span class="k">✓</span><div><b style="color:#fff">~90 real people reached</b> — anonymized diagnosis data flowing to a live impact dashboard</div></div>
+        <div class="pitem"><span class="k">✓</span><div><b style="color:#fff">104 automated tests</b> · two-tier design → most diagnoses need zero AI calls</div></div>
+      </div>
+      <img class="dashshot" src="__IMG_DASH__" alt="Impact dashboard"/>
+    </div>
+  </section>
+
+  <!-- SECTION 4 -->
+  <section class="pad">
+    <div class="eyebrow">Implementation &amp; scalability</div>
+    <h2 class="sec">Reaches the underserved — and compounds</h2>
+    <div class="scale" style="margin-top:24px">
+      <div class="flywheel">
+        <h4>The moat: a data flywheel</h4>
+        <div class="cycle">
+          <div class="cyc"><span class="arrow">→</span>Farmer runs a diagnosis</div>
+          <div class="cyc"><span class="arrow">→</span>Applies the treatment</div>
+          <div class="cyc"><span class="arrow">→</span>Reports "did it work?"</div>
+          <div class="cyc"><span class="arrow">→</span>Region-by-region evidence improves the next recommendation</div>
+        </div>
+        <div class="footnote" style="border-color:var(--line)">The tool gets smarter the more Ghana uses it — a local evidence base that doesn't exist anywhere else.</div>
+      </div>
+      <div class="paths">
+        <div class="path"><b>No app store.</b><p>A PWA — opens from a link or QR, works offline on cheap phones. Reaches farmers who'll never download a 50 MB app on a metered connection.</p></div>
+        <div class="path"><b>B2B2C model.</b><p>Free for farmers. Agro-input companies, government extension, NGOs and cooperatives pay for verified reach and aggregate efficacy insight.</p></div>
+        <div class="path"><b>Roadmap.</b><p>More crops &amp; regions, disease reference photos, voice input for non-readers.</p></div>
+      </div>
+    </div>
+    <div class="coverage num">6 crops · 23 diseases · 69 real suppliers · 16 regions · English + Twi</div>
+  </section>
+
+  <footer>
+    <div>Try it: <span class="u">farm-doctor-seven.vercel.app</span></div>
+    <div>Code: <b>github.com/KennyWestKhan/farm-doctor</b></div>
+    <div>Offline-first · Twi · built for the phone that's actually in the farmer's hand</div>
+  </footer>
+</div>
