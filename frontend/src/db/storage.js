@@ -266,19 +266,22 @@ export async function fetchImpactStats() {
   if (!supabase || !navigator.onLine) return null;
   try {
     const [reportsRes, countRes] = await Promise.all([
-      supabase.from('reports').select('user_id, region, disease_id, status'),
+      supabase.from('reports').select('user_id, region, disease_id, status, created_at'),
       supabase.rpc('app_user_count'),
     ]);
     const reports = reportsRes.data;
     if (reportsRes.error || !Array.isArray(reports)) return null;
 
+    const weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
     const users = new Set();
     const regionCount = {};
     const diseaseCount = {};
+    let last7 = 0;
     for (const r of reports) {
       if (r.user_id) users.add(r.user_id);
       if (r.region) regionCount[r.region] = (regionCount[r.region] || 0) + 1;
       if (r.disease_id) diseaseCount[r.disease_id] = (diseaseCount[r.disease_id] || 0) + 1;
+      if (r.created_at && Date.parse(r.created_at) >= weekAgo) last7 += 1;
     }
     const userCount = typeof countRes?.data === 'number' ? countRes.data : null;
 
@@ -288,6 +291,8 @@ export async function fetchImpactStats() {
       diagnosers: users.size,
       regionCount,
       diseaseCount,
+      regions: Object.keys(regionCount).length,
+      last7,
     };
   } catch {
     return null;
