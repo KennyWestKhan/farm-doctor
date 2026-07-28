@@ -246,7 +246,7 @@ export default function ScanLabel() {
             placeholder={t('refine_other')}
             value={ctx.note}
             maxLength={LIMITS.note}
-            onChange={(e) => setCtx((c) => ({ ...c, note: sanitizeText(e.target.value, LIMITS.note) }))}
+            onChange={(e) => setCtx((c) => ({ ...c, note: sanitizeText(e.target.value, LIMITS.note, { trim: false }) }))}
             style={{ padding: 14, fontSize: 16, fontFamily: 'var(--font-body)', border: '1px solid var(--line)', borderRadius: 'var(--radius)', outline: 'none' }}
           />
 

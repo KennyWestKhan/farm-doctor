@@ -278,7 +278,7 @@ export default function ScanCrop() {
             </label>
             <textarea
               value={note}
-              onChange={(e) => setNote(sanitizeText(e.target.value, LIMITS.note))}
+              onChange={(e) => setNote(sanitizeText(e.target.value, LIMITS.note, { trim: false }))}
               placeholder={t('scan_note_placeholder')}
               rows={2}
               maxLength={LIMITS.note}

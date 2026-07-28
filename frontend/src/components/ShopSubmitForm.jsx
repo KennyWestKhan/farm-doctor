@@ -81,7 +81,7 @@ export default function ShopSubmitForm({ defaultRegion, onClose }) {
             <input
               type="text"
               value={name}
-              onChange={(e) => setName(sanitizeText(e.target.value, 100))}
+              onChange={(e) => setName(sanitizeText(e.target.value, 100, { trim: false }))}
               placeholder={t('shop_field_name_hint')}
               required
               minLength={2}
@@ -104,7 +104,7 @@ export default function ShopSubmitForm({ defaultRegion, onClose }) {
             <input
               type="text"
               value={town}
-              onChange={(e) => setTown(sanitizeText(e.target.value, 60))}
+              onChange={(e) => setTown(sanitizeText(e.target.value, 60, { trim: false }))}
               placeholder={t('shop_field_town_hint')}
               style={fieldStyle}
             />
@@ -137,7 +137,7 @@ export default function ShopSubmitForm({ defaultRegion, onClose }) {
             <input
               type="text"
               value={products}
-              onChange={(e) => setProducts(sanitizeText(e.target.value, 200))}
+              onChange={(e) => setProducts(sanitizeText(e.target.value, 200, { trim: false }))}
               placeholder={t('shop_field_products_hint')}
               style={fieldStyle}
             />
@@ -147,7 +147,7 @@ export default function ShopSubmitForm({ defaultRegion, onClose }) {
             <label className="muted" style={labelStyle}>{t('shop_field_note')}</label>
             <textarea
               value={note}
-              onChange={(e) => setNote(sanitizeText(e.target.value, LIMITS.note))}
+              onChange={(e) => setNote(sanitizeText(e.target.value, LIMITS.note, { trim: false }))}
               placeholder={t('shop_field_note_hint')}
               rows={2}
               maxLength={LIMITS.note}

@@ -44,16 +44,27 @@ function isUnsafeCodePoint(code) {
 /**
  * Clean a free-text value: normalise unicode, drop control/invisible chars,
  * collapse whitespace, trim, and hard-cap length.
+ *
+ * `trim` (default true) strips leading/trailing whitespace. Pass `trim: false`
+ * for live keystroke sanitisation of a controlled input — trimming on every
+ * keystroke would swallow the trailing space, making it impossible to type a
+ * multi-word value. Trim once when you actually consume the value instead.
  * @returns {string} safe text (possibly empty)
  */
-export function sanitizeText(raw, maxLen = LIMITS.generic) {
+export function sanitizeText(raw, maxLen = LIMITS.generic, { trim = true } = {}) {
   if (typeof raw !== 'string') return '';
   let out = '';
   for (const ch of raw.normalize('NFC')) {
     out += isUnsafeCodePoint(ch.codePointAt(0)) ? ' ' : ch;
   }
-  out = out.replace(/\s+/g, ' ').trim();
-  if (out.length > maxLen) out = out.slice(0, maxLen).trim();
+  // Collapse internal whitespace runs; keep a single leading/trailing space
+  // while typing (trim === false) so spacebar works between words.
+  out = out.replace(/\s+/g, ' ');
+  if (trim) out = out.trim();
+  if (out.length > maxLen) {
+    out = out.slice(0, maxLen);
+    if (trim) out = out.trim();
+  }
   return out;
 }
 

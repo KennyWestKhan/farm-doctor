@@ -56,9 +56,12 @@ export default function Home() {
   // Sanitize on every keystroke, then run the local (offline) search. Input
   // never reaches the LLM here — this is a lexical search over bundled data.
   const onSearch = (raw) => {
-    const clean = sanitizeText(raw, LIMITS.query);
+    // Keep the trailing space while typing so the spacebar works between words;
+    // trim only the copy we actually search with.
+    const clean = sanitizeText(raw, LIMITS.query, { trim: false });
     setQuery(clean);
-    setResults(clean.length >= 2 ? searchKnowledge(clean) : []);
+    const q = clean.trim();
+    setResults(q.length >= 2 ? searchKnowledge(q) : []);
   };
 
   // A disease result opens its info page; a crop result jumps into the diagnose
